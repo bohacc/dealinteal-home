@@ -1,0 +1,576 @@
+<div class="container-fluid appointment">
+  <div class="n-module-header">
+    <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+      <span class="h1">{{'APPOINTMENT' | translate}}</span>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3">
+      <div class="form-group">
+        <div class="">
+          <label for="XXX01" class="sr-only">{{'EVENT_TYPE' | translate}}</label>
+          <div class="input-group">
+            <input id="XXX01" name="XXX1" type="text" class="form-control n-input n-transparent" placeholder="{{'EVENT_TYPE' | translate}}"
+                   value="{{appointmentTmp.tmpTypeName | translate}}"
+                   data-ng-readonly="true"
+                   data-ng-required="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="type in appointmentTypes">
+                  <a href="javascript:void(0);" data-ng-click="setType($index)" tabindex="1">{{type.name | translate}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-5 col-lg-5 n-ha-right">
+      <div class="form-group btn-group n-ha-left">
+        <button type="button" class="btn n-btn-4" data-ng-click="newAppointment()">{{'NEW_APPOINTMENT' | translate}}</button>
+        <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right">
+          <li data-ng-class="{disabled: !appointment.id}"><a data-ng-class="{disabled: !appointment.id}" href="javascript:void(0);" data-ng-click="copyAppointmentAsNew()">{{'COPY_APPOINTMENT' | translate}}</a></li>
+          <li data-ng-class="{disabled: !appointment.id}"><a data-ng-class="{disabled: !appointment.id}" href="javascript:void(0);" data-ng-click="openInCalendar()">{{'OPEN_IN_CALENDAR' | translate}}</a></li>
+          <li data-ng-class="{disabled: !appointment.id}"><a data-ng-class="{disabled: !appointment.id}" href="javascript:void(0);" data-ng-click="openInAgenda()">{{'OPEN_IN_AGENDA' | translate}}</a></li>
+          <li data-ng-class="{hide: appointment.text.id}"><a href="javascript:void(0);" data-ng-click="showPill(1)">{{'ADD_DETAILED_DESCRIPTION' | translate}}</a></li>
+          <li data-ng-class="{hide: !appointment.text.id}"><a href="javascript:void(0);" data-ng-click="deleteDetailedDescription()">{{'DELETE_DETAILED_DESCRIPTION' | translate}}</a></li>
+          <li data-ng-class="{disabled: !appointment.id}"><a data-ng-class="{disabled: !appointment.id}" href="javascript:void(0);" data-ng-click="addTask()">{{'ADD_TASK' | translate}}</a></li>
+          <li data-ng-class="{hide: !appointment.id}"><a href="/api/ms-word/appointments/{{appointment.id}}">{{'DOWNLOAD_WRITE_EVENT' | translate}}</a></li>
+          <li data-ng-class="{disabled: !appointment.id}"><a data-ng-class="{disabled: !appointment.id}" href="javascript:void(0);" data-ng-click="addAttachment()">{{'ADD_ATTACHMENT' | translate}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-content">
+    <div class="js-master-pills">
+      <data-pills-notia items="pills" active="activePillsIndex"></data-pills-notia>
+    </div>
+    <div class="clearfix"></div>
+    <div class="main" data-ng-show="pills[0].active">
+      <div class="">
+        <div class="col-md-1 col-lg-1">
+          <label for="XXX1" class="n-label-2">{{'SUBJECT' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <input id="XXX1" name="XXX1" type="text" class="form-control" placeholder="{{'SUBJECT' | translate}}"
+                 data-ng-model="appointment.subject"
+                 data-ng-maxlength="100"
+                 tabindex="2">
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <label for="XXX2" class="n-label-2">{{'COMPANY' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <data-angucomplete id="XXX2" name="XXX2" placeholder="{{'COMPANY' | translate}}" data-tabindex="19"
+                             data-pause="400" data-model="appointmentTmp.tmpCompanyName" data-input-all-data="true"
+                             data-selected-object-id="id" data-url="/api/companies/search/" data-search-fields="name"
+                             data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true"
+                             data-box-items="appointment.company" data-label-name="COMPANY"
+                             data-label-class="sr-only" data-record-url="{{pageAncestor.routes.COMPANY}}">
+          </data-angucomplete>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="">
+        <div class="col-md-1 col-lg-1 form-group">
+          <label for="XXX3" class="n-label-2">{{'NOTE' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4 form-group">
+          <textarea-calc data-textarea-id="XXX3" data-textarea-name="XXX3"
+                         data-textarea-class="form-control n-textarea-2"
+                         data-textarea-placeholder="{{'NOTE' | translate}}"
+                         data-model="appointment.memo"
+                         data-textarea-maxlength="2000"
+                         data-textarea-tabindex="3"></textarea-calc>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <div class="form-group">
+            <label for="XXX4" class="n-label-2">{{'OPPORTUNITY' | translate}}</label>
+          </div>
+          <div class="form-group">
+            <label for="XXX5" class="n-label-2">{{'PHASE' | translate}}</label>
+          </div>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div class="form-group">
+            <data-angucomplete id="XXX4" name="XXX4" placeholder="{{'OPPORTUNITY' | translate}}" data-tabindex="20"
+                               data-pause="400" data-model="appointmentTmp.tmpSalesPipeline" data-input-all-data="true"
+                               data-selected-object-id="id"
+                               data-url="/api/companies/{{getCompanyId()}}/sales-pipeline/all/"
+                               data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false"
+                               data-show-as-box="true"
+                               data-box-items="appointment.salesPipeline" data-label-name="OPPORTUNITY"
+                               data-on-select-item="onSelectOpportunity"
+                               data-label-class="sr-only" data-disabled="appointment.company.length===0"
+                               data-on-delete-box-item="onDeleteOpportunity"
+                               data-record-url="{{pageAncestor.routes.OPPORTUNITY}}">
+            </data-angucomplete>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <input id="XXX5" name="XXX5" type="text" class="form-control n-input n-transparent"
+                     placeholder="{{'PHASE' | translate}}"
+                     data-ng-model="appointmentTmp.tmpSalesPipelineStage"
+                     data-ng-disabled="true"
+                     data-ng-required="true">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                        data-ng-disabled="salesPipelineStages.length===0 || appointment.salesPipeline.length===0">
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li data-ng-repeat="sales in salesPipelineStages">
+                    <a href="javascript:void(0);" data-ng-click="setSalesPipelineStage($index)" tabindex="21">{{sales.name}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <label for="XXX6" class="sr-only">{{'PLACE' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div class="input-group">
+            <input id="XXX6" name="XXX6" type="text" class="form-control n-input n-transparent"
+                   placeholder="{{'PLACE' | translate}}"
+                   value="{{appointment.place | translate}}"
+                   data-ng-disabled="true"
+                   data-ng-required="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="place in appointmentPlaces">
+                  <a href="javascript:void(0);" data-ng-click="setPlace($index)" tabindex="4">{{place.name |
+                    translate}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <label for="XXX7" class="sr-only">{{'LOCATION' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <data-angucomplete id="XXX7" name="XXX7" placeholder="{{'LOCATION' | translate}}"
+                             data-pause="0" data-box-items="appointment.locationBox" data-menu-left="true"
+                             data-model="appointmentTmp.tmpSelectedLocation"
+                             data-selected-object-id="id" data-local-data="localDataAddress" data-search-fields="name"
+                             data-title-field="name" data-input-class="form-control" data-multiple="false"
+                             data-show-as-box="false"
+                             data-ng-show="true" data-input-all-data="true" data-label-name="LOCATION"
+                             data-label-class="sr-only" data-tabindex="5" data-search-str="appointment.location">
+          </data-angucomplete>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <label for="XXX8" class="sr-only">{{'LOCATION' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div class="input-group">
+                              <span class="input-group-addon">
+                                  <input type="checkbox" tabindex="26" data-ng-model="appointment.private"
+                                         ng-true-value="'1'" ng-false-value="'0'">
+                              </span>
+            <input id="XXX8" name="XXX8" type="text" class="form-control n-input n-transparent"
+                   placeholder="{{'PRIVATE' | translate}}" data-ng-disabled="true">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <label class="n-label-2" for="XXX9">{{'TAG_DESCRIPTION' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <data-angucomplete id="XXX9" name="XXX9" placeholder="{{'TAG_DESCRIPTION' | translate}}"
+                             data-pause="0" data-box-items="appointment.appointment_tags"
+                             data-model="appointmentTmp.tmpSelectedAppointmentTag"
+                             data-selected-object-id="id" data-local-data="localDataTags" data-search-fields="name"
+                             data-title-field="name" data-input-class="" data-multiple="true" data-show-as-box="true"
+                             data-ng-show="true" data-input-all-data="true" data-label-name="TAG_DESCRIPTION"
+                             data-label-class="sr-only" data-tabindex="6">
+          </data-angucomplete>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <label class="n-label-2" for="XXX10">{{'OWNER' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <input id="XXX10" name="XXX10" disabled="true" type="text" class="form-control n-input n-transparent"
+                 placeholder="{{'OWNER' | translate}}" data-ng-model="meta.ownerName">
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="n-form-v-space">&nbsp;</div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              {{'FROM' | translate}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">action</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <div class="input-group">
+            <input id="XXX11" type="text" class="form-control" placeholder="" aria-describedby="XXX11" tabindex="9"
+                   data-ng-class="{invalid: dp.invalidDate('XXX11')}"
+                   data-uib-datepicker-popup="{{format}}"
+                   data-ng-model="appointmentTmp.tmpStartDate"
+                   data-is-open="opened.tmpStartDate"
+                   data-ng-change="calculateDateTime(null, null, 'tmpStartDate', 'start_time', false)"
+                   data-ng-blur="calculateDateTime(null, null, 'tmpStartDate', 'start_time', true)"
+                   data-ng-keyup="calculateDateTime(null, null, 'tmpStartDate', 'start_time', false)"
+                   data-min-date="minDate"/>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" data-ng-click="dp.open('tmpStartDate', 'XXX11')">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </button>
+              </span>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <div class="input-group" id="groupTimepickerStart">
+            <input type="text" id="XXX12" class="form-control" placeholder="" aria-describedby="XXX12" tabindex="10"
+                   data-ng-model="appointmentTmp.tmpStartTime"
+                   data-time-format="{{formatTime}}"
+                   data-model-time-format="{{formatTime}}"
+                   data-time-type="date"
+                   data-trigger="manual"
+                   data-html-true="true"
+                   data-bs-show="showTPstart"
+                   data-ng-disabled="timeFromReadOnly"
+                   data-ng-change="calculateDateTime(null, null, 'tmpStartTime', 'start_time', false)"
+                   data-ng-blur="calculateDateTime(null, null, 'tmpStartTime', 'start_time', true)"
+                   data-ng-keyup="calculateDateTime(null, null, 'tmpStartTime', 'start_time', false)"
+                   bs-timepicker/>
+              <span class="input-group-btn">
+                <button type="button" id="btTimeStart" class="btn btn-default" data-ng-disabled="timeFromReadOnly"
+                        data-ng-click="showTPstart=!showTPstart">
+                  <span class="glyphicon glyphicon-time"></span>
+                </button>
+              </span>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              {{'TO' | translate}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">action</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <div class="input-group">
+            <input type="text" id="XXX13" class="form-control" placeholder="" aria-describedby="XXX13" tabindex="12"
+                   data-ng-class="{invalid: dp.invalidDate('XXX13')}"
+                   data-uib-datepicker-popup="{{format}}"
+                   data-ng-model="appointmentTmp.tmpEndDate"
+                   data-is-open="opened.tmpEndDate"
+                   data-ng-change="calculateDateTime(null, null, 'tmpEndDate', 'end_time', false)"
+                   data-ng-blur="calculateDateTime(null, null, 'tmpEndDate', 'end_time', true)"
+                   data-ng-keyup="calculateDateTime(null, null, 'tmpEndDate', 'end_time', false)"
+                   data-min-date="appointment.start_time"/>
+              <span class="input-group-btn" id="XXX133">
+                <button type="button" class="btn btn-default" data-ng-click="dp.open('tmpEndDate', 'XXX13')">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </button>
+              </span>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <div class="input-group" id="groupTimepickerEnd">
+            <input type="text" id="XXX14" class="form-control" placeholder="" aria-describedby="XXX14" tabindex="13"
+                   data-ng-model="appointmentTmp.tmpEndTime"
+                   data-time-format="{{formatTime}}"
+                   data-model-time-format="{{formatTime}}"
+                   data-time-type="date"
+                   data-min-time="{{minTime}}"
+                   data-trigger="manual"
+                   data-bs-show="showTPend"
+                   data-ng-disabled="timeToReadOnly"
+                   data-ng-change="calculateDateTime(null, null, 'tmpEndTime', 'end_time', false)"
+                   data-ng-blur="calculateDateTime(null, null, 'tmpEndTime', 'end_time', true)"
+                   data-ng-keyup="calculateDateTime(null, null, 'tmpEndTime', 'end_time', false)"
+                   bs-timepicker>
+            <!--<span class="input-group-addon glyphicon glyphicon-time" id="XXX11"></span>-->
+              <span class="input-group-btn">
+                <button type="button" id="btTimeEnd" class="btn btn-default" data-ng-disabled="timeToReadOnly"
+                        data-ng-click="showTPend=!showTPend">
+                  <span class="glyphicon glyphicon-time"></span>
+                </button>
+              </span>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
+                    tabindex="16">
+              <span class="glyphicon glyphicon-bell"></span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li data-ng-repeat="remind in listReminder">
+                <a href="javascript:void(0);" data-ng-click="setReminder($index)">{{remind.prefix}}&nbsp;{{remind.name |
+                  translate}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <input type="text" class="form-control n-input n-transparent" placeholder="" aria-describedby="XXX15"
+                 data-ng-disabled="true"
+                 value="{{appointmentTmp.tmpReminderPrefix}} {{appointmentTmp.tmpReminder | translate}}">
+        </div>
+        <div class="col-md-2 col-lg-2">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
+                      tabindex="17">
+                <span class="glyphicon glyphicon-plane"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="zone in timeZones">
+                  <a href="javascript:void(0);" data-ng-click="setTimeZone($index)">{{zone.name}}</a>
+                </li>
+              </ul>
+            </div>
+            <input type="text" id="XXX16" class="form-control n-input n-transparent" data-ng-disabled="true"
+                   data-ng-model="appointment.timezone_name">
+          </div>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          &nbsp;
+        </div>
+        <div class="col-md-4 col-lg-4">
+          &nbsp;
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="n-form-v-space">&nbsp;</div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <label class="n-label-2" for="XXX17">{{'INT_ATTENDEES' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div class="n-autocomplete">
+            <div class="form-group">
+              <!--<label for="XXX23" class="sr-only">{{'TEAM_MEMBERS' | translate}}</label>-->
+              <data-angucomplete id="XXX17" placeholder="{{'INT_ATTENDEES' | translate}}" data-tabindex="18"
+                                 data-pause="0" data-model="appointmentTmp.tmpSelectedTeamReminderMember"
+                                 box-items="appointment.teamReminderMembers"
+                                 data-selected-object-id="id" data-local-data="localDataUsers" data-search-fields="name"
+                                 data-title-field="name" data-input-class="" data-multiple="true"
+                                 data-show-as-box="true"
+                                 data-ng-show="true" data-label-name="TEAM_MEMBERS"
+                                 data-label-class="sr-only" data-input-all-data="false"
+                                 data-record-url="{{pageAncestor.routes.PERSON}}">
+              </data-angucomplete>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <label class="n-label-2" for="XXX18">{{'REMINDER' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div class="input-group">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-bell"></span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li data-ng-repeat="remind in listReminder">
+                    <a href="javascript:void(0);" data-ng-click="setReminderTeamMembers($index)" tabindex="19">{{remind.prefix}}&nbsp;{{remind.name
+                      | translate}}</a>
+                  </li>
+                </ul>
+            </span>
+            <input id="XXX18" name="XXX18" type="text" class="form-control n-input n-transparent"
+                   data-ng-readonly="true"
+                   value="{{appointmentTmp.tmpTeamReminderPrefix}} {{appointmentTmp.tmpTeamReminder | translate}}">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-envelope"></span>
+                </button>
+            </span>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <label class="n-label-2" for="XXX19">{{'EXT_ATTENDEES' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div class="n-autocomplete">
+            <div class="form-group">
+              <!--<label for="XXX22" class="sr-only">{{'ATTENDEES' | translate}}</label>-->
+              <data-angucomplete id="XXX19" placeholder="{{'EXT_ATTENDEES' | translate}}" data-tabindex="20"
+                                 data-pause="400" data-model="appointmentTmp.tmpSelectedAttendeeReminder"
+                                 box-items="appointment.attendeeReminderMembers"
+                                 data-selected-object-id="id" data-url="/api/people/all/without-team/search/"
+                                 data-search-fields="name"
+                                 data-title-field="name" data-input-class="" data-multiple="true"
+                                 data-show-as-box="true"
+                                 data-ng-show="true" data-label-name="ATTENDEES"
+                                 data-label-class="sr-only" data-input-all-data="true"
+                                 data-record-url="{{pageAncestor.routes.PERSON}}">
+              </data-angucomplete>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1 col-lg-1">
+          <label class="n-label-2" for="XXX20">{{'REMINDER' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div class="input-group">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-bell"></span>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li data-ng-repeat="remind in listReminder">
+                    <a href="javascript:void(0);" data-ng-click="setReminderAttendees($index)" tabindex="21">{{remind.prefix}}&nbsp;{{remind.name
+                      | translate}}</a>
+                  </li>
+                </ul>
+            </span>
+            <input id="XXX20" name="XXX20" type="text" class="form-control n-input n-transparent"
+                   data-ng-readonly="true"
+                   value="{{appointmentTmp.tmpAttendeeReminderPrefix}} {{appointmentTmp.tmpAttendeeReminder | translate}}">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-envelope"></span>
+                </button>
+            </span>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+          <label class="n-label-2" for="XXX21">{{'PROJECTS' | translate}}</label>
+        </div>
+        <div class="col-md-4 col-lg-4">
+          <div class="n-autocomplete">
+            <div class="form-group">
+              <data-angucomplete id="XXX21" placeholder="{{'PROJECTS' | translate}}" data-tabindex="22"
+                                 data-pause="400" data-model="appointmentTmp.tmpSelectedProjects"
+                                 box-items="appointment.projects"
+                                 data-selected-object-id="id" data-url="/api/projects/search/" data-search-fields="name"
+                                 data-title-field="name" data-input-class="" data-multiple="true"
+                                 data-show-as-box="true"
+                                 data-ng-show="true" data-label-name="PROJECTS"
+                                 data-label-class="sr-only" data-input-all-data="true"
+                                 data-record-url="{{pageAncestor.routes.PROJECT}}">
+              </data-angucomplete>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="form-group">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            {{'MEMO' | translate}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">{{'VIEW_EDIT_MEMO' | translate}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div data-ng-show="pills[1].active">
+        <html-text-editor data-model="appointment.text.text"></html-text-editor>
+    </div>
+    <div class="clearfix"></div>
+    <div data-ng-show="pills[2].active">
+      <!--Tasks list-->
+      <div class="n-item-list">
+        <div data-ng-repeat="task in tasks">
+          <div data-ng-class="{'item-row item-row-even': $even,'item-row item-row-odd': $odd}">
+            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <span>
+                  <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent"
+                          data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                    <li role="presentation"><a role="menuitem" href="#{{pageAncestor.routes.TASK}}{{task.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                  </ul>
+                </span>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+              {{task.subject}}
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="n-ha-center">
+        <data-pagination-notia
+          data-load-data="taskPaging.dataLoader"
+          data-load-data-params="taskPaging.dataLoaderParams"
+          data-load-data-params-runtime="{id: appointment.id}"
+          data-amount="10"
+          data-list-data="tasks"
+          data-button-all="false"
+          data-info="taskPaging.infoPaging"
+        ></data-pagination-notia>
+      </div>
+    </div>
+    <div data-ng-show="pills[3].active">
+        <attachments
+          data-table="attachmentsTable"
+          data-table-id="appointment.id"
+          data-info="attachmentsInfo"
+          data-config="attachmentsInfo.config"
+        ></attachments>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="n-module-footer">
+    <data-action-buttons buttons="actionButtons"></data-action-buttons>
+  </div>
+
+</div>

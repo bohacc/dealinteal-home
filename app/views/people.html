@@ -1,0 +1,151 @@
+<div class="container-fluid people">
+    <div class="hidden-xs">
+      <div class="col-sm-3 col-md-2 col-lg-2">
+            <span class="h1">{{'PEOPLE' | translate}}</span>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <form role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="{{'SEARCH' | translate}}"
+                           data-ng-model="searchStr"
+                           data-ng-keyup="setSearch($event)">
+                </div>
+            </form>
+        </div>
+      <div class="hidden-sm col-md-4 col-lg-4">
+            <div class="btn-group" data-ng-if="!teamMember">
+                <button type="button" class="btn btn-default active"
+                        data-ng-model="dataLoaderParams.sortField"
+                        data-uib-btn-radio="'last_name'"
+                        data-ng-disabled="infoPaging.inProcess">{{'NAME' | translate}}</button>
+                <button type="button" class="btn btn-default"
+                        data-ng-model="dataLoaderParams.sortField"
+                        data-uib-btn-radio="'company_name'"
+                        data-ng-disabled="infoPaging.inProcess">{{'COMPANY' | translate}}</button>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up active"
+                        data-ng-model="dataLoaderParams.sortDirection"
+                        data-uib-btn-radio="'asc'"
+                        data-ng-disabled="infoPaging.inProcess"></button>
+                <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down"
+                        data-ng-model="dataLoaderParams.sortDirection"
+                        data-uib-btn-radio="'desc'"
+                        data-ng-disabled="infoPaging.inProcess"></button>
+            </div>
+        </div>
+      <div class="col-sm-4 col-md-2 col-lg-2">
+        <div class="form-group btn-group n-ha-left">
+            <button type="button" class="btn n-btn-7">{{getType().NAME | translate}}</button>
+            <button type="button" class="btn dropdown-toggle n-btn-7" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li data-ng-repeat="item in typesList | filterWithout: {ID: getType().ID}">
+                    <a href="javascript:void(0);" data-ng-click="dataLoaderParams.filter.type=item.ID">{{item.NAME | translate}}</a>
+                </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-sm-3 col-md-2 col-lg-2 n-ha-right">
+            <div class="form-group btn-group n-ha-left">
+                <button type="button" class="btn n-btn-4" data-ng-click="newPerson()" data-ng-if="!teamMember">{{'NEW_CONTACT' | translate}}</button>
+                <button type="button" class="btn n-btn-4" data-ng-click="newPerson()" data-ng-if="teamMember">{{'NEW_TEAM_MEMBER' | translate}}</button>
+                <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span></button>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="#">{{'ADD_SELECTED_TO_CAMPAIGN' | translate}}</a></li>
+                    <li><a href="#">{{'SEND_EMAIL_TO_SELECTED' | translate}}</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">{{'DELETE_SELECTED' | translate}}</a></li>
+                </ul>
+            </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="hidden-sm hidden-md hidden-lg">
+        <div class="col-xs-6">
+            <span class="h1">{{'PEOPLE' | translate}}</span>
+        </div>
+        <div class="col-xs-6 n-ha-right">
+            <div class="form-group btn-group n-ha-left">
+                <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown">Emil Notia <span class="caret"></span></button>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="#">{{'ADD_SELECTED_TO_CAMPAIGN' | translate}}</a></li>
+                    <li><a href="#">{{'SEND_EMAIL_TO_SELECTED' | translate}}</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">{{'DELETE_SELECTED' | translate}}</a></li>
+                </ul>
+            </div>
+        </div>
+      <div class="col-xs-6">
+            <form role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="{{'SEARCH' | translate}}"
+                           data-ng-model="searchStr"
+                           data-ng-keyup="setSearch($event)">
+                </div>
+            </form>
+        </div>
+      <div class="col-xs-6">
+        <div class="form-group btn-group n-ha-left">
+          <button type="button" class="btn n-btn-7">XXX</button>
+          <button type="button" class="btn dropdown-toggle n-btn-7" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu pull-right">
+            <li>
+              <a href="javascript:void(0);">XXX</a>
+            </li>
+          </ul>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid people">
+    <div data-ng-repeat="item in people">
+        <div data-ng-class="{'n-list-1': $even,'n-list-2': $odd}">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 n-vpadding-05" data-ng-class="{'n-list-1': $even,'n-list-2': $odd}">
+                <div class="input-group">
+                    <span class="input-group-addon n-white">
+                        <input type="checkbox">
+                    </span>
+                    <input type="text" class="form-control n-input n-white" value="{{item.first_name}} {{item.last_name}}" disabled>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle n-white" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu n-dropdown-right" role="menu" data-ng-if="!teamMember">
+                          <li><a href="#/person/{{item.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                        </ul>
+                        <ul class="dropdown-menu n-dropdown-right" role="menu" data-ng-if="teamMember">
+                          <li><a href="#/team-member/{{item.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 n-vpadding-1">
+                <span>
+                     {{item.company_name}}
+                </span>
+            </div>
+            <div class="hidden-xs col-sm-4 col-md-4 col-lg-4 n-vpadding-1">
+                <span>
+                    {{item.role}}
+                </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="n-ha-center">
+    <pagination-notia
+            load-data="dataLoader"
+            load-data-params="dataLoaderParams"
+            amount="10"
+            list-data="people"
+            button-all="false"
+            info="infoPaging"
+            ></pagination-notia>
+</div>

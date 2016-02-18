@@ -1,0 +1,9 @@
+<div class="popover">
+  <div class="arrow"></div>
+  <!--<h3 class="popover-title" ng-bind="title" ng-show="title"></h3>-->
+  <div class="popover-content">
+    <div>{{mw[content].type | translate}}</div>
+    <div>{{mw[content].title}}</div>
+    <div><strong>{{mw[content].start._d | date : mw[content].dateFormat || 'shortDate'}}&nbsp;&nbsp;{{mw[content].start._d | date : mw[content].timeFormat || 'shortTime'}}</strong></div>
+  </div>
+</div>

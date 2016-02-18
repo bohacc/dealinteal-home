@@ -1,0 +1,20 @@
+<div class="panel n-panel-4 dashboard-calendar" id="dashboard-calendar">
+  <div class="panel-heading" data-ng-click="dashboardsToggle['calendar']=!dashboardsToggle['calendar']">
+    <div class="col-xs-3">
+      <h2 class="glyphicon glyphicon-calendar"></h2>
+    </div>
+    <div class="col-xs-9 text-right">
+      <div class="number">
+        <span>2/6</span>
+      </div>
+      <div class="text">
+        <span>{{'CALENDAR' | translate}}</span>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="panel-body" data-ng-show="dashboardsToggle['calendar']">
+    Panel content
+  </div>
+  <!--<div class="panel-footer" data-ng-show="dashboardsToggle['calendar']">Panel footer</div>-->
+</div>

@@ -1,0 +1,142 @@
+<div class="container-fluid companies">
+    <div class="">
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-1">
+        <span class="h1">{{'COMPANIES' | translate}}</span>
+      </div>
+      <div class="hidden-xs col-sm-4 col-md-2 col-lg-2">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="{{'SEARCH_COMPANY' | translate}}"
+                 data-ng-model="searchStr"
+                 data-ng-keyup="setSearch($event)">
+
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li class="disabled"><a href="#">{{'SEARCH_IN_ARES' | translate}}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="hidden-xs hidden-sm col-md-5 col-lg-5">
+        <div class="btn-group">
+          <button type="button" class="btn btn-default active"
+                  data-ng-model="dataLoaderParams.sortField"
+                  data-uib-btn-radio="'company_name'"
+                  data-ng-disabled="infoPaging.inProcess">{{'COMPANY_NAME' | translate}}
+          </button>
+          <button type="button" class="btn btn-default"
+                  data-ng-model="dataLoaderParams.sortField"
+                  data-uib-btn-radio="'company_name'"
+                  data-ng-disabled="infoPaging.inProcess">{{'BUSYNESS' | translate}}
+          </button>
+          <button type="button" class="btn btn-default"
+                  data-ng-model="dataLoaderParams.sortField"
+                  data-uib-btn-radio="'rating'"
+                  data-ng-disabled="infoPaging.inProcess">{{'RATING' | translate}}
+          </button>
+        </div>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up active"
+                  data-ng-model="dataLoaderParams.sortDirection"
+                  data-uib-btn-radio="'asc'"
+                  data-ng-disabled="infoPaging.inProcess"></button>
+          <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down"
+                  data-ng-model="dataLoaderParams.sortDirection"
+                  data-uib-btn-radio="'desc'"
+                  data-ng-disabled="infoPaging.inProcess"></button>
+        </div>
+      </div>
+      <div class="hidden-xs hidden-sm hidden-md col-lg-2">
+        <div class="form-group btn-group n-ha-left">
+            <button type="button" class="btn n-btn-7">{{getType().NAME | translate}}</button>
+            <button type="button" class="btn dropdown-toggle n-btn-7" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li data-ng-repeat="item in typesList | filterWithout: {ID: getType().ID}">
+                    <a href="javascript:void(0);" data-ng-click="dataLoaderParams.filter.type=item.ID">{{item.NAME | translate}}</a>
+                </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 n-ha-right">
+        <div class="form-group btn-group n-ha-left">
+          <button type="button" class="btn n-btn-4" data-ng-click="newCompany()">{{'NEW_COMPANY' | translate}}</button>
+          <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu pull-right">
+            <li><a href="#">{{'ADD_SELECTED_TO_CAMPAIGN' | translate}}</a></li>
+            <li><a href="#">{{'SEND_EMAIL_TO_SELECTED' | translate}}</a></li>
+            <li class="divider"></li>
+            <li><a href="#">{{'DELETE_SELECTED' | translate}}</a></li>
+            <li class="divider"></li>
+            <li>
+              <a href="javascript:void(0);"
+                 data-ng-click="exportToExcel('/api/companies/export/excel', selectedItemsObject)">{{'EXPORT_SELECTED_TO_EXCEL'
+                | translate}}</a>
+              <a href="/api/export/csv/v1/companies">{{'EXPORT_ALL_TO_CSV' | translate}}</a>
+              <a href="#{{ROUTES.COMPANIES_IMPORT}}">{{'IMPORT_FROM_CSV' | translate}}</a>
+              <!--<a href="/api/companies/export/excel">xxx - {{'EXPORT_SELECTED_TO_EXCEL' | translate}}</a>
+              <a href="javascript:void(0);" id="downloadExcel"></a>-->
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="container-fluid companies">
+        <div data-ng-repeat="item in companies">
+        <div data-ng-class="{'n-list-1': $even,'n-list-2': $odd}">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 n-vpadding-05" data-ng-class="{'n-list-1': $even,'n-list-2': $odd}">
+                <div class="input-group">
+                    <span class="input-group-addon n-white">
+                        <input type="checkbox" data-ng-model="selectedItemsObject[item.id]" data-ng-true-value="true" data-ng-false-value="false">
+                    </span>
+                    <input type="text" class="form-control n-input n-white" value="{{item.companyname}}" disabled>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle n-white " data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu n-dropdown-right" role="menu">
+                            <li><a href="#/company/{{item.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4 n-vpadding-1">
+                <span>
+                    {{item.address_city_1}}, {{item.address_street_1}}, {{item.address_country_1}}
+                </span>
+            </div>
+            <div class="hidden-xs col-sm-1 col-md-1 col-lg-2 n-vpadding-1">
+                <span class="badge">42</span>
+            </div>
+            <!--<div class="hidden-xs col-sm-2 col-md-2 col-lg-2 n-vpadding-1">
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star"></span>
+                <span class="glyphicon glyphicon-star-empty"></span>
+                <span class="glyphicon glyphicon-star-empty"></span>
+                <span class="glyphicon glyphicon-star-empty"></span>
+            </div>-->
+            <data-rating-notia class="hidden-xs col-sm-2 col-md-2 col-lg-2 n-vpadding-1" data-readonly="true" data-ng-model="item.rating" data-max="5" data-readonly="ratingIsReadonly"></data-rating-notia>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<div class="n-ha-center">
+    <pagination-notia
+            load-data="dataLoader"
+            load-data-params="dataLoaderParams"
+            amount="10"
+            list-data="companies"
+            button-all="false"
+            info="infoPaging"
+            ></pagination-notia>
+</div>
+

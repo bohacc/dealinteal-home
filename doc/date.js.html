@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/scripts/services/date.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: app/scripts/services/date.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*jslint node: true, unparam: true*/
+'use strict';
+
+/**
+ * @file DateService
+ * @fileOverview DateService
+ */
+
+/**
+ * @namespace DateService
+ * @author Martin Boháč
+ */
+
+angular.module('crmPostgresWebApp')
+  .service('DateService', ['$filter', '$locale', 'datepickerConfig', 'datepickerPopupConfig', function DateService($filter, $locale, datepickerConfig, datepickerPopupConfig) {
+    // AngularJS will instantiate a singleton by calling "new" on this function
+    var format = $locale.DATETIME_FORMATS.shortDate,
+      formatTime = $locale.DATETIME_FORMATS.shortTime;
+    return {
+      /**
+       * @memberof DateService
+       * @method
+       * @name setFormat
+       * @description set date format
+       * @param value {String} date format
+       * @returns void
+       */
+      setFormat: function (value) {
+        format = value;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name getFormat
+       * @description get date format
+       * @returns String
+       */
+      getFormat: function () {
+        return format;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name setFormatTime
+       * @description set time format
+       * param value {String} time format
+       * @returns void
+       */
+      setFormatTime: function (value) {
+        formatTime = value;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name getFormatTime
+       * @description get time format
+       * @returns String
+       */
+      getFormatTime: function () {
+        return formatTime;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name lastDay
+       * @description return last day of month
+       * @param date {Date}
+       * @returns Date
+       */
+      lastDay: function (date) {
+        var year = date.getFullYear(),
+          month = date.getMonth();
+        return new Date(year, month, 0);
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name addMonths
+       * @description return date + months
+       * @param date {Date}
+       * @param c {Integer} offset
+       * @returns Date
+       */
+      addMonths: function (date, c) {
+        var newDate, year, month, i;
+        year = date.getFullYear();
+        month = date.getMonth() + 1;
+        if (c >= 0) {
+          for (i = 0; i &lt; c; i += 1) {
+            if (month === 12) {
+              month = 1;
+              year += 1;
+            } else {
+              month += 1;
+            }
+          }
+        } else {
+          for (i = 0; i &lt; (c * -1); i += 1) {
+            if (month === 1) {
+              month = 12;
+              year -= 1;
+            } else {
+              month -= 1;
+            }
+          }
+        }
+        newDate = new Date(year, month, 0, date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()); // v teto konstrukci kde den je 0 se mesic bere z rozsahu 1 - 12 oproti ostatni deklaraci, pokud je den 0, vraci to posledni den v mesici a mesic se zadava kalendarni
+        return date.getDate() > newDate.getDate() ? newDate : new Date(year, month - 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name addYears
+       * @description return date + years
+       * @param date {Date}
+       * @param i {Integer}
+       * @returns Date
+       */
+      addYears: function (date, i) {
+        return new Date(date.getFullYear() + i, date.getMonth(), date.getDate());
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name strToDate
+       * @description return Date from String
+       * @param str {String}
+       * @returns Date
+       */
+      strToDate: function (str) {
+        var tmp = str.split('.');
+        return new Date(tmp[2], tmp[1] - 1, tmp[0]);
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name wordFromDateRange
+       * @description return word from date range
+       * @param date {Date} date from
+       * @param currentDate {Date} date to, actual date
+       * @returns String
+       */
+      wordFromDateRange: function (date, currentDate) {
+        var range, i, l, word = '', getDate, dateEarlier, dateLater, inputDate, service, dayCount;
+        service = this;
+        // private function
+        getDate = function (date, dateStr, daysCount) {  // Date, String, Integer
+          var newDate = new Date(date.setHours(0, 0, 0, 0)),
+            type,
+            tmp;
+          if (isNaN(dateStr)) {
+            if (dateStr.indexOf('M') > -1) {
+              type = 1;
+            }
+            if (dateStr.indexOf('Y') > -1) {
+              type = 2;
+            }
+            if (dateStr.indexOf('E') > -1) {
+              type = 3;
+            }
+          } else {
+            type = 0;
+          }
+
+          switch (type) {
+          case 0: // Days
+            newDate.setDate(date.getDate() - parseInt(dateStr, 10) + (daysCount * -1));
+            break;
+          case 1: // Months
+            tmp = service.addMonths(date, (dateStr.split('M').length - 1) * -1);
+            newDate = tmp.setDate(tmp.getDate() + (daysCount * -1));
+            break;
+          case 2: // Years
+            tmp = service.addYears(date, (dateStr.split('Y').length - 1) * -1);
+            newDate = tmp.setDate(tmp.getDate() + (daysCount * -1));
+            break;
+          case 3: // Years
+            newDate = new Date(1900, 1, 1);
+            break;
+          default:
+            newDate = null;
+          }
+          return newDate;
+        };
+
+        // pouze pro prvni ctyri do 31 dní
+        dayCount = currentDate.getDate() + (new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate() - date.getDate());
+
+        range = [
+          {from: '0', fromDay: 0, to: '0', toDay: 0, text: '', sufix: 'TODAY'}, //cz a en predelat na konstanty pro preklad
+          {from: '1', fromDay: 0, to: '1', toDay: 0, text: '', sufix: 'YESTERDAY'},
+          {from: '2', fromDay: 0, to: '2', toDay: 0, text: '2 ', sufix: 'DAYS'},
+          {from: '3', fromDay: 0, to: '26', toDay: 0, text: dayCount + ' ', sufix: 'DAYS2'},
+          {from: '27', fromDay: 0, to: 'M', toDay: -1, text: '≈ 1 ', sufix: 'MONTH'},
+          {from: 'M', fromDay: 0, to: 'M', toDay: 0, text: '1 ', sufix: 'MONTH'},
+          {from: 'M', fromDay: 1, to: 'M', toDay: 4, text: '≈ 1 ', sufix: 'MONTH'},
+          {from: 'M', fromDay: 5, to: 'MM', toDay: -5, text: '> 1 ', sufix: 'MONTH'},
+          {from: 'MM', fromDay: -4, to: 'MM', toDay: -1, text: '≈ 2 ', sufix: 'MONTH2'},
+          {from: 'MM', fromDay: 0, to: 'MM', toDay: 0, text: '2 ', sufix: 'MONTH2'},
+          {from: 'MM', fromDay: 1, to: 'MM', toDay: 4, text: '≈ 2 ', sufix: 'MONTH2'},
+          {from: 'MM', fromDay: 5, to: 'MMM', toDay: -5, text: '> 2 ', sufix: 'MONTH2'},
+          {from: 'MMM', fromDay: -4, to: 'MMM', toDay: -1, text: '≈ 3 ', sufix: 'MONTH2'},
+          {from: 'MMM', fromDay: 0, to: 'MMM', toDay: 0, text: '3 ', sufix: 'MONTH2'},
+          {from: 'MMM', fromDay: 1, to: 'MMM', toDay: 4, text: '≈ 3 ', sufix: 'MONTH2'},
+          {from: 'MMM', fromDay: 5, to: 'MMMM', toDay: -5, text: '> 3 ', sufix: 'MONTH2'},
+          {from: 'MMMM', fromDay: -4, to: 'MMMM', toDay: -1, text: '≈ 4 ', sufix: 'MONTH2'},
+          {from: 'MMMM', fromDay: 0, to: 'MMMM', toDay: 0, text: '4 ', sufix: 'MONTH2'},
+          {from: 'MMMM', fromDay: 1, to: 'MMMM', toDay: 4, text: '≈ 4 ', sufix: 'MONTH2'},
+          {from: 'MMMM', fromDay: 5, to: 'MMMMM', toDay: -5, text: '> 4 ', sufix: 'MONTH2'},
+          {from: 'MMMMM', fromDay: -4, to: 'MMMMM', toDay: -1, text: '≈ 5 ', sufix: 'MONTH3'},
+          {from: 'MMMMM', fromDay: 0, to: 'MMMMM', toDay: 0, text: '5 ', sufix: 'MONTH3'},
+          {from: 'MMMMM', fromDay: 1, to: 'MMMMM', toDay: 4, text: '≈ 5 ', sufix: 'MONTH3'},
+          {from: 'MMMMM', fromDay: 5, to: 'MMMMMM', toDay: -5, text: '> 5 ', sufix: 'MONTH3'},
+          {from: 'MMMMMM', fromDay: -4, to: 'MMMMMM', toDay: -1, text: '≈ 6 ', sufix: 'MONTH3'},
+          {from: 'MMMMMM', fromDay: 0, to: 'MMMMMM', toDay: 0, text: '6 ', sufix: 'MONTH3'},
+          {from: 'MMMMMM', fromDay: 1, to: 'MMMMMM', toDay: 4, text: '≈ 6 ', sufix: 'MONTH3'},
+          {from: 'MMMMMM', fromDay: 5, to: 'MMMMMMM', toDay: -5, text: '> 6 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMM', fromDay: -4, to: 'MMMMMMM', toDay: -1, text: '≈ 7 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMM', fromDay: 0, to: 'MMMMMMM', toDay: 0, text: '7 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMM', fromDay: 1, to: 'MMMMMMM', toDay: 4, text: '≈ 7 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMM', fromDay: 5, to: 'MMMMMMMM', toDay: -5, text: '> 7 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMM', fromDay: -4, to: 'MMMMMMMM', toDay: -1, text: '≈ 8 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMM', fromDay: 0, to: 'MMMMMMMM', toDay: 0, text: '8 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMM', fromDay: 1, to: 'MMMMMMMM', toDay: 4, text: '≈ 8 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMM', fromDay: 5, to: 'MMMMMMMMM', toDay: -5, text: '> 8 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMM', fromDay: -4, to: 'MMMMMMMMM', toDay: -1, text: '≈ 9 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMM', fromDay: 0, to: 'MMMMMMMMM', toDay: 0, text: '9 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMM', fromDay: 1, to: 'MMMMMMMMM', toDay: 4, text: '≈ 9 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMM', fromDay: 5, to: 'MMMMMMMMMM', toDay: -5, text: '> 9 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMMM', fromDay: -4, to: 'MMMMMMMMMM', toDay: -1, text: '≈ 10 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMMM', fromDay: 0, to: 'MMMMMMMMMM', toDay: 0, text: '10 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMMM', fromDay: 1, to: 'MMMMMMMMMM', toDay: 4, text: '≈ 10 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMMM', fromDay: 5, to: 'MMMMMMMMMMM', toDay: -5, text: '> 10 ', sufix: 'MONTH3'},
+          {from: 'MMMMMMMMMMM', fromDay: 5, to: 'Y', toDay: 30, text: '1 ', sufix: 'YEAR'},
+          {from: 'Y', fromDay: 31, to: 'Y', toDay: 150, text: '> 1 ', sufix: 'YEAR'},
+          {from: 'Y', fromDay: 151, to: 'Y', toDay: 210, text: '1,5 ', sufix: 'YEAR2'},
+          {from: 'Y', fromDay: 211, to: 'YY', toDay: -31, text: '&lt; 2 ', sufix: 'YEAR3'},
+          {from: 'YY', fromDay: -30, to: 'YY', toDay: 30, text: '2 ', sufix: 'YEAR3'},
+          {from: 'YYY', fromDay: 31, to: 'E', toDay: 0, text: '', sufix: 'OUT_OF_DATE'}
+        ];
+
+        for (i = 0, l = range.length; i &lt; l; i += 1) {
+          dateEarlier = getDate(currentDate, range[i].from, range[i].fromDay);
+          dateLater = getDate(currentDate, range[i].to, range[i].toDay);
+          inputDate = new Date(date.setHours(0, 0, 0, 0));
+          if (inputDate >= dateLater && inputDate &lt;= dateEarlier) {
+            word = range[i].text + $filter('translate')(range[i].sufix);
+            break;
+          }
+        }
+        return word;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name setDatepicker
+       * @description set global properties for Datepicker
+       * @returns void
+       */
+      setDatepicker: function () {
+        // Datepicker, properties without properties from locale i18n
+        datepickerConfig.showWeeks = false;
+        datepickerPopupConfig.currentText = $filter('translate')('TODAY');
+        datepickerPopupConfig.clearText = $filter('translate')('CLEAR');
+        datepickerPopupConfig.closeText = $filter('translate')('CLOSE');
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name setDate
+       * @description set selected date to property date
+       * @param oldDate {Date} property for save to database
+       * @param newDate {Date} new value for date
+       * @returns Date
+       */
+      setDate: function (oldDate, newDate) {
+        if (!oldDate || !newDate) {
+          return newDate;
+        }
+        var tmpNewDate = new Date(newDate), tmpOldDate = new Date(oldDate);
+        tmpOldDate.setDate(tmpNewDate.getDate());
+        tmpOldDate.setMonth(tmpNewDate.getMonth());
+        tmpOldDate.setFullYear(tmpNewDate.getFullYear());
+        return tmpOldDate;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name setTime
+       * @description set selected time to property date
+       * @param oldDate {Date} property for save to database
+       * @param newDate {Date} new value for date
+       * @returns Date
+       */
+      setTime: function (oldDate, newTime) {
+        var tmp = new Date();
+        tmp.setTime(newTime);
+        if (!oldDate) {
+          return tmp;
+        }
+        oldDate.setHours(tmp.getHours());
+        oldDate.setMinutes(tmp.getMinutes());
+        //oldDate.setMilliseconds(tmp.getMilliseconds());
+        return new Date(oldDate);
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name addMilliseconds
+       * @description return date + years
+       * @param date {Date}
+       * @param ms {Integer}
+       * @returns Date
+       */
+      addMilliseconds: function (date, ms) {
+        // for add month
+        var dateResult = new Date(date);
+        if (ms === 'NWD') { //Next work day
+          dateResult = this.nextWorkDay(dateResult);
+        } else if (ms === 'M') {  // Month
+          dateResult = this.addMonths(dateResult, 1);
+        } else {
+          dateResult.setMilliseconds(ms);
+        }
+        return new Date(dateResult); // date must be new instance of Date
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name round
+       * @description return rounding date
+       * @param date {Date} date
+       * @param range {Array} range for level
+       * @param level {String} level of date - year, month, day, hour, min, mils
+       * @returns Date
+       */
+      round: function (date, range, level) {
+        var dateResult = new Date(date), minutes = 0, minutesPattern = [0, 15, 30, 45, 60], i, l, ref;
+        minutesPattern = range || minutesPattern;
+        if (level.toUpperCase() === 'MI') {
+          ref = date.getMinutes();
+          if (minutesPattern.indexOf(ref) === -1) {
+            for (i = 0, l = minutesPattern.length; i &lt; l; i += 1) {
+              if (ref &lt;= minutesPattern[i]) {
+                minutes = minutesPattern[i];
+                break;
+              }
+            }
+            dateResult.setMinutes(minutes);
+          }
+        }
+        return new Date(dateResult);
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name getTimeFromTwoDate
+       * @description return string
+       * @param date {Date}
+       * @param date2 {Date}
+       * @returns String
+       */
+      getTimeFromTwoDate: function (date, date2) {
+        var arrTime = ['DAY_SMART', 'HOUR_SMART', 'MINUTE_SMART', 'SECONDS_SMART'], newTime,
+          days, day, hours, hour, minutes, minute, seconds, second, str = '', tmp, emptyStr = '0 min.';
+        if (!date || !date2) {
+          return emptyStr;
+        }
+        newTime = new Date(date2) - new Date(date);
+        day = 24 * 60 * 60 * 1000;
+        hour = 60 * 60 * 1000;
+        minute = 60 * 1000;
+        second = 1000;
+        tmp = newTime;
+        if (newTime === 0) {
+          return emptyStr;
+        }
+        // DAYS
+        days = Math.floor(tmp / day);
+        if (days) {
+          tmp = tmp - (days * day);
+          str += ' ' + days + ' ' + $filter('translate')(arrTime[0]);
+        }
+        // HOURS
+        hours = Math.floor(tmp / hour);
+        if (hours) {
+          tmp = tmp - (hours * hour);
+          str += ' ' + hours + ' ' + $filter('translate')(arrTime[1]);
+        }
+        // MINUTES
+        minutes = Math.floor(tmp / minute);
+        if (minutes) {
+          tmp = tmp - (minutes * minute);
+          str += ' ' + minutes + ' ' + $filter('translate')(arrTime[2]);
+        }
+        // SECONDS
+        seconds = Math.floor(tmp / second);
+        tmp = tmp - (seconds * second);
+        if (seconds) {
+          str += ' ' + seconds + ' ' + $filter('translate')(arrTime[3]);
+        }
+        return str;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name getDateWithMomemtJs
+       * @description parse string to date
+       * @param dateModel {Date}
+       * @param dateInputStr {Date}
+       * @returns Date
+       */
+      getDateWithMomemtJs: function (dateModel, dateInputStr) {
+        var arrFmt, arrInput, sep, fmt, result, fmt2;
+        fmt = this.getFormat();
+        sep = fmt.replace(/d/gi, '').replace(/m/gi, '').replace(/y/gi, '')[0];
+        arrFmt = fmt.split(sep);
+        arrInput = dateInputStr.split(sep);
+        if (arrFmt.length !== arrInput.length || arrInput.length === 0 || arrInput.indexOf('') > -1 || arrInput.indexOf('0') > -1) {
+          return null;
+        }
+        if (arrFmt[0].length === arrInput[0].length && arrFmt[1].length === arrInput[1].length && arrFmt[2].length === arrInput[2].length) {
+          result = new Date(dateModel);
+        } else {
+          // add full format for year
+          fmt = fmt.indexOf('yyyy') > -1 || fmt.indexOf('YYYY') > -1 ? fmt : fmt.replace(/yy/gi, 'yyyy');
+          arrFmt = fmt.split(sep);
+          fmt2 = arrFmt[0].substring(0, arrInput[0].length).toUpperCase() + sep +
+            arrFmt[1].substring(0, arrInput[1].length).toUpperCase() + sep +
+            arrFmt[2].substring(0, arrInput[2].length).toUpperCase();
+          result = new Date(moment(dateInputStr, fmt2));
+        }
+        return result;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name getDateTimeWithMomemtJs
+       * @description parse string to datetime
+       * @param dateModelMaster {Date}
+       * @param dateModel {Date}
+       * @param dateInputStr {Date}
+       * @returns Date
+       */
+      getDateTimeWithMomemtJs: function (dateModelMaster, dateModel, dateInputStr) {
+        var arrFmt, arrInput, sep, fmtTime, result, fmt2, hours, date, dateStr;
+        fmtTime = this.getFormatTime();
+        sep = fmtTime.replace(/h/gi, '').replace(/m/gi, '').replace(/a/gi, '').replace(/ /gi, '')[0];
+        arrFmt = fmtTime.split(sep);
+        arrInput = dateInputStr.split(sep);
+        if (arrFmt.length !== arrInput.length ||
+            (arrFmt[1].length === 2 && arrInput[1].length !== arrFmt[1].length) ||
+            (arrFmt[1].length > 2 && (arrInput[1].substring(arrFmt[1].indexOf('a'), 3).toLowerCase() === ' pm' || arrInput[1].substring(arrFmt[1].indexOf('a'), 3).toLowerCase() === ' am')) ||
+            arrInput.length === 0 ||
+            arrInput.indexOf('') > -1) {
+          return null;
+        }
+        if (arrInput[0].length >= arrFmt[0].length && ((arrFmt[1].length === 2 && arrFmt[1].length === arrInput[1].length) || arrInput[1].length === 5)) {
+          result = new Date(dateModel);
+        } else {
+          hours = arrFmt[0].substring(0, arrInput[0].length);
+          hours = fmtTime.indexOf('a') > -1 || fmtTime.indexOf('A') > -1 ? hours.toLowerCase() : hours.toUpperCase();
+          date = dateModelMaster ? new Date(dateModelMaster) : new Date();
+          dateStr = date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate() + ' ';
+          fmt2 = 'YYYY.M.D ' + hours + sep + arrFmt[1].substring(0, arrInput[1].length).toLowerCase();
+          result = new Date(moment(dateStr + dateInputStr, fmt2));
+        }
+        // for invalid date return dataModelMaster or new Date
+        return result > new Date(1899, 0, 1) ? result : date;
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name nextWorkDay
+       * @description get next work day
+       * @param date {Date}
+       * @returns Date
+       */
+      nextWorkDay: function (date) {
+        var ms = 24 * 60 * 60 * 1000;
+        switch (date.getDay()) {
+        case 0:  // Sunday
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+          break;
+        case 5:
+          ms = ms * 3;
+          break;
+        case 6: // Saturday
+          ms = ms * 2;
+          break;
+        }
+        date.setMilliseconds(ms);
+        return new Date(date);
+      },
+      /**
+       * @memberof DateService
+       * @method
+       * @name setDateAsUTC0
+       * @description set date as UTC 0
+       * @param date {Date}
+       * @returns Date
+       */
+      setDateAsUTC0: function (date) {
+        return new Date((new Date(date)).setMilliseconds((new Date()).getTimezoneOffset() * 60 * 1000 * -1));
+      }
+    };
+  }]);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="__Server_Connections.html">__Server_Connections</a></li><li><a href="__Server_Constants.html">__Server_Constants</a></li><li><a href="__Server_Flow.html">__Server_Flow</a></li><li><a href="__Server_Messages.html">__Server_Messages</a></li><li><a href="__Server_MonitorDB.html">__Server_MonitorDB</a></li><li><a href="__Server_PDF.html">__Server_PDF</a></li><li><a href="__Server_PG_API.html">__Server_PG_API</a></li><li><a href="__Server_REST_API.html">__Server_REST_API</a></li><li><a href="__Server_REST_API_Appointment.html">__Server_REST_API_Appointment</a></li><li><a href="__Server_REST_API_Authentication.html">__Server_REST_API_Authentication</a></li><li><a href="__Server_REST_API_Companies.html">__Server_REST_API_Companies</a></li><li><a href="__Server_REST_API_Countries.html">__Server_REST_API_Countries</a></li><li><a href="__Server_REST_API_Logging.html">__Server_REST_API_Logging</a></li><li><a href="__Server_REST_API_People.html">__Server_REST_API_People</a></li><li><a href="__Server_REST_API_People_Companies.html">__Server_REST_API_People_Companies</a></li><li><a href="__Server_REST_API_Positions.html">__Server_REST_API_Positions</a></li><li><a href="__Server_REST_API_Reminders.html">__Server_REST_API_Reminders</a></li><li><a href="__Server_REST_API_Roles.html">__Server_REST_API_Roles</a></li><li><a href="__Server_REST_API_Sales_Pipeline.html">__Server_REST_API_Sales_Pipeline</a></li><li><a href="__Server_REST_API_Sales_Pipeline_Stages.html">__Server_REST_API_Sales_Pipeline_Stages</a></li><li><a href="__Server_REST_API_Tasks.html">__Server_REST_API_Tasks</a></li><li><a href="__Server_REST_API_TimeZones.html">__Server_REST_API_TimeZones</a></li><li><a href="__Server_REST_API_User.html">__Server_REST_API_User</a></li><li><a href="__Server_Socket.html">__Server_Socket</a></li><li><a href="__Server_Tools.html">__Server_Tools</a></li><li><a href="__Server_TOOLS_API_ExportsFactory.html">__Server_TOOLS_API_ExportsFactory</a></li><li><a href="actionButtons.html">actionButtons</a></li><li><a href="AgendaCtrl.html">AgendaCtrl</a></li><li><a href="alerts.html">alerts</a></li><li><a href="alertsModal.html">alertsModal</a></li><li><a href="AlertsService.html">AlertsService</a></li><li><a href="angucomplete.html">angucomplete</a></li><li><a href="AppointmentCtrl.html">AppointmentCtrl</a></li><li><a href="AppointmentService.html">AppointmentService</a></li><li><a href="CalendarCtrl.html">CalendarCtrl</a></li><li><a href="CompaniesCtrl.html">CompaniesCtrl</a></li><li><a href="CompaniesService.html">CompaniesService</a></li><li><a href="CompanyCtrl.html">CompanyCtrl</a></li><li><a href="CountriesService.html">CountriesService</a></li><li><a href="DatepickerFactory.html">DatepickerFactory</a></li><li><a href="datepickerNotia.html">datepickerNotia</a></li><li><a href="DateService.html">DateService</a></li><li><a href="header.html">header</a></li><li><a href="language.html">language</a></li><li><a href="LogData.html">LogData</a></li><li><a href="MainCtrl.html">MainCtrl</a></li><li><a href="MessengerService.html">MessengerService</a></li><li><a href="MetaService.html">MetaService</a></li><li><a href="PageAncestorService.html">PageAncestorService</a></li><li><a href="PeopleCtrl.html">PeopleCtrl</a></li><li><a href="PeopleService.html">PeopleService</a></li><li><a href="PersonCtrl.html">PersonCtrl</a></li><li><a href="pillsNotia.html">pillsNotia</a></li><li><a href="ratingNotia.html">ratingNotia</a></li><li><a href="ReminderCtrl.html">ReminderCtrl</a></li><li><a href="Reminders.html">Reminders</a></li><li><a href="ReminderService.html">ReminderService</a></li><li><a href="SalesPipelineCtrl.html">SalesPipelineCtrl</a></li><li><a href="SalesPipelineService.html">SalesPipelineService</a></li><li><a href="SalesPipelineStagesService.html">SalesPipelineStagesService</a></li><li><a href="SocketFactory.html">SocketFactory</a></li><li><a href="TestCtrl.html">TestCtrl</a></li><li><a href="TimeZonesService.html">TimeZonesService</a></li><li><a href="ToolsService.html">ToolsService</a></li><li><a href="UsersService.html">UsersService</a></li><li><a href="VyvojCtrl.html">VyvojCtrl</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Tue Jan 20 2015 15:55:59 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

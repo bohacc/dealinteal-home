@@ -1,0 +1,1 @@
+grant select,insert,update,delete on balance to notia_user;

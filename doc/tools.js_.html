@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/scripts/services/tools.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: app/scripts/services/tools.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*jslint node: true, unparam: true, regexp: true*/
+'use strict';
+
+/**
+ * @file Tools
+ * @fileOverview ToolsService
+ */
+
+/**
+ * @namespace ToolsService
+ * @author Martin Boháč
+ */
+
+angular.module('crmPostgresWebApp')
+  .service('Tools', ['$translate', '$rootScope', '$location', '$filter', '$cookies', '$locale', 'tmhDynamicLocale', 'Constants', 'DateService', 'Language', function Tools($translate, $rootScope, $location, $filter, $cookies, $locale, tmhDynamicLocale, Constants, DateService, Language) {
+    // AngularJS will instantiate a singleton by calling "new" on this function
+    return {
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name getDateTimeStr
+       * @description convert DateTime to String
+       * param data {date}
+       * @returns {String}
+       */
+      getDateTimeStr: function (date) {
+        var str = '', d, m, y, h, mi;
+        if (date) {
+          d = date.getDate();
+          m = date.getMonth() + 1;
+          y = date.getFullYear();
+          h = date.getHours();
+          mi = date.getMinutes();
+          return d + '.' + m + '.' + y + ' ' + h + ':' + mi;
+        }
+        return str;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name setLanguage
+       * @description set translate and locale
+       * param key {String}
+       * @returns Promise
+       */
+      setLanguage: function (key) {
+        $translate.use(key);
+        $cookies.language = key;
+        Language.setLanguage(key);
+        return tmhDynamicLocale.set(key);
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name createObject
+       * @description create new Object from params, new instance
+       * param obj {Object} new object
+       * @returns Object
+       */
+      createObject: function (obj) {
+        var key,
+          tmpObj = {};
+        if (obj) {
+          for (key in obj) {
+            if (obj.hasOwnProperty(key)) {
+              tmpObj[key] = obj[key];
+            }
+          }
+          return tmpObj;
+        }
+        return {};
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name createObject
+       * @description set oldObject object properties with properties of new object, same instance
+       * param oldObject {Object} old object
+       * param obj {Object} new object
+       * @returns void
+       */
+      setObject: function (oldObject, obj) {
+        var key;
+        if (obj) {
+          for (key in oldObject) {
+            if (oldObject.hasOwnProperty(key)) {
+              delete oldObject[key];
+            }
+          }
+          for (key in obj) {
+            if (obj.hasOwnProperty(key)) {
+              oldObject[key] = obj[key];
+            }
+          }
+        }
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name createObject
+       * @description create new Object from oldObj with newObj properties
+       * param oldObj {Object}
+       * param newObj {Object}
+       * @returns Object
+       */
+      getChangedProperties: function (oldObj, newObj) {
+        var key, tmpObj = {};
+        for (key in newObj) {
+          if (newObj.hasOwnProperty(key)) {
+            if (newObj[key] !== oldObj[key] && (newObj[key] || oldObj[key])) {
+              tmpObj[key] = newObj[key];
+            }
+          }
+        }
+        return tmpObj;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name inc
+       * @description increment value for all item of array
+       * param array {Array}
+       * param val {Integer}
+       * @returns Object
+       */
+      inc: function (array, val) {
+        var i, l;
+        for (i = 0, l = array.length; i &lt; l; i += 1) {
+          array[i] += val;
+        }
+        return array;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name openUrl
+       * @description open url
+       * @param url {String}
+       * @param target {String}
+       * @param prefix {String}
+       * @returns void
+       */
+      openUrl: function (url, target, prefix) {
+        var tmp;
+        if (url) {
+          tmp = url;
+          if (prefix) {
+            tmp = prefix + url;
+          }
+          if (!prefix && tmp.toUpperCase().indexOf('http://') === -1) {
+            tmp = 'http://' + tmp;
+          }
+          if (target) {
+            window.open(tmp, target);
+          } else {
+            window.open(tmp);
+          }
+        }
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name existsItemInArray
+       * @description exists obj in array
+       * @param val {Object} model for scope
+       * @param arrayObj {Array} list of data
+       * @param searchFields {String} fields for search
+       * @returns Boolean
+       */
+      existsItemInArray: function (val, arrayObj, searchFields) {
+        var i, l, e, j, exists = false, fields = searchFields.split(",");
+        if (!arrayObj) {
+          return exists;
+        }
+        for (i = 0, l = arrayObj.length; i &lt; l; i += 1) {
+          for (e = 0, j = fields.length; e &lt; j; e += 1) {
+            if (val && searchFields && arrayObj[i][fields[e]].toLowerCase() === val.toLowerCase()) {
+              exists = true;
+              break;
+            }
+          }
+          if (exists) {
+            break;
+          }
+        }
+        return exists;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name getItemFromArray
+       * @description exists obj in array
+       * @param primaryValue {String} identification field value
+       * @param primaryFieldName {Object} identification field
+       * @param arrayObj {Array}
+       * @param field {String} name for return field value
+       * @returns String
+       */
+      getItemFromArray: function (primaryValue, primaryFieldName, arrayObj, field) {
+        var i, l, result = null;
+        for (i = 0, l = arrayObj.length; i &lt; l; i += 1) {
+          if (primaryFieldName && field && arrayObj[i][primaryFieldName] === primaryValue) {
+            result = arrayObj[i][field];
+            break;
+          }
+        }
+        return result;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name validateEmail
+       * @description validate email
+       * @param value {String} email address
+       * @returns Boolean
+       */
+      validateEmail: function (value) {
+        var re = /^(([^&lt;>()\[\]\\.,;:\s@\"]+(\.[^&lt;>()\[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          result = value ? re.test(value) : true;
+        return result;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name validatePhone
+       * @description validate phone
+       * @param value {String} phone
+       * @returns Boolean
+       */
+      validatePhone: function (value) {
+        var re = /^(\+420)? ?[0-9]{3} ?[0-9]{3} ?[0-9]{3}$/,
+          result = value ? re.test(value) : true;
+        return result;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name validateZip
+       * @description validate zip
+       * @param value {String} zip
+       * @returns Boolean
+       */
+      validateZip: function (value) {
+        var re = /^[0-9]{3} ?[0-9]{2}$/,
+          result = value ? re.test(value) : true;
+        return result;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name deleteItemOfArrayObjects
+       * @description delete item from array via id
+       * @param obj {Object} object
+       * @param arrayName {String} name of field with array
+       * @param searchValue {String} value for search
+       * @param searchValueField {String} field for search value
+       * @returns void
+       */
+      deleteItemOfArrayObjects: function (obj, arrayName, searchValue, searchValueField) {
+        obj[arrayName] = obj[arrayName].filter(function (item) {
+          var result = false;
+          if (searchValue !== item[searchValueField]) {
+            result = true;
+          }
+          return result;
+        });
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name objectToQueryString
+       * @description replaces object to url string
+       * @param obj {Object} object
+       * @returns String
+       */
+      objectToQueryString: function (obj) {
+        var key, str = {}, result = '';
+        for (key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            str[key] = obj[key];
+            if (result) {
+              result += '&';
+            }
+            result += key.toString() + '=' + str[key].toString();
+          }
+        }
+        return result;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name isNumber
+       * @description check if value is a number
+       * @param value {String} String
+       * @returns boolean
+       */
+      isNumber: function (value) {
+        var valueStr = String(value), i, l, pos, tmp, p = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], result;
+        result = valueStr.length > 0;
+        if (!valueStr) {
+          return false;
+        }
+        for (i = 0, l = valueStr.length; i &lt; l; i += 1) {
+          tmp = valueStr.substring(i, i + 1);
+          pos = p.indexOf(tmp);
+          if (pos === -1) {
+            result = false;
+            break;
+          }
+        }
+        return result;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name dateSeparator
+       * @description returns date separator
+       * @param format {String} date format
+       * @returns String
+       */
+      dateSeparator: function (format) {
+        var sep, tmp = format;
+        if (tmp) {
+          tmp = tmp.replace(/m/gi, '');
+          tmp = tmp.replace(/d/gi, '');
+          tmp = tmp.replace(/y/gi, '');
+          sep = tmp[0];
+        }
+        return sep;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name validateDate
+       * @description validate date
+       * @param value {String} date
+       * @param format {String} date format
+       * @returns Boolean
+       */
+      validateDate: function (value, format) {
+        var sep, i, l, f, z, zn, pos, val, frmt = format || DateService.getFormat(), result = true;
+        if (!value) {
+          return false;
+        }
+        sep = this.dateSeparator(frmt);
+        val = value.split(sep);
+        f = frmt.split(sep);
+        result = val.length === 3;
+        if (result) {
+          for (i = 0, l = f.length; i &lt; l; i += 1) {
+            z = f[i].toUpperCase();
+            if (z[0] === 'Y') {
+              pos = i;
+              zn = f[i];
+            }
+            /*if (f[i].length !== val[i].length) {
+              return false;
+            }*/
+          }
+          for (i = 0, l = val.length; i &lt; l; i += 1) {
+            result = result && this.isNumber(val[i]);
+            if (pos === i) {
+              result = result && (zn.length === val[i].length);
+            }
+          }
+        }
+        return result;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name setDateFormat
+       * @description set date format for specified fields type DATE
+       * @param obj {Object}
+       * @param fields {array} array of fields
+       * @returns Object
+       */
+      // NEZ TO ODKOMENTUJES, ZEPTEJ SE PROC JE TO TREBA !!!
+      /*setDateFormat: function (obj, fields) {
+        var d, m, y, f, i, l, z, key, str = {}, pos, tmp, sep, tmpH, frmt = Constants.DATE_FORMAT, formatedDate;
+        if (frmt) {
+          sep = this.dateSeparator(frmt);
+          f = frmt.split(sep);
+          for (key in obj) {
+            if (obj.hasOwnProperty(key)) {
+              formatedDate = '';
+              tmp = key.toString();
+              pos = fields.indexOf(tmp);
+              str[key] = obj[key];
+              if (pos > -1 && str[key]) {
+                tmpH = new Date(str[key]);
+                d = tmpH.getDate();
+                m = tmpH.getMonth() + 1;
+                y = tmpH.getFullYear();
+                for (i = 0, l = f.length; i &lt; l; i += 1) {
+                  z = f[i].toUpperCase();
+                  if (formatedDate) {
+                    formatedDate += sep;
+                  }
+                  if (z[0] === 'M') {
+                    formatedDate += m;
+                  }
+                  if (z[0] === 'D') {
+                    formatedDate += d;
+                  }
+                  if (z[0] === 'Y') {
+                    formatedDate += y;
+                  }
+                }
+              }
+              if (formatedDate) {
+                obj[key] = formatedDate;
+              }
+            }
+          }
+        }
+        return obj;
+      },*/
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name join
+       * @description join array with str
+       * @param arr {Array}
+       * @param str {String} string for join array
+       * @returns String
+       */
+      join: function (arr, str) {
+        var i, l, tmpArr = [];
+        for (i = 0, l = arr.length; i &lt; l; i += 1) {
+          if (arr[i] && arr[i].length > 0) {
+            tmpArr.push(arr[i]);
+          }
+        }
+        return tmpArr.join(str);
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name getColorEventForCalendar
+       * @description color for type of event calendar
+       * @param event {Object}
+       * @returns String
+       */
+      getColorEventForCalendar: function (event) {
+        var result;
+        // for appointment
+        if (event.type === Constants.TYPE_CALENDAR_EVENT_APPOINTMENT) {
+          // set color for type
+          switch (parseInt(event.typeId, 10)) {
+          case 1:
+            result = 'SkyBlue';
+            break;
+          case 2:
+            result = 'YellowGreen';
+            break;
+          case 3:
+            result = 'Blue';
+            break;
+          case 4:
+            result = 'DarkGreen';
+            break;
+          }
+        }
+        // for reminder
+        if (event.type === Constants.TYPE_CALENDAR_EVENT_REMINDER) {
+          // set color for type
+          result = 'Orange';
+        }
+        return result;
+      },
+      /**
+       * @memberof ToolsService
+       * @method
+       * @name objectWithBooleanToArray
+       * @description convert object with boolean properties to array
+       * @param obj {Object}
+       * @returns Array
+       */
+      objectWithBooleanToArray: function (obj) {
+        var key, items = [];
+        for (key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            if (obj[key]) {
+              items.push(key);
+            }
+          }
+        }
+        return items;
+      }
+    };
+  }]);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="__Server_Connections.html">__Server_Connections</a></li><li><a href="__Server_Constants.html">__Server_Constants</a></li><li><a href="__Server_Flow.html">__Server_Flow</a></li><li><a href="__Server_Messages.html">__Server_Messages</a></li><li><a href="__Server_MonitorDB.html">__Server_MonitorDB</a></li><li><a href="__Server_PDF.html">__Server_PDF</a></li><li><a href="__Server_PG_API.html">__Server_PG_API</a></li><li><a href="__Server_REST_API.html">__Server_REST_API</a></li><li><a href="__Server_REST_API_Appointment.html">__Server_REST_API_Appointment</a></li><li><a href="__Server_REST_API_Authentication.html">__Server_REST_API_Authentication</a></li><li><a href="__Server_REST_API_Companies.html">__Server_REST_API_Companies</a></li><li><a href="__Server_REST_API_Countries.html">__Server_REST_API_Countries</a></li><li><a href="__Server_REST_API_Logging.html">__Server_REST_API_Logging</a></li><li><a href="__Server_REST_API_People.html">__Server_REST_API_People</a></li><li><a href="__Server_REST_API_People_Companies.html">__Server_REST_API_People_Companies</a></li><li><a href="__Server_REST_API_Positions.html">__Server_REST_API_Positions</a></li><li><a href="__Server_REST_API_Reminders.html">__Server_REST_API_Reminders</a></li><li><a href="__Server_REST_API_Roles.html">__Server_REST_API_Roles</a></li><li><a href="__Server_REST_API_Sales_Pipeline.html">__Server_REST_API_Sales_Pipeline</a></li><li><a href="__Server_REST_API_Sales_Pipeline_Stages.html">__Server_REST_API_Sales_Pipeline_Stages</a></li><li><a href="__Server_REST_API_Tasks.html">__Server_REST_API_Tasks</a></li><li><a href="__Server_REST_API_TimeZones.html">__Server_REST_API_TimeZones</a></li><li><a href="__Server_REST_API_User.html">__Server_REST_API_User</a></li><li><a href="__Server_Socket.html">__Server_Socket</a></li><li><a href="__Server_Tools.html">__Server_Tools</a></li><li><a href="__Server_TOOLS_API_ExportsFactory.html">__Server_TOOLS_API_ExportsFactory</a></li><li><a href="actionButtons.html">actionButtons</a></li><li><a href="AgendaCtrl.html">AgendaCtrl</a></li><li><a href="alerts.html">alerts</a></li><li><a href="alertsModal.html">alertsModal</a></li><li><a href="AlertsService.html">AlertsService</a></li><li><a href="angucomplete.html">angucomplete</a></li><li><a href="AppointmentCtrl.html">AppointmentCtrl</a></li><li><a href="AppointmentService.html">AppointmentService</a></li><li><a href="CalendarCtrl.html">CalendarCtrl</a></li><li><a href="CompaniesCtrl.html">CompaniesCtrl</a></li><li><a href="CompaniesService.html">CompaniesService</a></li><li><a href="CompanyCtrl.html">CompanyCtrl</a></li><li><a href="CountriesService.html">CountriesService</a></li><li><a href="DatepickerFactory.html">DatepickerFactory</a></li><li><a href="datepickerNotia.html">datepickerNotia</a></li><li><a href="DateService.html">DateService</a></li><li><a href="header.html">header</a></li><li><a href="language.html">language</a></li><li><a href="LogData.html">LogData</a></li><li><a href="MainCtrl.html">MainCtrl</a></li><li><a href="MessengerService.html">MessengerService</a></li><li><a href="MetaService.html">MetaService</a></li><li><a href="PageAncestorService.html">PageAncestorService</a></li><li><a href="PeopleCtrl.html">PeopleCtrl</a></li><li><a href="PeopleService.html">PeopleService</a></li><li><a href="PersonCtrl.html">PersonCtrl</a></li><li><a href="pillsNotia.html">pillsNotia</a></li><li><a href="ratingNotia.html">ratingNotia</a></li><li><a href="ReminderCtrl.html">ReminderCtrl</a></li><li><a href="Reminders.html">Reminders</a></li><li><a href="ReminderService.html">ReminderService</a></li><li><a href="SalesPipelineCtrl.html">SalesPipelineCtrl</a></li><li><a href="SalesPipelineService.html">SalesPipelineService</a></li><li><a href="SalesPipelineStagesService.html">SalesPipelineStagesService</a></li><li><a href="SocketFactory.html">SocketFactory</a></li><li><a href="TestCtrl.html">TestCtrl</a></li><li><a href="TimeZonesService.html">TimeZonesService</a></li><li><a href="ToolsService.html">ToolsService</a></li><li><a href="UsersService.html">UsersService</a></li><li><a href="VyvojCtrl.html">VyvojCtrl</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Tue Jan 20 2015 15:55:59 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

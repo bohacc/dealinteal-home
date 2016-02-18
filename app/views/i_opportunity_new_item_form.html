@@ -1,0 +1,67 @@
+<div class="new-item-form">
+    <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+            <label for="TXX1" class="n-label-2">{{'PRODUCT' | translate}}</label>
+        </div>
+        <div class="col-md-5 col-lg-5">
+            <!--<input id="TXX1" name="TXX1" type="text" class="form-control" data-ng-model="opportunity.item.product" tabindex="8">-->
+            <data-angucomplete id="TXX1" name="TXX1" placeholder="{{'PRODUCT' | translate}}" data-tabindex="8"
+                               data-pause="400" data-model="opportunityTmp.productName" data-input-all-data="true"
+                               data-selected-object-id="id" data-url="/api/products/search/" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true"
+                               data-box-items="opportunity.item.product" data-label-name="PRODUCT"
+                               data-label-class="sr-only">
+            </data-angucomplete>
+        </div>
+        <div class="col-md-1 col-lg-1">
+            <label for="TXX2" class="n-label-2">{{'UNIT_PRICE' | translate}}</label>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <input id="TXX2" name="TXX2" type="text" class="form-control" data-ng-model="opportunity.item.price" tabindex="9" data-format-currency>
+        </div>
+        <div class="col-md-1 col-lg-1">
+            <label for="TXX3" class="n-label-2">{{'UNIT' | translate}}</label>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <input id="TXX3" name="TXX2" type="text" class="form-control" data-ng-model="opportunity.item.product[0].unit" tabindex="10">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-1 col-lg-1">
+            <label for="TXX6" class="n-label-2">{{'DESCRIPTION' | translate}}</label>
+        </div>
+        <div class="col-md-5 col-lg-5">
+            <textarea id="TXX6" class="form-control" data-ng-model="opportunity.item.description" maxlength="255" tabindex="11"></textarea>
+        </div>
+        <div class="col-md-1 col-lg-1">
+            <div class="form-group">
+                <label for="TXX7" class="n-label-2">{{'AMOUNT' | translate}}</label>
+            </div>
+            <div class="form-group">
+                <label for="TXX8" class="n-label-2">{{'TOTAL_PRICE' | translate}}</label>
+            </div>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <div class="form-group">
+                <input id="TXX7" name="TXX7" type="text" class="form-control" data-ng-model="opportunity.item.amount" tabindex="12" data-format-number data-decimals="3">
+            </div>
+            <div class="form-group">
+                <input id="TXX8" name="TXX8" type="text" class="form-control n-input" readonly value="{{opportunity.item.amount * opportunity.item.price | currency}}">
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3">
+            &nbsp;
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="n-ha-center n-action-buttons">
+        <button type="button" class="btn btn-primary" data-ng-click="postItem()" data-ng-if="showNewItem">{{'SAVE_ITEM' | translate}}</button>
+        <button type="button" class="btn btn-primary" data-ng-click="putItem()" data-ng-if="showItemIndex===$index">{{'SAVE_ITEM' | translate}}</button>
+        <button type="button" class="btn btn-default" data-ng-click="cancelItem()">
+            {{'CANCEL' | translate}}
+        </button>
+    </div>
+</div>

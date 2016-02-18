@@ -1,0 +1,672 @@
+<div class="container-fluid company">
+  <form class="form-horizontal" role="form" name="companyForm" onsubmit="return false" action="#">
+    <div id="header">
+      <div class="col-md-12">
+        <div class="form-group">
+          <span class="h1">{{company.company_name}}</span>
+          <data-rating-notia data-readonly="true" data-ng-model="company.rating" data-max="ratingMax" data-readonly="ratingIsReadonly"></data-rating-notia>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <data-pills-notia data-items="pills" data-active="activePillsIndex"></data-pills-notia>
+      </div>
+    </div>
+    <div>&nbsp;</div>
+    <div id="intro" data-ng-show="pills[0].active">
+      Intro
+    </div>
+    <div id="classification" data-ng-show="pills[1].active">
+      <div class="form-group">
+        <div class="col-sd-1 col-md-1 col-lg-1">
+          <label for="XXA1" class="n-label-2">{{'NAME' | translate}}</label>
+        </div>
+        <div class="col-sd-7 col-md-7 col-lg-7">
+          <input id="XXA1" name="XXA1" type="text" class="form-control" maxlength="255" placeholder="{{'COMPANY_NAME' | translate}}" data-ng-model="company.company_name">
+        </div>
+      </div>
+      <div class="cleaner"></div>
+      <div class="form-group">
+        <div class="col-sd-1 col-md-1 col-lg-1">
+          <label for="XXA2" class="n-label-2">{{'COMPANY_ID' | translate}}</label>
+        </div>
+        <div class="col-sd-3 col-md-3 col-lg-3">
+          <input id="XXA2" name="XXA2" type="text" class="form-control" maxlength="20" placeholder="{{'COMPANY_ID' | translate}}" data-ng-model="company.reg_id">
+        </div>
+        <div class="col-sd-1 col-md-1 col-lg-1">
+          <label for="XXA3" class="n-label-2">{{'VAT' | translate}}</label>
+        </div>
+        <div class="col-sd-3 col-md-3 col-lg-3">
+          <input id="XXA3" name="XXA3" type="text" class="form-control" maxlength="20" placeholder="{{'VAT' | translate}}" data-ng-model="company.vat_id">
+        </div>
+      </div>
+      <div class="cleaner"></div>
+      <div class="form-group">
+        <div class="col-sd-1 col-md-1 col-lg-1">
+          <label for="XXA4" class="n-label-2">{{'GROUP' | translate}}</label>
+        </div>
+        <div class="col-sd-7 col-md-7 col-lg-7">
+          <input id="XXA4" name="XXA4" type="text" class="form-control" maxlength="100" placeholder="{{'COMPANY_GROUP' | translate}}" data-ng-model="company.company_group">
+        </div>
+      </div>
+    </div>
+    <div id="agenda" data-ng-show="pills[2].active">
+      <!-- ------------------------------------------------------------------------------------------------ -->
+      <data-ng-include src="'views/agenda.html'" data-ng-controller="AgendaCtrl" data-ng-init="showAsList=true; show.teamAgenda=true; dataLoaderParams.id=company.id; loadDataForList=loadDataForAgendaList; agenda.dataForMenuActions=dataForAgenda"></data-ng-include>
+    </div>
+    <div id="places" data-ng-show="pills[4].active">
+      <div class="col-md-12">
+        <ul class="nav nav-pills">
+          <li data-ng-class="{active: addressActive === $index + 1}" data-ng-click="setActiveAddress($index)" data-ng-repeat="item in address">
+            <a href="javascript:void(0);">{{item.name}}</a>
+          </li>
+          <li data-ng-show="showAddressPlus()" data-ng-click="addAddressNavbar()" class="js-address-plus">
+            <a href="javascript:void(0);"><span class="glyphicon glyphicon-plus"></span></a>
+          </li>
+        </ul>
+      </div>
+      <div>&nbsp;</div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <label for="XXX1" class="hidden"></label>
+          <input id="XXX1" name="XXX1" type="text" class="form-control" maxlength="100" placeholder="" data-ng-model="company['address_tag_' + addressActive]">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <span>{{'ADDRESS' | translate}}</span>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <label for="XXX2" class="hidden"></label>
+          <input id="XXX2" name="XXX2" type="text" class="form-control" maxlength="100" placeholder="{{'STREET' | translate}}" data-ng-model="company['address_street_' + addressActive]">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <label for="XXX3" class="hidden"></label>
+          <input id="XXX3" name="XXX3" type="text" class="form-control" maxlength="100" placeholder="{{'CITY' | translate}}" data-ng-model="company['address_city_' + addressActive]">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <label for="XXX4" class="hidden"></label>
+          <input id="XXX4" name="XXX4" type="text" class="form-control" maxlength="100" placeholder="{{'REGION' | translate}}" data-ng-model="company['address_region_' + addressActive]">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-6 col-md-2">
+          <label for="XXX7" class="hidden"></label>
+          <input id="XXX7" name="XXX7" type="text" class="form-control" maxlength="20" placeholder="{{'ZIP' | translate}}" data-ng-model="company['address_zip_' + addressActive]">
+        </div>
+        <div class="col-xs-6 col-md-2">
+          <data-angucomplete id="XXX8" placeholder="{{'COUNTRY' | translate}}" data-pause="0" data-model="company['address_country_1']" data-drop-down="localDataCountries" data-selected-object-id="id" data-local-data="localDataCountries" data-search-fields="name" data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="false" data-search-str="addressCountry1" data-ng-if="addressActive === 1">
+          </data-angucomplete>
+          <data-angucomplete id="XXX82" placeholder="{{'COUNTRY' | translate}}" data-pause="0" data-model="company['address_country_2']" data-drop-down="localDataCountries" data-selected-object-id="id" data-local-data="localDataCountries" data-search-fields="name" data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="false" data-search-str="addressCountry2" data-ng-if="addressActive === 2">
+          </data-angucomplete>
+          <data-angucomplete id="XXX83" placeholder="{{'COUNTRY' | translate}}" data-pause="0" data-model="company['address_country_3']" data-drop-down="localDataCountries" data-selected-object-id="id" data-local-data="localDataCountries" data-search-fields="name" data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="false" data-search-str="addressCountry3" data-ng-if="addressActive === 3">
+          </data-angucomplete>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <span>{{'PHONE' | translate}}</span>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group" data-ng-repeat="item in phone.items">
+        <div class="col-xs-12 col-md-2">
+          <label for="XXX19" class="sr-only"></label>
+
+          <div class="input-group">
+            <input id="XXX19" name="XXX19" type="text" class="form-control" maxlength="30" placeholder="{{'PHONE' | translate}}" data-ng-class="{invalid: !validatePhone(company['phone_' + item + '_' + addressActive])}" data-ng-model="company['phone_' + item + '_' + addressActive]">
+
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['phone_' + item + '_' + addressActive]}" data-ng-click="pageAncestor.openUrl(company['phone_' + item + '_' + addressActive], '_self', 'tel:')">{{'SEND_PHONE' | translate}}</a></li>
+                <li class="divider" data-ng-show="company['phone_' + item + '_' + addressActive]"></li>
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: phone.items.length === 3 || !company['phone_' + phone.items.length + '_' + addressActive]}" data-ng-click="addAbstractField(phone, 3, (phone.items.length < 3 && company['phone_' + phone.items.length + '_' + addressActive]))">{{'ADD_NEW_PHONE' | translate}}</a></li>
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['phone_' + item + '_' + addressActive]}" data-ng-click="deleteFieldWithTag(phone, 'phone', $index, company['phone_' + item + '_' + addressActive])">{{'DELETE_THIS_PHONE' | translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-2">
+          <input id="XXX99" name="XXX99" type="text" class="form-control" maxlength="100" placeholder="{{'PHONE_TAG' | translate}}" data-ng-model="company['phone_' + item + '_' + addressActive + '_tag']">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <span>{{'EMAIL' | translate}}</span>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group" data-ng-repeat="item in email.items">
+        <div class="col-xs-12 col-md-2">
+          <label for="XXX20" class="sr-only"></label>
+
+          <div class="input-group">
+            <input id="XXX20" name="XXX20" type="text" maxlength="100" placeholder="{{'EMAIL' | translate}}" class="form-control" data-ng-class="{invalid: !validateEmail(company['email_' + item + '_' + addressActive])}" data-ng-model="company['email_' + item + '_' + addressActive]">
+
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['email_' + item + '_' + addressActive]}" data-ng-click="pageAncestor.openUrl(company['email_' + item + '_' + addressActive], '_self', 'mailto:')">{{'SEND_EMAIL' | translate}}</a></li>
+                <li class="divider" data-ng-show="company['email_' + item + '_' + addressActive]"></li>
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: email.items.length === 3 || !company['email_' + email.items.length + '_' + addressActive]}" data-ng-click="addAbstractField(email, 3, (email.items.length < 3 && company['email_' + email.items.length + '_' + addressActive]))">{{'ADD_NEW_EMAIL' | translate}}</a></li>
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['email_' + item + '_' + addressActive]}" data-ng-click="deleteFieldWithTag(email, 'email', $index, company['email_' + item + '_' + addressActive])">{{'DELETE_THIS_EMAIL' | translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-2">
+          <input id="XXX9" name="XXX9" type="text" class="form-control" maxlength="100" placeholder="{{'EMAIL_TAG' | translate}}" data-ng-model="company['email_' + item + '_' + addressActive + '_tag']">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <span>{{'FAX' | translate}}</span>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group" data-ng-repeat="item in fax.items">
+        <div class="col-xs-12 col-md-2">
+          <label for="XXX10" class="sr-only"></label>
+
+          <div class="input-group">
+            <input id="XXX10" name="XXX10" type="text" class="form-control" maxlength="30" placeholder="{{'FAX' | translate}}" data-ng-class="{invalid: !validatePhone(company['fax_' + item + '_' + addressActive])}" data-ng-model="company['fax_' + item + '_' + addressActive]">
+
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['fax_' + item + '_' + addressActive]}">{{'SEND_FAX' | translate}}</a></li>
+                <li class="divider" data-ng-show="company['fax_' + item + '_' + addressActive]"></li>
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: fax.items.length === 2 || !company['fax_' + fax.items.length + '_' + addressActive]}" data-ng-click="addAbstractField(fax, 2, (fax.items.length < 2 && company['fax_' + fax.items.length + '_' + addressActive]))">{{'ADD_NEW_FAX' | translate}}</a></li>
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['fax_' + item + '_' + addressActive]}" data-ng-click="deleteFieldWithTag(fax, 'fax', $index, company['fax_' + item + '_' + addressActive])">{{'DELETE_THIS_FAX' | translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-2">
+          <input id="XXX100" name="XXX100" type="text" class="form-control" maxlength="100" placeholder="{{'FAX_TAG' | translate}}" data-ng-model="company['fax_' + item + '_' + addressActive + '_tag']">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-2">
+          <span>{{'WEB' | translate}}</span>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-2">
+          <label for="XXX21" class="sr-only"></label>
+
+          <div class="input-group">
+            <input id="XXX21" name="XXX21" type="text" class="form-control" maxlength="100" placeholder="{{'WEB' | translate}}" data-ng-model="company['website_' + addressActive]">
+
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['website_' + addressActive]}" data-ng-click="pageAncestor.openUrl(company['website_' + addressActive], '_blank')" target="_blank">{{'OPEN' | translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-2">
+          <label for="XXX22" class="hidden"></label>
+          <input id="XXX22" name="XXX22" type="text" class="form-control" maxlength="100" placeholder="{{'WEB_TAG' | translate}}" data-ng-model="company['website_' + addressActive + '_tag']">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <span>{{'SOCIAL' | translate}}</span>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default" data-ng-click="pageAncestor.openUrl(company['twitter_' + addressActive], '_blank')"><span>{{'TWITTER' | translate}}</span>
+              </button>
+            </div>
+            <label for="XXX12" class="hidden"></label>
+            <input id="XXX12" name="XXX12" type="text" maxlength="100" class="form-control" placeholder="{{'TWITTER' | translate}}" data-ng-model="company['twitter_' + addressActive]">
+
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['twitter_' + addressActive]}" data-ng-click="pageAncestor.openUrl(company['twitter_' + addressActive], '_blank')">{{'OPEN' |
+                  translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default" data-ng-click="pageAncestor.openUrl(company['facebook_' + addressActive], '_blank')"><span>{{'FACEBOOK' | translate}}</span>
+              </button>
+            </div>
+            <label for="XXX13" class="hidden"></label>
+            <input id="XXX13" name="XXX13" type="text" maxlength="100" class="form-control" placeholder="{{'FACEBOOK' | translate}}" data-ng-model="company['facebook_' + addressActive]">
+
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['facebook_' + addressActive]}" data-ng-click="pageAncestor.openUrl(company['facebook_' + addressActive], '_blank')">{{'OPEN' |
+                  translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <div class="form-group">
+        <div class="col-xs-12 col-md-4">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default" data-ng-click="pageAncestor.openUrl(company['google_' + addressActive], '_blank')"><span>{{'GOOGLE_PLUS' | translate}}</span>
+              </button>
+            </div>
+            <label for="XXX14" class="hidden"></label>
+            <input id="XXX14" name="XXX14" type="text" maxlength="100" class="form-control" placeholder="{{'GOOGLE_PLUS' | translate}}" data-ng-model="company['google_' + addressActive]">
+
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !company['google_' + addressActive]}" data-ng-click="pageAncestor.openUrl(company['google_' + addressActive], '_blank')">{{'OPEN' |
+                  translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="people" data-ng-show="pills[5].active">
+      <!-- --------------------------------------------------------------------------------------------------------------------- -->
+      <div data-ng-show="showPersonForm" class="animate-show">
+        <div class="form-group">
+          <div class="col-xs-2 col-sd-2 col-md-1 col-lg-1">
+            <label class="n-label-2">{{"FIRSTNAME" | translate}}</label>
+          </div>
+          <div class="col-xs-4 col-sd-4 col-md-3 col-lg-3">
+            <input type="text" class="form-control" data-ng-model="company.person.first_name" tabindex="1">
+          </div>
+          <div class="col-xs-2 col-sd-2 col-md-1 col-lg-1">
+            <label class="n-label-2">{{"BUSINESS_PHONE" | translate}}</label>
+          </div>
+          <div class="col-xs-4 col-sd-4 col-md-3 col-lg-3">
+            <input type="text" class="form-control" data-ng-model="company.person.business_phone" tabindex="5" data-ng-class="{invalid: !validatePhone(company.person.business_phone)}">
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-2 col-sd-2 col-md-1 col-lg-1">
+            <label class="n-label-2">{{"LASTNAME" | translate}}</label>
+          </div>
+          <div class="col-xs-4 col-sd-4 col-md-3 col-lg-3">
+            <input type="text" class="form-control" data-ng-model="company.person.last_name" tabindex="2">
+          </div>
+          <div class="col-xs-2 col-sd-2 col-md-1 col-lg-1">
+            <label class="n-label-2">{{"MOBILE_PHONE" | translate}}</label>
+          </div>
+          <div class="col-xs-4 col-sd-4 col-md-3 col-lg-3">
+            <input type="text" class="form-control" data-ng-model="company.person.mobile_phone" tabindex="6" data-ng-class="{invalid: !validatePhone(company.person.mobile_phone)}">
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-2 col-sd-2 col-md-1 col-lg-1">
+            <label class="n-label-2">{{"POSITION" | translate}}</label>
+          </div>
+          <div class="col-xs-4 col-sd-4 col-md-3 col-lg-3">
+            <!--<input type="text" class="form-control" data-ng-model="company.person.position">-->
+            <data-angucomplete id="PERSON_POSITION" placeholder="{{'POSITION' | translate}}" data-tabindex="3" data-pause="400" data-model="company.person.positionObj" data-input-all-data="true" data-selected-object-id="id" data-url="/api/positions/" data-search-fields="name" data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true" data-box-items="company.person.positionBox">
+            </data-angucomplete>
+          </div>
+          <div class="col-xs-2 col-sd-2 col-md-1 col-lg-1">
+            <label class="n-label-2">{{"EMAIL" | translate}}</label>
+          </div>
+          <div class="col-xs-4 col-sd-4 col-md-3 col-lg-3">
+            <input type="text" class="form-control" data-ng-model="company.person.email" tabindex="7" data-ng-class="{invalid: !validateEmail(company.person.email)}">
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-2 col-sd-2 col-md-1 col-lg-1">
+            <label class="n-label-2">{{"ROLE" | translate}}</label>
+          </div>
+          <div class="col-xs-4 col-sd-4 col-md-3 col-lg-3">
+            <!--<input type="text" class="form-control" data-ng-model="company.person.role">-->
+            <data-angucomplete id="PERSON_ROLE" placeholder="{{'ROLE' | translate}}" data-tabindex="4" data-pause="400" data-model="company.person.roleObj" data-input-all-data="true" data-selected-object-id="id" data-url="/api/roles/" data-search-fields="name" data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true" data-box-items="company.person.roleBox">
+            </data-angucomplete>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="n-ha-center n-action-buttons">
+          <button type="button" class="btn btn-primary" data-ng-click="insertPerson()" tabindex="8">{{"SAVE_PERSON" |
+            translate}}
+          </button>
+          <button type="button" class="btn btn-default" data-ng-click="clearPersonForm()">{{"CANCEL" | translate}}
+          </button>
+        </div>
+        <div>&nbsp;</div>
+      </div>
+
+      <div>
+        <div class="col-xs-6 col-md-3">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default active" data-ng-model="peoplePaging.dataLoaderParams.sortField" data-uib-btn-radio="'last_name'" data-ng-disabled="peoplePaging.infoPaging.inProcess">{{'NAME' | translate}}
+            </button>
+            <button type="button" class="btn btn-default" data-ng-model="peoplePaging.dataLoaderParams.sortField" data-uib-btn-radio="'role_id'" data-ng-disabled="peoplePaging.infoPaging.inProcess">{{'ROLE' | translate}}
+            </button>
+            <button type="button" class="btn btn-default" data-ng-model="peoplePaging.dataLoaderParams.sortField" data-uib-btn-radio="'position_id'" data-ng-disabled="peoplePaging.infoPaging.inProcess">{{'POSITION' | translate}}
+            </button>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-2">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up active" data-ng-model="peoplePaging.dataLoaderParams.sortDirection" data-uib-btn-radio="'asc'" data-ng-disabled="peoplePaging.infoPaging.inProcess"></button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down" data-ng-model="peoplePaging.dataLoaderParams.sortDirection" data-uib-btn-radio="'desc'" data-ng-disabled="peoplePaging.infoPaging.inProcess"></button>
+          </div>
+        </div>
+        <div class="col-xs-6 col-md-3">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default" data-ng-click="showPersonForm=true" data-ng-disabled="showPersonForm">
+                {{'ADD_PERSON' | translate}}
+            </button>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="javascript:void(0);" data-ng-click="revokePeople()" data-ng-class="{'disabled': !isSelectedPeople()}">{{'REVOKE_PERSON' | translate}}</a></li>
+                <!--<li><a href="javascript:void(0);">{{'ADD_TO_CAMPAIGN' | translate}}</a></li>
+                <li><a href="javascript:void(0);" data-ng-click="showPersonForm=true">{{'ADD_PERSON' | translate}}</a></li>-->
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div data-ng-if="company.id">
+          <div>
+            <div class="" data-ng-repeat="item in people">
+              <div class="col-xs-10 col-md-4 n-vpadding-05">
+                <div class="">
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <label for="XXX15" class="hidden"></label>
+                      <input id="XXX15" name="XXX15" type="checkbox" data-ng-model="selectedPeopleObj[item.id]" data-ng-true-value="true" data-ng-false-value="false">
+                    </div>
+                    <label for="XXX16" class="hidden"></label>
+                    <input id="XXX16" name="XXX16" type="text" class="form-control" data-ng-value="item.name">
+
+                    <div class="input-group-btn">
+                      <button type="button" class="btn btn-default dropdown-toggle n-transparent" data-toggle="dropdown">
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu n-dropdown-right" role="menu">
+                        <li data-ng-if="item.id"><a href="#/person/{{item.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                        <li data-ng-if="item.businessPhone"><a href="tel:{{item.businessPhone}}">{{'PHONE_CALL' |
+                          translate}}&nbsp;{{item.businessPhone}}</a></li>
+                        <li data-ng-if="item.assistantPhone"><a href="tel:{{item.assistantPhone}}">{{'PHONE_CALL' |
+                          translate}}&nbsp;{{item.assistantPhone}}</a></li>
+                        <li data-ng-if="item.homePhone"><a href="tel:{{item.homePhone}}">{{'PHONE_CALL' | translate}}&nbsp;{{item.homePhone}}</a>
+                        </li>
+                        <li data-ng-if="item.mobilePhone"><a href="tel:{{item.mobilePhone}}">{{'PHONE_CALL' |
+                          translate}}&nbsp;{{item.mobilePhone}}</a></li>
+                        <li data-ng-if="item.otherPhone"><a href="tel:{{item.otherPhone}}">{{'PHONE_CALL' | translate}}&nbsp;{{item.otherPhone}}</a>
+                        </li>
+                        <li data-ng-if="item.email"><a href="mailto:{{item.email}}">{{'SEND_EMAIL' | translate}}&nbsp;{{item.email}}</a>
+                        </li>
+                        <li data-ng-if="item.email2"><a href="mailto:{{item.email2}}">{{'SEND_EMAIL' | translate}}&nbsp;{{item.email2}}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-10 col-md-4 n-vpadding-1">
+                                <span>
+                                     {{item.role}}
+                                </span>
+              </div>
+              <div class="col-xs-10 col-md-4 n-vpadding-1">
+                                <span>
+                                    {{item.position}}
+                                </span>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="n-ha-center">
+            <data-pagination-notia data-load-data="peoplePaging.dataLoader" data-load-data-params="peoplePaging.dataLoaderParams" data-load-data-params-runtime="{id: company.id}" data-amount="10" data-list-data="people" data-button-all="false" data-info="peoplePaging.infoPaging"></data-pagination-notia>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div data-ng-show="pills[8].active">
+      <div class="n-tab-header">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <span class="h3">{{'OPPORTUNITIES' | translate}}</span>
+        </div>
+        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default active" data-ng-model="opportunitiesPaging.dataLoaderParams.sortField" data-uib-btn-radio="'created'" data-ng-disabled="opportunitiesPaging.infoPaging.inProcess">{{'AGE' | translate}}
+            </button>
+            <button type="button" class="btn btn-default" data-ng-model="opportunitiesPaging.dataLoaderParams.sortField" data-uib-btn-radio="'stage'" data-ng-disabled="opportunitiesPaging.infoPaging.inProcess">{{'PHASE' | translate}}
+            </button>
+            <button type="button" class="btn btn-default" data-ng-model="opportunitiesPaging.dataLoaderParams.sortField" data-uib-btn-radio="'chance'" data-ng-disabled="opportunitiesPaging.infoPaging.inProcess">{{'PROBABILITY' | translate}}
+            </button>
+            <button type="button" class="btn btn-default" data-ng-model="opportunitiesPaging.dataLoaderParams.sortField" data-uib-btn-radio="'price'" data-ng-disabled="opportunitiesPaging.infoPaging.inProcess">{{'PRICE' | translate}}
+            </button>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up active" data-ng-model="opportunitiesPaging.dataLoaderParams.sortDirection" data-uib-btn-radio="'asc'" data-ng-disabled="opportunitiesPaging.infoPaging.inProcess"></button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down" data-ng-model="opportunitiesPaging.dataLoaderParams.sortDirection" data-uib-btn-radio="'desc'" data-ng-disabled="opportunitiesPaging.infoPaging.inProcess"></button>
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+          <div class="form-group btn-group n-ha-left">
+            <button type="button" class="btn n-btn-4" data-ng-click="newOpportunity()">{{'NEW_OPPORTUNITY' |
+              translate}}
+            </button>
+<!--            <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+              <li><a href="#">{{'AAA' | translate}}</a></li>
+            </ul>-->
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div data-ng-if="company.id">
+        <div class="n-item-list">
+          <div data-ng-repeat="opportunity in opportunities">
+            <div data-ng-class="{'item-row item-row-even': $even,'item-row item-row-odd': $odd}">
+              <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                <span>
+                  <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                    <li role="presentation"><a role="menuitem" href="#{{pageAncestor.routes.OPPORTUNITY}}{{opportunity.id}}">{{'SHOW_DETAIL' |
+                      translate}}</a></li>
+                  </ul>
+                </span>
+              </div>
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                {{opportunity.subject}}
+              </div>
+              <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+                {{opportunity.created | date}}
+              </div>
+              <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 n-ha-left">
+                {{opportunity.stage}}
+              </div>
+              <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+                {{opportunity.chance}}
+                <span data-ng-if="opportunity.chance">%</span>
+              </div>
+              <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 n-ha-right">
+                {{opportunity.price | currency}}
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        <div class="n-ha-center">
+          <data-pagination-notia data-load-data="opportunitiesPaging.dataLoader" data-load-data-params="opportunitiesPaging.dataLoaderParams" data-load-data-params-runtime="{id: company.id}" data-amount="10" data-list-data="opportunities" data-button-all="false" data-info="opportunitiesPaging.infoPaging"></data-pagination-notia>
+        </div>
+      </div>
+    </div>
+
+    <div data-ng-show="pills[9].active">
+      <div class="n-tab-header">
+        <data-pills-notia data-items="pills" data-active="activePillsIndex"></data-pills-notia>
+      </div>
+      <div class="clearfix"></div>
+      <div class="container-fluid">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>{{'MONTH' | translate}}</th>
+              <th class="n-ha-right">2015</th>
+              <th class="n-ha-right">2014</th>
+              <th class="n-ha-right">2013</th>
+              <th class="n-ha-right">{{'BEFORE' | translate}}</th>
+              <th class="n-ha-right"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{'JANUARY' | translate}}</td>
+              <td class="n-ha-right">153<span class="n-cell-hint n-increase">+2</span></td>
+              <td class="n-ha-right">79<span class="n-cell-hint n-increase">+1</span></td>
+              <td class="n-ha-right">57<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">277</td>
+            </tr>
+            <tr>
+              <td>{{'FEBRUARY' | translate}}</td>
+              <td class="n-ha-right">105<span class="n-cell-hint n-increase">+5</span></td>
+              <td class="n-ha-right">78<span class="n-cell-hint n-increase">+11</span></td>
+              <td class="n-ha-right">70<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">230</td>
+            </tr>
+            <tr>
+              <td>{{'MARCH' | translate}}</td>
+              <td class="n-ha-right">156<span class="n-cell-hint n-increase">+5</span></td>
+              <td class="n-ha-right">72<span class="n-cell-hint n-increase">+2</span></td>
+              <td class="n-ha-right">51<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">- <span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">218</td>
+            </tr>
+            <tr>
+              <td>{{'APRIL' | translate}}</td>
+              <td class="n-ha-right">130<span class="n-cell-hint n-increase">+3</span></td>
+              <td class="n-ha-right">74<span class="n-cell-hint n-increase">+13</span></td>
+              <td class="n-ha-right">48<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">291</td>
+            </tr>
+            <tr>
+              <td>{{'MAY' | translate}}</td>
+              <td class="n-ha-right">124<span class="n-cell-hint n-increase">+2</span></td>
+              <td class="n-ha-right">71<span class="n-cell-hint n-decrease">-9</span></td>
+              <td class="n-ha-right">56 <span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">112</td>
+            </tr>
+            <tr>
+              <td>{{'JUNE' | translate}}</td>
+              <td class="n-ha-right">150<span class="n-cell-hint n-increase">+3</span></td>
+              <td class="n-ha-right">75<span class="n-cell-hint n-increase">+11</span></td>
+              <td class="n-ha-right">50<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">234</td>
+            </tr>
+            <tr>
+              <td>{{'JULY' | translate}}</td>
+              <td class="n-ha-right">162<span class="n-cell-hint n-increase">+0</span></td>
+              <td class="n-ha-right">62<span class="n-cell-hint n-increase">+1</span></td>
+              <td class="n-ha-right">51<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">196</td>
+            </tr>
+            <tr>
+              <td>{{'AUGUST' | translate}}</td>
+              <td class="n-ha-right">198<span class="n-cell-hint n-increase">+1</span></td>
+              <td class="n-ha-right">87<span class="n-cell-hint n-increase">+2</span></td>
+              <td class="n-ha-right">54<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">214</td>
+            </tr>
+            <tr>
+              <td>{{'SEPTEMBER' | translate}}</td>
+              <td class="n-ha-right">101<span class="n-cell-hint n-increase">+6</span></td>
+              <td class="n-ha-right">35<span class="n-cell-hint n-increase">+11</span></td>
+              <td class="n-ha-right">10<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">170</td>
+            </tr>
+            <tr>
+              <td>{{'OCTOBER' | translate}}</td>
+              <td class="n-ha-right">80<span class="n-cell-hint n-increase">+6</span></td>
+              <td class="n-ha-right">74<span class="n-cell-hint n-increase">+8</span></td>
+              <td class="n-ha-right">40<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">184</td>
+            </tr>
+            <tr>
+              <td>{{'NOVEMBER' | translate}}</td>
+              <td class="n-ha-right">100<span class="n-cell-hint n-increase">+3</span></td>
+              <td class="n-ha-right">65<span class="n-cell-hint n-increase">+6</span></td>
+              <td class="n-ha-right">18<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">211</td>
+            </tr>
+            <tr>
+              <td>{{'DECEMBER' | translate}}</td>
+              <td class="n-ha-right">350<span class="n-cell-hint n-increase">+1</span></td>
+              <td class="n-ha-right">74<span class="n-cell-hint n-increase">+11</span></td>
+              <td class="n-ha-right">14<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">-<span class="n-cell-hint"></span></td>
+              <td class="n-ha-right">260</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="intro" data-ng-show="pills[10].active">
+      <attachments data-table="attachmentsTable" data-table-id="company.id"></attachments>
+    </div>
+
+    <data-action-buttons buttons="actionButtons"></data-action-buttons>
+  </form>
+</div>

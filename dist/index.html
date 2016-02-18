@@ -1,0 +1,53 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" data-ng-app="crmPostgresWebApp"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" data-ng-app="crmPostgresWebApp"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" data-ng-app="crmPostgresWebApp"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" data-ng-app="crmPostgresWebApp"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title data-ng-bind-template="{{'APP_NAME' | translate}} - {{title | translate}} | {{'USER_TITLE' | translate}} : {{meta.title | translate}}">Deal in Teal</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.min.css">
+    <link rel="stylesheet" href="bower_components/textAngular/dist/textAngular.css">
+  <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="styles/ea775573.main.css"/>
+</head>
+<body data-ng-controller="MainCtrl">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<![endif]-->
+
+<header></header>
+
+<form name="login-form" id="login-form" method="POST" action="/api/pre_login.html" style="display: none">
+  <input name="username" id="login-login" type="text">
+  <input name="password" id="login-password" type="password">
+  <input name="pin" id="login-password2" type="text">
+</form>
+
+<!-- Add your site or application content here -->
+<div id="content" data-ng-view="" class="n-content"></div>
+
+<footer></footer>
+
+<script src="scripts/bb8ad438.plugins.js"></script>
+
+<script src="scripts/bbf4e559.modules.js"></script>
+
+<script src="scripts/cc0f28ff.scripts.js"></script>
+</body>
+</html>

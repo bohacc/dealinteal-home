@@ -1,0 +1,20 @@
+<div class="n-ha-center n-action-buttons">
+    <div data-ng-repeat="item in buttons">
+        <div class="" data-ng-if="item.dropDown">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-ng-class="{disabled: item.disabled}" name="{{item.name}}">
+                    {{item.name | translate}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li data-ng-repeat="sub in item.dropDown" data-ng-class="{disabled: sub.disabled()}" data-name="{{sub.name}}">
+                    <a href="javascript:void(0);" id="{{sub.name}}" data-ng-click="clickBtn(sub)">{{sub.name | translate}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="" data-ng-if="!item.dropDown">
+            <button type="button" class="btn btn-default" data-ng-click="clickBtn(item)" data-ng-class="{disabled: item.disabled()}" name="{{item.name}}">{{item.name | translate}}
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,409 @@
+<div class="container-fluid agenda">
+  <div class="n-module-header">
+    <!--for week-->
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" data-ng-if="!showAsList">
+      <span class="h1">{{'AGENDA' | translate}}</span>
+    </div>
+    <!--for list-->
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" data-ng-if="showAsList">
+      <span class="h3">{{'AGENDA' | translate}}</span>
+    </div>
+
+    <!--for week-->
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 n-ha-right" data-ng-if="!showAsList">
+      <div data-ng-if="!showAsList">
+        <button type="button" class="btn btn-default" data-ng-click="thisWeek()">{{'THIS_WEEK' | translate}}</button>
+        <button type="button" class="btn btn-default" data-ng-click="twoWeek()">{{'NEXT_WEEK' | translate}}</button>
+      </div>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 n-ha-right" data-ng-if="!showAsList">
+        <input class="form-control" type="text" id="XXX7" data-ng-show="false"
+               data-uib-datepicker-popup="{{format}}"
+               data-is-open="opened.weekDate"
+               data-min-date="minDate"
+               data-ng-model="agenda.weekSelectDate"
+               data-ng-change="recalculateWeekDateRange()"
+          />
+        <div class="btn-group" role="group" aria-label="nav">
+          <button type="button" class="btn btn-default" data-ng-click="dp.open('weekDate', 'XXX7')">
+            {{weekStartDate | date : 'd.M.'}}&nbsp;-&nbsp;{{weekEndDate | date : 'd.M.yyyy'}}
+          </button>
+          <button type="button" class="btn btn-default" data-ng-click="customWeek()">{{'GOTO' | translate}}</button>
+        </div>
+    </div>
+    <!--for list-->
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 n-ha-right">
+      <div data-ng-if="showAsList">
+        <button type="button" class="btn btn-default" data-ng-model="directionButton" data-uib-btn-radio="0" data-ng-click="setFilterRecent()">{{'RECENT' | translate}}</button>
+        <button type="button" class="btn btn-default" data-ng-model="directionButton" data-uib-btn-radio="1" data-ng-click="setFilterOncomming()">{{'ONCOMING' | translate}}</button>
+        <button type="button" class="btn btn-default active" data-ng-model="directionButton" data-uib-btn-radio="2" data-ng-click="setFilterAll()">{{'ALL' | translate}}</button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up"
+                  data-ng-model="dataLoaderParams.sortDirection"
+                  data-uib-btn-radio="'asc'"
+                  data-ng-disabled="infoPaging.inProcess"></button>
+          <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down"
+                  data-ng-model="dataLoaderParams.sortDirection"
+                  data-uib-btn-radio="'desc'"
+                  data-ng-disabled="infoPaging.inProcess"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 n-ha-right" data-ng-if="!showAsList">
+      <div class="btn-group" role="group" aria-label="nav">
+        <button type="button" class="btn btn-default" data-ng-click="prevWeek()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+        <button type="button" class="btn btn-default" data-ng-click="nextWeek()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+      </div>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 n-ha-right" data-ng-if="showAsList">  <!--data-ng-if="!showAsList"-->
+      <div class="btn-group" role="group" aria-label="nav">
+        <div class="dropdown">
+          <button class="btn dropdown-toggle n-btn-4" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            {{'ACTION' | translate}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">
+            <li><a href="javascript:void(0);" data-ng-click="newAppointment()">{{'NEW_APPOINTMENT' | translate}}</a></li>
+            <li><a href="javascript:void(0);" data-ng-click="newTask()">{{'NEW_TASK' | translate}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="n-module-header">
+    <!--for week-->
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" data-ng-if="!showAsList"></div>
+    <!--for list-->
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" data-ng-if="showAsList"></div>
+
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 n-ha-right">
+      <span class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" data-ng-model="show.myAgenda" data-ng-change="changeUserFilter()">
+        </span>
+        <input type="text" class="form-control" disabled value="{{'MY_AGENDA' | translate}}">
+      </span>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 n-ha-right">
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="checkbox" data-ng-model="show.teamAgenda" data-ng-change="changeUserFilter()">
+        </span>
+        <input type="text" class="form-control" disabled value="{{'TEAM_AGENDA' | translate}}" data-ng-model="selectedTeamUser.name">
+        <!--</span>-->
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li><a href="javascript:void(0);" data-ng-click="selectTeamUser(-1)">{{'TEAM_AGENDA' | translate}}</a></li>
+            <li class="divider"></li>
+            <li data-ng-repeat="user in usersWithoutOwner"><a href="javascript:void(0);" data-ng-click="selectTeamUser($index)">{{user.name}}</a></li>
+          </ul>
+        </span>
+      </div>
+    </div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 n-ha-right" data-ng-if="!showAsList">
+      <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" data-ng-click="collapseAll(true)"><span class="glyphicon glyphicon-zoom-in"></span></button>
+        <button type="button" class="btn btn-default" data-ng-click="collapseAll(false)"><span class="glyphicon glyphicon-zoom-out"></span></button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <div class="n-module-content">
+    <div class="day" data-ng-repeat="day in (showAsList ? list : weeks[startISODate].days)">
+    <div class="panel panel-default">
+      <div class="panel-heading n-pointer" >
+        <span class="relative-day">{{day.prefix | translate}}</span>
+        <span class="weekday">{{day.name | translate}}</span>
+        <span class="date">{{day.date | date}}</span>
+        <span class="n-action-buttons">
+          <span class="badge n-badge">{{getEventsForDay(day) || 0}}</span>
+          <span class="dropdown">
+            <button class="btn btn-default dropdown-toggle btn-small n-transparent" type="button" id="dropdownMenu0" data-toggle="dropdown" aria-expanded="true">
+              {{'ADD' | translate}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu0">
+              <li role="presentation" data-ng-repeat="item in actionsForDay">
+                <a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="dayAction(item, day)">{{item.name | translate}}</a>
+              </li>
+            </ul>
+          </span>
+          <button type="button" class="btn btn-default btn-small n-transparent " data-ng-click="setCollapse(day.date)">
+            <span class="glyphicon" data-ng-class="{'glyphicon-zoom-in': !collapseDays[day.date], 'glyphicon-zoom-out': collapseDays[day.date]}"></span>
+          </button>
+        </span>
+      </div>
+      <div class="panel-body n-vpadding-0" data-ng-class="{collapse: !collapseDays[day.date]}">
+        <div class="row" data-ng-repeat="type in day.dayEvents | filterOwner : {list: usersForFilter}">
+          <div data-ng-show="type.type === sortDayTypes[0]">
+              <div class="phone-call">
+                  <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                      <div>
+                          <span class="icon glyphicon glyphicon-earphone"></span>
+                          <span class="time">{{type.startTime | date: timeFormat || 'shortTime'}}</span>
+                          <span class="subject">{{type.subject}}</span>
+                          <span class="type">{{'PHONE_CALL_LOWER' | translate}}</span>
+                          <span class="location">{{type.place | translate | lowercase}}</span>
+                      </div>
+                      <div>
+                          <span class="space">&nbsp;</span>
+                          <span class="time">{{type.endTime | date: timeFormat || 'shortTime'}}</span>
+                <span class="person">
+                  <span data-ng-repeat="person in type.people track by $index"><span data-ng-show="$odd">,&nbsp;</span>{{person}}</span>
+                </span>
+                          <span class="company">{{type.companyName}}</span>
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+              <span class="dropdown">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-ng-href="#/appointment/{{type.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="copyToNew(type)">{{'COPY_TO_NEW' | translate}}</a></li>
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="delAppointment(type, day)">{{'DELETE' | translate}}</a></li>
+                </ul>
+              </span>
+                  </div>
+              </div>
+          </div>
+          <div data-ng-show="type.type === sortDayTypes[1]">
+              <div class="business-meeting">
+                  <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                      <div>
+                          <span class="icon glyphicon glyphicon-briefcase"></span>
+                          <span class="time">{{type.startTime | date: timeFormat || 'shortTime'}}</span>
+                          <span class="subject">{{type.subject}}</span>
+                          <span class="type">{{'BUSINESS_MEETING_LOWER' | translate}}</span>
+                          <span class="location">{{type.location}}</span>
+                      </div>
+                      <div>
+                          <span class="space">&nbsp;</span>
+                          <span class="time">{{type.endTime | date: timeFormat || 'shortTime'}}</span>
+                          <span class="company">{{type.companyName}}</span>
+                <span class="person">
+                  <span data-ng-repeat="person in type.people track by $index"><span data-ng-show="$odd">,&nbsp;</span>{{person}}</span>
+                </span>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+            <span class="dropdown">
+              <button type="button" class="btn btn-default btn-xs  row-button n-transparent" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-triangle-bottom"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li role="presentation"><a role="menuitem" tabindex="-1" data-ng-href="#/appointment/{{type.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="copyToNew(type)">{{'COPY_TO_NEW' | translate}}</a></li>
+                  <li class="divider"></li>
+                  <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="delAppointment(type, day)">{{'DELETE' | translate}}</a></li>
+              </ul>
+            </span>
+              </div>
+          </div>
+          <div data-ng-show="type.type === sortDayTypes[2]">
+              <div class="appointment">
+                  <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                      <div>
+                          <span class="icon glyphicon glyphicon-bookmark"></span>
+                          <span class="time">{{type.startTime | date: timeFormat || 'shortTime'}}</span>
+                          <span class="name">{{type.subject}}</span>
+                          <span class="type">{{'APPOINTMENT_LOWER' | translate}}</span>
+                          <span class="address">{{type.location}}</span>
+                      </div>
+                      <div>
+                          <span class="space">&nbsp;</span>
+                          <span class="time">{{type.endTime | date: timeFormat || 'shortTime'}}</span>
+                          <span class="company">{{type.companyName}}</span>
+                <span class="person">
+                  <span data-ng-repeat="person in type.people track by $index"><span data-ng-show="$odd">,&nbsp;</span>{{person}}</span>
+                </span>
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+              <span class="dropdown">
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-ng-href="#/appointment/{{type.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="copyToNew(type)">{{'COPY_TO_NEW' | translate}}</a></li>
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="delAppointment(type, day)">{{'DELETE' | translate}}</a></li>
+                </ul>
+              </span>
+                  </div>
+              </div>
+          </div>
+          <div data-ng-show="type.type === sortDayTypes[3]">
+              <div class="all-day-event">
+                  <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                      <div>
+                          <span class="icon glyphicon glyphicon-bookmark"></span>
+                          <span class="name">{{type.subject}}</span>
+                          <span class="type">{{'ALL_DAY_EVENT_LOWER' | translate}}</span>
+                          <span class="address">{{type.location}}</span>
+                      </div>
+                      <div>
+                          <span class="space">&nbsp;</span>
+                          <span class="company">{{type.companyName}}</span>
+                <span class="person">
+                  <span data-ng-repeat="person in type.people track by $index"><span data-ng-show="$odd">,&nbsp;</span>{{person}}</span>
+                </span>
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+              <span>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-ng-href="#/appointment/{{type.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="copyToNew(type)">{{'COPY_TO_NEW' | translate}}</a></li>
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="delAppointment(type, day)">{{'DELETE' | translate}}</a></li>
+                </ul>
+              </span>
+                  </div>
+              </div>
+          </div>
+          <div data-ng-show="type.type === sortDayTypes[4]">
+              <div class="task">
+                  <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                      <div>
+                          <span class="icon glyphicon glyphicon-tasks"></span>
+                          <span class="time">{{type.endTime | date: timeFormat || 'shortTime'}}</span>
+                          <span class="subject">{{type.subject}}</span>
+                          <span class="type">{{'TASK_LOWER' | translate}}</span>
+                          <span class="notes">{{'FROM_LOWER' | translate}} {{type.startTime | date}}</span>
+                      </div>
+                      <div>
+                          <span class="space">&nbsp;</span>
+                          <span class="time"></span>
+                          <span class="company">{{type.companyName}}</span>
+                          <span class="person">{{type.recipient}}</span>
+                      </div>
+                  </div>
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+              <span>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-ng-href="#/task/{{type.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="markAsDone(type, day)">{{'MARK_AS_DONE' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="copyToNew(type)">{{'COPY_TO_NEW' | translate}}</a></li>
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="delTask(type, day)">{{'DELETE' | translate}}</a></li>
+                </ul>
+              </span>
+                  </div>
+              </div>
+          </div>
+          <div data-ng-show="type.type === sortDayTypes[5]">
+              <div class="reminder">
+                  <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                      <span class="icon glyphicon glyphicon-flag"></span>
+                      <span class="time">{{type.startTime | date: timeFormat || 'shortTime'}}</span>
+                      <span class="subject">{{type.subject}}</span>
+                      <span class="type">{{'REMINDER_LOWER' | translate}}</span>
+                      <span class="person">{{type.recipient}}</span>
+                  </div>
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+              <span>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-ng-href="#/reminder/{{type.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="markAsDone(type, day)">{{'MARK_AS_DONE' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="copyToNew(type)">{{'COPY_TO_NEW' | translate}}</a></li>
+                    <li class="divider"></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="delReminder(type, day)">{{'DELETE' | translate}}</a></li>
+                </ul>
+              </span>
+                  </div>
+              </div>
+          </div>
+          <div data-ng-show="type.type === sortDayTypes[6]">
+              <div class="birthday">
+                  <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                      <span class="icon glyphicon glyphicon-gift"></span>
+                      <span class="name">{{type.recipient}}</span>
+                      <span class="business-title"></span>
+                      <span class="company">{{type.companyName}}</span>
+                      <span class="type">{{'BIRTHDAY' | translate | lowercase}}</span>
+                      <span class="count">{{type.birthdayCount}}</span>
+                      <span class="year">({{type.birthdayYear}})</span>
+                  </div>
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+              <span>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-ng-href="#/person/{{type.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="sendEmail(type.email)">{{'SEND_EMAIL' | translate}}</a></li>
+                </ul>
+              </span>
+                  </div>
+              </div>
+          </div>
+          <div data-ng-show="type.type === sortDayTypes[7]">
+              <div class="anniversary">
+                  <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                      <span class="icon glyphicon glyphicon-asterisk"></span>
+                      <span class="name">{{type.recipient}}</span>
+                      <span class="business-title">{{type.position | lowercase}}</span>
+                      <span class="company">{{type.companyName}}</span>
+                      <span class="type">{{type.subject}}</span>
+                      <span class="count">{{type.anniversaryCount}}</span>
+                      <span class="year">({{type.anniversaryYear}})</span>
+                  </div>
+                  <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-ha-right">
+              <span>
+                <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-triangle-bottom"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" data-ng-href="#/person/{{type.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="sendEmail(type.email)">{{'SEND_EMAIL' | translate}}</a></li>
+                </ul>
+              </span>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-footer" data-ng-if="!showAsList">
+    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10"></div>
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 n-ha-right">
+      <div class="btn-group" role="group" aria-label="nav">
+        <button type="button" class="btn btn-default" data-ng-click="prevWeek()"><span class="glyphicon glyphicon-chevron-left"></span></button>
+        <button type="button" class="btn btn-default" data-ng-click="nextWeek()"><span class="glyphicon glyphicon-chevron-right"></span></button>
+      </div>
+    </div>
+  </div>
+  <div class="n-ha-center" data-ng-if="showAsList">
+    <pagination-notia
+            data-ng-if="showAsList"
+            data-load-data="dataLoader"
+            data-load-data-params="dataLoaderParams"
+            data-amount="10"
+            data-list-data="list"
+            data-button-all="false"
+            data-info="infoPaging"
+            ></pagination-notia>
+  </div>
+</div>
+

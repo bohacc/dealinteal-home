@@ -1,0 +1,15 @@
+<div class="popover">
+  <div class="arrow"></div>
+  <!--<h3 class="popover-title" ng-bind="title" ng-show="title"></h3>-->
+  <div class="popover-content">
+    <div>{{mw[content].type | translate}}</div>
+    <div><strong>{{mw[content].title}}</strong></div>
+    <div>{{'START_TIME' | translate}}:<strong>{{mw[content].start._d | date : mw[content].dateFormat || 'shortDate'}}&nbsp;&nbsp;{{mw[content].start._d | date : mw[content].timeFormat || 'shortTime'}}</strong></div>
+    <div>{{'END_TIME' | translate}}:<strong>{{mw[content].end._d | date : mw[content].dateFormat || 'shortDate'}}&nbsp;&nbsp;{{mw[content].end._d | date : mw[content].timeFormat || 'shortTime'}}</strong></div>
+    <div>{{'COMPANY' | translate}}:<strong>{{mw[content].companyName}}</strong></div>
+    <div>{{'ATTENDEES' | translate}}:
+      <strong data-ng-repeat="item in mw[content].attendeesArray track by $index">{{item}}<span data-ng-if="$even && !$last">,&nbsp;</span></strong>
+    </div>
+    <div>{{'PLACE' | translate}}:<strong>{{mw[content].location}}</strong></div>
+  </div>
+</div>

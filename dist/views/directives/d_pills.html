@@ -1,0 +1,14 @@
+<ul class="nav nav-pills">
+  <li class="n-pills-name" data-ng-if="name">{{name}}</li>
+  <li data-ng-class="{dropdown: item.dropDown, active: active == $index}" data-ng-repeat="item in items" data-ng-if="!item.hide()">
+    <a data-ng-class="{'dropdown-toggle': item.dropDown}" data-toggle="dropdown" data-ng-click="setActive($index)" href="javascript:void(0);" data-ng-if="!item.disabled">
+      {{item.name | translate}}
+      <span class="badge" data-ng-if="item.count && (item.count()==0||item.count()>0)">{{item.count()}}</span>
+      <span class="caret" data-ng-if="item.dropDown"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu" data-ng-show="item.dropDown" data-ng-if="!item.disabled">
+      <li data-ng-repeat="sub in item.dropDown"><a href="javascript:void(0);">{{sub.name | translate}}</a></li>
+    </ul>
+    <a data-ng-if="item.disabled">{{item.name | translate}}</a>
+  </li>
+</ul>

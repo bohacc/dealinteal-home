@@ -1,0 +1,131 @@
+<div class="container-fluid opportunities">
+  <div class="">
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+      <span class="h1">{{'OPPORTUNITIES' | translate}}</span>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 n-ha-right">
+      <div class=" form-group btn-group">
+        <button type="button" class="btn btn-default glyphicon glyphicon glyphicon-list active"></button>
+        <button type="button" class="btn btn-default glyphicon glyphicon-road" data-ng-click="viewSalesPipeline()"></button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="hidden-xs col-sm-4 col-md-2 col-lg-2">
+      <form role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="{{'SEARCH_OPPORTUNITY' | translate}}"
+                 data-ng-model="searchStr"
+                 data-ng-keyup="setSearch($event)">
+        </div>
+      </form>
+    </div>
+    <div class="hidden-xs hidden-sm col-md-6 col-lg-5">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default"
+                data-ng-model="dataLoaderParams.sortField"
+                data-uib-btn-radio="'subject'"
+                data-ng-disabled="infoPaging.inProcess">{{'SUBJECT' | translate}}</button>
+        <button type="button" class="btn btn-default"
+                data-ng-model="dataLoaderParams.sortField"
+                data-uib-btn-radio="'price'"
+                data-ng-disabled="infoPaging.inProcess">{{'PRICE' | translate}}</button>
+        <button type="button" class="btn btn-default"
+                data-ng-model="dataLoaderParams.sortField"
+                data-uib-btn-radio="'chance'"
+                data-ng-disabled="infoPaging.inProcess">{{'PROBABILITY' | translate}}</button>
+        <button type="button" class="btn btn-default"
+                data-ng-model="dataLoaderParams.sortField"
+                data-uib-btn-radio="'companyName'"
+                data-ng-disabled="infoPaging.inProcess">{{'COMPANY' | translate}}</button>
+        <button type="button" class="btn btn-default"
+                data-ng-model="dataLoaderParams.sortField"
+                data-uib-btn-radio="'ownerName'"
+                data-ng-disabled="infoPaging.inProcess">{{'OWNER' | translate}}</button>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up active"
+                data-ng-model="dataLoaderParams.sortDirection"
+                data-uib-btn-radio="'asc'"
+                data-ng-disabled="infoPaging.inProcess"></button>
+        <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down"
+                data-ng-model="dataLoaderParams.sortDirection"
+                data-uib-btn-radio="'desc'"
+                data-ng-disabled="infoPaging.inProcess"></button>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2">
+      <div class="form-group btn-group n-ha-left">
+          <button type="button" class="btn n-btn-7">{{getType().NAME | translate}}</button>
+          <button type="button" class="btn dropdown-toggle n-btn-7" data-toggle="dropdown">
+              <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu pull-right">
+              <li data-ng-repeat="item in typesList | filterWithout: {ID: getType().ID}">
+                  <a href="javascript:void(0);" data-ng-click="dataLoaderParams.filter.type=item.ID">{{item.NAME | translate}}</a>
+                  <!--<a href="javascript:void(0);" data-ng-click="setFilter(item)">{{item.NAME | translate}}</a>-->
+              </li>
+          </ul>
+      </div>
+    </div>
+    <div class="col-xs-6 col-sm-4 col-md-2 col-lg-2 n-ha-right">
+      <div class="form-group btn-group n-ha-left">
+        <button type="button" class="btn n-btn-4" data-ng-click="newOpportunity()">{{'NEW_OPPORTUNITY' | translate}}</button>
+<!--        <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="#">{{'XXX' | translate}}</a></li>
+        </ul>-->
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+  </div>
+</div>
+
+<div class="container-fluid products">
+  <div data-ng-repeat="opportunity in opportunities">
+    <div data-ng-class="{'n-list-1': $even,'n-list-2': $odd}">
+      <div class="col-xs-6 col-sm-5 col-md-3 col-lg-3 n-vpadding-05" data-ng-class="{'n-list-1': $even,'n-list-2': $odd}">
+        <div class="input-group">
+          <input type="text" class="form-control n-input n-white" value="{{opportunity.subject}}" disabled>
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle n-white " data-toggle="dropdown">
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu n-dropdown-right" role="menu">
+                  <li><a href="#/opportunity/{{opportunity.id}}">{{'SHOW_DETAIL' | translate}}</a></li>
+                </ul>
+            </span>
+        </div>
+      </div>
+      <div class="col-xs-2 col-sm-3 col-md-1 col-lg-1 n-vpadding-1 n-ha-center">
+        <span>{{opportunity.price | currency}}</span>
+      </div>
+      <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 n-vpadding-1 n-ha-center">
+        -
+      </div>
+      <div class="col-xs-2 col-sm-3 col-md-1 col-lg-1 n-vpadding-1  n-ha-center">
+        <span>{{opportunity.chance}}</span>
+        <span data-ng-if="opportunity.chance">%</span>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 n-vpadding-1">
+        <span>{{opportunity.companyName}}</span>
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 n-vpadding-1">
+        <span>{{opportunity.ownerName}}</span>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<div class="n-ha-center">
+  <pagination-notia
+    load-data="dataLoader"
+    load-data-params="dataLoaderParams"
+    amount="10"
+    list-data="opportunities"
+    button-all="false"
+    info="infoPaging"
+  ></pagination-notia>
+</div>
+

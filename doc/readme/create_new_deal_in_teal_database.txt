@@ -1,0 +1,36 @@
+Zalozeni nove databaze v Deal in Teal
+Přihlásit se do pgAdmin III jako developer/developer (na windows nepoužívat SSH tunel v programu!!!)
+Vytvořit uživatele, který je následující v řadě dit_uxxx
+Nastavit heslo uživateli dit_uxxx
+Kliknout pravým tlačítkem na databáze, zvolit vlastníka jako vytvořeného uživatele
+Zvolit jako template databázi dit_install
+
+Připojit se do vytvořené databáze dit_uxxx:
+ALTER SCHEMA public OWNER TO dit_uxxx;
+REASSIGN OWNED BY dit_install TO dit_uxxx;
+
+Do databáze dit_logging, tabulky connections vložit záznam o uživateli:
+INSERT INTO connections(
+            connect_string, database_user, database_name, database_host,
+            database_port, description)
+    VALUES ('UZIVATEL','dit_uxxx','dit_dxxx','localhost','5432','POPIS_UZIVATELE');
+
+Uživatelé Postgres databáze vps.notia.cz
+developer/developer
+postgres/postgres
+notia_admin/notia_admin
+notia_user/notia_user
+notia_user_logging/notia_user_logging
+icinga/icinga
+dit_install/dit_install
+
+databáze
+dit_develop - developer@DEALINTEAL/developer/notia
+dit_d001 - michalis@NOTIA201/developer/notia201
+dit_d002 - mik@MIKTEST/developer/MIKTEST
+dit_d003 - developer@EXPENSA/developer/expensa
+dit_d004 - developer@X/developer/test
+
+nepoužité
+dit_d005 - developer@UZIVATEL/developer/uzivatel
+

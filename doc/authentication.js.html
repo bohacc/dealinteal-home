@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/controllers/authentication.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: lib/controllers/authentication.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*jslint node: true, unparam: true */
+'use strict';
+
+/**
+ * @file authentication
+ * @fileOverview __Server_REST_API_Authentication
+ */
+
+/**
+ * @namespace __Server_REST_API_Authentication
+ * @author Martin Boháč
+ */
+
+var crypto = require('crypto'),
+  Promise = require('promise'),
+  postgres = require('./api_pg'),
+  tools = require('./tools'),
+  connections = require('./connections'),
+  socketio = require('./socketio'),
+  constants = require('./constants');
+
+/**
+ }
+ * @memberof __Server_REST_API_Authentication
+ * @method
+ * @name signin
+ * @description application login user, create client token and save to DB
+ * @param credentials {Object} credentials object
+ * @param req {Object} request reference object
+ * @param res {Object} response reference object
+ * @returns Promise
+ */
+exports.signin = function (credentials, req, res) {
+  var encryptedPassword,
+    encrypted,
+    vals;
+  return new Promise(function (resolve, reject) {
+    if (credentials && credentials.userApp && credentials.passwordApp) {
+      encryptedPassword = crypto.createHmac('sha1', 'Notia.1*').update(credentials.passwordApp).digest('hex');
+      vals = [credentials.userApp, encryptedPassword];
+      // select with extra connect
+      postgres.select("SELECT '1' AS EXIST,CURRENT_USER FROM USERS_LOGIN WHERE LOGIN_NAME = $1 AND LOGIN_PASSWORD = $2", vals, req, credentials).then(
+        function (result) {
+          var obj = {success: tools.getSingleResult(result).exist === '1'};
+          if (obj.success) {
+            encrypted = crypto.createHmac('sha1', String(Math.round((new Date().valueOf() * Math.random())))).update(String(Math.round((new Date().valueOf() * Math.random())))).digest('hex');
+            tools.createCookie(res, 'auth_token', encrypted, true, true);
+            tools.createCookie(res, 'isLogged', 1, false, false);
+            obj.loginToken = encrypted;
+            // execute with extra connect
+            postgres.executeSQL(
+              req,
+              res,
+              "UPDATE USERS_LOGIN SET LOGIN_TOKEN = $1,LOGIN_TOKEN_EXPIRATION = CURRENT_TIMESTAMP + '0.5 hour' WHERE LOGIN_NAME = $2",
+              [encrypted, credentials.userApp],
+              credentials
+            ).then(
+              function () {
+                // put token to socket
+                socketio.putTokenToSessionSocket(encrypted, req.signedCookies['express.sid']);
+                obj.socketid = socketio.getSocket(encrypted).id;
+                resolve(obj);
+              }
+            );
+          } else {
+            reject('error - invalid login or password');
+          }
+        },
+        function () {
+          reject('error signin');
+        }
+      );
+    } else {
+      reject('error - credentials and connect string not found');
+    }
+  });
+};
+
+/**
+ * @memberof __Server_REST_API_Authentication
+ * @method
+ * @name logout
+ * @description application logout user, delete DB token and cookie token
+ * @param req {Object} request reference object
+ * @param res {Object} response reference object
+ * @returns void
+ */
+exports.logout = function (req, res) {
+  var obj = {logout: false},
+    loginToken = req.signedCookies.auth_token;
+  try {
+    tools.deleteCookie(res, 'auth_token');
+    tools.deleteCookie(res, 'isLogged');
+    obj.logout = true;
+    postgres.executeSQL(req, res, 'UPDATE USERS_LOGIN SET LOGIN_TOKEN_EXPIRATION = NULL,LOGIN_TOKEN = NULL WHERE LOGIN_TOKEN = $1', [loginToken]).then(
+      function () {
+        connections.removeConnection(req);
+        socketio.deleteSocketConnectionsToken(loginToken);
+        res.json(obj);
+      },
+      function (result) {
+        tools.sendResponseError(result, res);
+      }
+    );
+  } catch (e) {
+    res.json({logout: false});
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="__Server_Connections.html">__Server_Connections</a></li><li><a href="__Server_Constants.html">__Server_Constants</a></li><li><a href="__Server_Flow.html">__Server_Flow</a></li><li><a href="__Server_Messages.html">__Server_Messages</a></li><li><a href="__Server_MonitorDB.html">__Server_MonitorDB</a></li><li><a href="__Server_PDF.html">__Server_PDF</a></li><li><a href="__Server_PG_API.html">__Server_PG_API</a></li><li><a href="__Server_REST_API.html">__Server_REST_API</a></li><li><a href="__Server_REST_API_Appointment.html">__Server_REST_API_Appointment</a></li><li><a href="__Server_REST_API_Authentication.html">__Server_REST_API_Authentication</a></li><li><a href="__Server_REST_API_Companies.html">__Server_REST_API_Companies</a></li><li><a href="__Server_REST_API_Countries.html">__Server_REST_API_Countries</a></li><li><a href="__Server_REST_API_Logging.html">__Server_REST_API_Logging</a></li><li><a href="__Server_REST_API_People.html">__Server_REST_API_People</a></li><li><a href="__Server_REST_API_People_Companies.html">__Server_REST_API_People_Companies</a></li><li><a href="__Server_REST_API_Positions.html">__Server_REST_API_Positions</a></li><li><a href="__Server_REST_API_Reminders.html">__Server_REST_API_Reminders</a></li><li><a href="__Server_REST_API_Roles.html">__Server_REST_API_Roles</a></li><li><a href="__Server_REST_API_Sales_Pipeline.html">__Server_REST_API_Sales_Pipeline</a></li><li><a href="__Server_REST_API_Sales_Pipeline_Stages.html">__Server_REST_API_Sales_Pipeline_Stages</a></li><li><a href="__Server_REST_API_Tasks.html">__Server_REST_API_Tasks</a></li><li><a href="__Server_REST_API_TimeZones.html">__Server_REST_API_TimeZones</a></li><li><a href="__Server_REST_API_User.html">__Server_REST_API_User</a></li><li><a href="__Server_Socket.html">__Server_Socket</a></li><li><a href="__Server_Tools.html">__Server_Tools</a></li><li><a href="__Server_TOOLS_API_ExportsFactory.html">__Server_TOOLS_API_ExportsFactory</a></li><li><a href="actionButtons.html">actionButtons</a></li><li><a href="AgendaCtrl.html">AgendaCtrl</a></li><li><a href="alerts.html">alerts</a></li><li><a href="alertsModal.html">alertsModal</a></li><li><a href="AlertsService.html">AlertsService</a></li><li><a href="angucomplete.html">angucomplete</a></li><li><a href="AppointmentCtrl.html">AppointmentCtrl</a></li><li><a href="AppointmentService.html">AppointmentService</a></li><li><a href="CalendarCtrl.html">CalendarCtrl</a></li><li><a href="CompaniesCtrl.html">CompaniesCtrl</a></li><li><a href="CompaniesService.html">CompaniesService</a></li><li><a href="CompanyCtrl.html">CompanyCtrl</a></li><li><a href="CountriesService.html">CountriesService</a></li><li><a href="DatepickerFactory.html">DatepickerFactory</a></li><li><a href="datepickerNotia.html">datepickerNotia</a></li><li><a href="DateService.html">DateService</a></li><li><a href="header.html">header</a></li><li><a href="language.html">language</a></li><li><a href="LogData.html">LogData</a></li><li><a href="MainCtrl.html">MainCtrl</a></li><li><a href="MessengerService.html">MessengerService</a></li><li><a href="MetaService.html">MetaService</a></li><li><a href="PageAncestorService.html">PageAncestorService</a></li><li><a href="PeopleCtrl.html">PeopleCtrl</a></li><li><a href="PeopleService.html">PeopleService</a></li><li><a href="PersonCtrl.html">PersonCtrl</a></li><li><a href="pillsNotia.html">pillsNotia</a></li><li><a href="ratingNotia.html">ratingNotia</a></li><li><a href="ReminderCtrl.html">ReminderCtrl</a></li><li><a href="Reminders.html">Reminders</a></li><li><a href="ReminderService.html">ReminderService</a></li><li><a href="SalesPipelineCtrl.html">SalesPipelineCtrl</a></li><li><a href="SalesPipelineService.html">SalesPipelineService</a></li><li><a href="SalesPipelineStagesService.html">SalesPipelineStagesService</a></li><li><a href="SocketFactory.html">SocketFactory</a></li><li><a href="TestCtrl.html">TestCtrl</a></li><li><a href="TimeZonesService.html">TimeZonesService</a></li><li><a href="ToolsService.html">ToolsService</a></li><li><a href="UsersService.html">UsersService</a></li><li><a href="VyvojCtrl.html">VyvojCtrl</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Tue Jan 20 2015 15:55:58 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

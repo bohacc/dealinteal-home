@@ -1,0 +1,272 @@
+<div class="container-fluid opportunity">
+  <div class="n-module-header">
+    <div class="col-xs-6 col-sm-6 col-md-8 col-lg-8">
+      <span class="h1">{{'OPPORTUNITY' | translate}}</span>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 n-ha-right">
+      <div class="form-group btn-group n-ha-left" data-ng-show="opportunity.id">
+        <button type="button" class="btn n-btn-4" data-ng-click="newOpportunity()">{{'NEW_OPPORTUNITY' | translate}}</button>
+        <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="javascript:void(0);" data-ng-class="{disabled: !isOpen()}" data-ng-click="opportunitySuccess()">{{'OPPORTUNITY_DEAL_SUCCESS' | translate}}</a></li>
+          <li><a href="javascript:void(0);" data-ng-class="{disabled: !isOpen()}" data-ng-click="opportunityFailed()">{{'OPPORTUNITY_DEAL_FAILURE' | translate}}</a></li>
+          <li><a href="javascript:void(0);" data-ng-class="{disabled: isOpen()}" data-ng-click="opportunityOpenClosed()">{{'OPPORTUNITY_OPEN_CLOSED' | translate}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-content">
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX1" class="n-label-2">{{'SUBJECT' | translate}}</label>
+      </div>
+      <div class="col-md-5 col-lg-5">
+        <input id="XXX1" name="XXX1" type="text" class="form-control" data-ng-model="opportunity.subject" maxlength="100" tabindex="1">
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX2" class="n-label-2">{{'PHASE' | translate}}</label>
+      </div>
+      <div class="col-md-5 col-lg-5">
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX2" name="XXX2" type="text" class="form-control n-input n-transparent" placeholder="{{'PHASE' | translate}}" data-ng-model="opportunityTmp.tmpSalesPipelineStage" data-ng-disabled="true" data-ng-required="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-ng-disabled="salesPipelineStages.length===0" tabindex="5">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="sales in salesPipelineStages">
+                  <a href="javascript:void(0);" data-ng-click="setSalesPipelineStage($index)">{{sales.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <div class="form-group">
+          <label for="XXX3" class="n-label-2">{{'COMPANY' | translate}}</label>
+        </div>
+        <div class="form-group">
+          <label for="XXX4" class="n-label-2">{{'CONTACTS' | translate}}</label>
+        </div>
+      </div>
+      <div class="col-md-5 col-lg-5">
+        <div>
+            <data-angucomplete id="XXX3" name="XXX3" placeholder="{{'COMPANY' | translate}}" data-tabindex="2" data-pause="400" data-model="opportunityTmp.tmpCompanyName" data-input-all-data="true" data-selected-object-id="id" data-url="/api/companies/search/" data-search-fields="name" data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true" data-box-items="opportunity.company" data-label-name="COMPANY" data-label-class="sr-only" data-record-url="{{pageAncestor.routes.COMPANY}}">
+            </data-angucomplete>
+        </div>
+        <div>
+            <data-angucomplete id="XXX4" placeholder="{{'CONTACTS' | translate}}" data-tabindex="3" data-pause="400" data-model="opportunityTmp.tmpPerson" box-items="opportunity.person" data-selected-object-id="id" data-url="/api/people/all/search/" data-search-fields="name" data-title-field="name" data-input-class="" data-multiple="false" data-show-as-box="true" data-ng-show="true" data-label-name="CONTACTS" data-label-class="sr-only" data-input-all-data="true" data-record-url="{{pageAncestor.routes.PERSON}}">
+            </data-angucomplete>
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX5" class="n-label-2">{{'DESCRIPTION' | translate}}</label>
+      </div>
+      <div class="col-md-5 col-lg-5">
+        <textarea id="XXX5" class="form-control" data-ng-model="opportunity.description" maxlength="255" tabindex="6"></textarea>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX6" class="n-label-2">{{'CREATED' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <input id="XXX6" name="XXX6" type="text" class="form-control n-input" disabled="disabled" value="{{opportunity.created | date}}">
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX7" class="n-label-2">{{'CHANGE' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <input id="XXX7" name="XXX7" type="text" class="form-control n-input" disabled="disabled" value="{{opportunity.updated | date}}">
+      </div>
+      <div class="col-md-1 col-lg-1">
+        &nbsp;
+      </div>
+      <div class="col-md-5 col-lg-5">
+        <!--<input id="XXX8" name="XXX8" type="text" class="form-control">-->
+          <data-angucomplete id="XXX8" name="XXX8" placeholder="{{'TAG_DESCRIPTION' | translate}}" data-pause="0" data-box-items="opportunity.opportunityTags" data-model="opportunityTmp.SelectedOpportunityTag" data-selected-object-id="id" data-local-data="localDataTags" data-search-fields="name" data-title-field="name" data-input-class="" data-multiple="true" data-show-as-box="true" data-ng-show="true" data-input-all-data="true" data-label-name="TAG_DESCRIPTION" data-label-class="sr-only" data-tabindex="7">
+          </data-angucomplete>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX9" class="n-label-2">{{'REVENUE' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <input id="XXX9" name="XXX9" type="text" class="form-control n-input" value="{{opportunityTmp.totalPrice | number:2 }}" disabled="disabled">
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXY1" class="n-label-2">{{'PROBABILITY' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group">
+          <input type="text" class="form-control n-input n-ha-right" id="XXY1" data-ng-model="opportunityTmp.chance" disabled="disabled">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="4">
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right n-ha-right" role="menu">
+              <li data-ng-repeat="item in getProbabilities()">
+                  <a href="javascript:void(0);" data-ng-click="setProbability($index)">{{item}}{{probabilityChar}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX10" class="n-label-2">{{'OWNER' | translate}}</label>
+      </div>
+      <div class="col-md-5 col-lg-5">
+        <input id="XXX10" name="XXX10" type="text" class="form-control n-input" disabled="disabled" data-ng-model="opportunity.ownerName">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="form-group n-vpadding-1">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX12" class="n-label-2">{{'STATUS' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group">
+          <input type="text" class="form-control n-input n-ha-right" id="XXX12" value="{{statusName | translate}}" disabled="disabled">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="5">
+              <span class="caret"></span>
+            </button>
+            <!--<ul class="dropdown-menu dropdown-menu-right n-ha-right" role="menu">
+              <li>
+                <a href="javascript:void(0);">XXX</a>
+              </li>
+            </ul>-->
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX11" class="n-label-2">{{'CLOSED' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <input id="XXX11" name="XXX11" type="text" class="form-control n-input" value="{{opportunity.closingDate | date}}" disabled="disabled">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+  </div>
+  <div class="col-md-12 col-lg-12 n-subtabs">
+    <ul class="nav nav-tabs">
+      <li role="presentation" data-ng-class="{active: tabs[0]}">
+          <a href="javascript:void(0);" data-ng-click="setTabs(0)">{{'PRODUCTS_AND_SERVICES' | translate}}</a>
+      </li>
+      <li role="presentation" data-ng-class="{active: tabs[1]}">
+          <a href="javascript:void(0);" data-ng-click="setTabs(1)">{{'AGENDA' | translate}}</a>
+      </li>
+      <li role="presentation" data-ng-class="{active: tabs[2]}">
+          <a href="javascript:void(0);" data-ng-click="setTabs(2)">{{'LOG' | translate}}</a>
+      </li>
+      <li role="presentation" data-ng-class="{active: tabs[3]}">
+        <a href="javascript:void(0);" data-ng-click="setTabs(3)">{{'ATTACHMENTS' | translate}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <!--TAB 1 ITEMS-->
+  <div class="tab-1" data-ng-show="tabs[0]">
+    <div class="n-tab-header">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <span class="h3">{{'PRODUCTS_AND_SERVICES' | translate}}</span>
+      </div>
+      <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+        <div class="btn-group" data-ng-show="opportunityItems.length > 0">
+          <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up active" data-ng-model="dataLoaderParams.sortDirection" data-uib-btn-radio="'asc'" data-ng-disabled="infoPaging.inProcess"></button>
+          <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down" data-ng-model="dataLoaderParams.sortDirection" data-uib-btn-radio="'desc'" data-ng-disabled="infoPaging.inProcess"></button>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4 n-ha-right">
+        <div class="form-group btn-group n-ha-left">
+          <button type="button" class="btn n-btn-4" data-ng-click="addItem()" data-ng-disabled="showNewItem || !isEdit">{{'ADD_ITEM' | translate}}</button>
+<!--          <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span></button>
+          <ul class="dropdown-menu pull-right">
+            <li><a href="#">{{'AAA' | translate}}</a></li>
+          </ul>-->
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="new-item">
+
+      <!--new item form-->
+      <data-ng-include src="'views/i_opportunity_new_item_form.html'" data-ng-show="showNewItem"></data-ng-include>
+
+      <div class="n-item-list">
+        <div class="item-row" data-ng-class="{'item-row-odd': $odd, 'item-row-even': $even}" data-ng-repeat="item in opportunityItems track by $index">
+          <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+            <span>
+              <button type="button" class="btn btn-default btn-xs dropdown-toggle row-button n-transparent" data-toggle="dropdown">
+                <span class="glyphicon glyphicon-triangle-bottom"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                <li role="presentation">
+                  <a role="menuitem" href="javascript:void(0);" data-ng-click="editItem($index)">{{'EDIT_ITEM' | translate}}</a>
+                  <a role="menuitem" href="javascript:void(0);" data-ng-click="delItem($index)">{{'DELETE_ITEM' | translate}}</a>
+                </li>
+              </ul>
+            </span>
+          </div>
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            {{item.name}}
+          </div>
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 n-ha-right">
+            {{item.price | currency}}
+          </div>
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 n-ha-right">
+            {{item.amount | number:2}}&nbsp;{{item.unit}}
+          </div>
+          <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 n-ha-right">
+            {{(item.price * item.amount) | currency}}
+          </div>
+          <div class="clearfix"></div>
+          <!--new item form-->
+          <data-ng-include src="'views/i_opportunity_new_item_form.html'" data-ng-if="showItemIndex===$index"></data-ng-include>
+        </div>
+      </div>
+    </div>
+
+    <div class="n-ha-center">
+      <pagination-notia data-ng-show="opportunityItems.length > 0" data-load-data="dataLoader" data-load-data-params="dataLoaderParams" data-amount="10" data-list-data="opportunityItems" data-button-all="false" data-info="infoPaging" data-refresh="refreshItems" data-load-data-callback="itemsCallback"></pagination-notia>
+    </div>
+  </div>
+
+  <!--TAB 2 AGENDA-->
+  <div class="tab-2" data-ng-show="tabs[1]">
+    <data-ng-include src="'views/agenda.html'" data-ng-controller="AgendaCtrl" data-ng-init="showAsList=true; show.teamAgenda=true; dataLoaderParams.id=opportunity.id; loadDataForList=loadDataForAgendaList; agenda.dataForMenuActions=dataForAgenda"></data-ng-include>
+  </div>
+
+  <!--TAB 3 HISTORY-->
+  <div class="tab-3" data-ng-show="tabs[2]">
+    <div data-ng-repeat="item in history">{{item.date_event | date}}&nbsp;{{item.method}}&nbsp;{{item.user_login}}</div>
+  </div>
+
+  <!--TAB 4 AGENDA-->
+  <div class="tab-4" data-ng-show="tabs[3]">
+    <attachments data-table="attachmentsTable" data-table-id="opportunity.id"></attachments>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="n-module-footer">
+    <data-action-buttons buttons="actionButtons"></data-action-buttons>
+  </div>
+</div>

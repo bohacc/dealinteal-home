@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/controllers/flow-node.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: lib/controllers/flow-node.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*jslint node: true, unparam: true */
+
+/**
+ * @file api
+ * @fileOverview __Server_Flow
+ */
+
+/**
+ * @namespace __Server_Flow
+ * @author Martin Boháč
+ */
+
+var fs = require('fs'),
+  path = require('path'),
+  util = require('util'),
+  Stream = require('stream').Stream;
+
+module.exports = flow = function(temporaryFolder) {
+  var $ = this;
+  $.temporaryFolder = temporaryFolder;
+  $.maxFileSize = null;
+  $.fileParameterName = 'file';
+
+  try {
+    fs.mkdirSync($.temporaryFolder);
+  } catch (e) {}
+
+  function cleanIdentifier(identifier) {
+    return identifier.replace(/[^0-9A-Za-z_-]/g, '');
+  }
+
+  function getChunkFilename(chunkNumber, identifier) {
+    // Clean up the identifier
+    identifier = cleanIdentifier(identifier);
+    // What would the file name be?
+    return path.resolve($.temporaryFolder, './flow-' + identifier + '.' + chunkNumber);
+  }
+
+  function validateRequest(chunkNumber, chunkSize, totalSize, identifier, filename, fileSize) {
+    // Clean up the identifier
+    identifier = cleanIdentifier(identifier);
+
+    // Check if the request is sane
+    if (chunkNumber == 0 || chunkSize == 0 || totalSize == 0 || identifier.length == 0 || filename.length == 0) {
+      return 'non_flow_request';
+    }
+    var numberOfChunks = Math.max(Math.floor(totalSize / (chunkSize * 1.0)), 1);
+    if (chunkNumber > numberOfChunks) {
+      return 'invalid_flow_request1';
+    }
+
+    // Is the file too big?
+    if ($.maxFileSize && totalSize > $.maxFileSize) {
+      return 'invalid_flow_request2';
+    }
+
+    if (typeof(fileSize) != 'undefined') {
+      if (chunkNumber &lt; numberOfChunks && fileSize != chunkSize) {
+        // The chunk in the POST request isn't the correct size
+        return 'invalid_flow_request3';
+      }
+      if (numberOfChunks > 1 && chunkNumber == numberOfChunks && fileSize != ((totalSize % chunkSize) + chunkSize)) {
+        // The chunks in the POST is the last one, and the fil is not the correct size
+        return 'invalid_flow_request4';
+      }
+      if (numberOfChunks == 1 && fileSize != totalSize) {
+        // The file is only a single chunk, and the data size does not fit
+        return 'invalid_flow_request5';
+      }
+    }
+
+    return 'valid';
+  }
+
+  //'found', filename, original_filename, identifier
+  //'not_found', null, null, null
+  $.get = function(req, callback) {
+    var chunkNumber = req.param('flowChunkNumber', 0);
+    var chunkSize = req.param('flowChunkSize', 0);
+    var totalSize = req.param('flowTotalSize', 0);
+    var identifier = req.param('flowIdentifier', "");
+    var filename = req.param('flowFilename', "");
+
+    if (validateRequest(chunkNumber, chunkSize, totalSize, identifier, filename) == 'valid') {
+      var chunkFilename = getChunkFilename(chunkNumber, identifier);
+      fs.exists(chunkFilename, function(exists) {
+        if (exists) {
+          callback('found', chunkFilename, filename, identifier);
+        } else {
+          callback('not_found', null, null, null);
+        }
+      });
+    } else {
+      callback('not_found', null, null, null);
+    }
+  };
+
+  //'partly_done', filename, original_filename, identifier
+  //'done', filename, original_filename, identifier
+  //'invalid_flow_request', null, null, null
+  //'non_flow_request', null, null, null
+  $.post = function(req, callback) {
+
+    var fields = req.body;
+    var files = req.files;
+
+    var chunkNumber = fields['flowChunkNumber'];
+    var chunkSize = fields['flowChunkSize'];
+    var totalSize = fields['flowTotalSize'];
+    var identifier = cleanIdentifier(fields['flowIdentifier']);
+    var filename = fields['flowFilename'];
+
+    var original_filename = fields['flowIdentifier'];
+
+    if (!files[$.fileParameterName] || !files[$.fileParameterName].size) {
+      callback('invalid_flow_request', null, null, null);
+      return;
+    }
+    var validation = validateRequest(chunkNumber, chunkSize, totalSize, identifier, files[$.fileParameterName].size);
+    if (validation == 'valid') {
+      var chunkFilename = getChunkFilename(chunkNumber, identifier);
+
+      // Save the chunk (TODO: OVERWRITE)
+      fs.rename(files[$.fileParameterName].path, chunkFilename, function() {
+
+        // Do we have all the chunks?
+        var currentTestChunk = 1;
+        var numberOfChunks = Math.max(Math.floor(totalSize / (chunkSize * 1.0)), 1);
+        var testChunkExists = function() {
+          fs.exists(getChunkFilename(currentTestChunk, identifier), function(exists) {
+            if (exists) {
+              currentTestChunk++;
+              if (currentTestChunk > numberOfChunks) {
+                callback('done', filename, original_filename, identifier);
+              } else {
+                // Recursion
+                testChunkExists();
+              }
+            } else {
+              callback('partly_done', filename, original_filename, identifier);
+            }
+          });
+        };
+        testChunkExists();
+      });
+    } else {
+      callback(validation, filename, original_filename, identifier);
+    }
+  };
+
+  // Pipe chunks directly in to an existsing WritableStream
+  //   r.write(identifier, response);
+  //   r.write(identifier, response, {end:false});
+  //
+  //   var stream = fs.createWriteStream(filename);
+  //   r.write(identifier, stream);
+  //   stream.on('data', function(data){...});
+  //   stream.on('end', function(){...});
+  $.write = function(identifier, writableStream, options) {
+    options = options || {};
+    options.end = (typeof options['end'] == 'undefined' ? true : options['end']);
+
+    // Iterate over each chunk
+    var pipeChunk = function(number) {
+
+      var chunkFilename = getChunkFilename(number, identifier);
+      fs.exists(chunkFilename, function(exists) {
+
+        if (exists) {
+          // If the chunk with the current number exists,
+          // then create a ReadStream from the file
+          // and pipe it to the specified writableStream.
+          var sourceStream = fs.createReadStream(chunkFilename);
+          sourceStream.pipe(writableStream, {
+            end: false
+          });
+          sourceStream.on('end', function() {
+            // When the chunk is fully streamed,
+            // jump to the next one
+            pipeChunk(number + 1);
+          });
+        } else {
+          // When all the chunks have been piped, end the stream
+          if (options.end) writableStream.end();
+          if (options.onDone) options.onDone();
+        }
+      });
+    };
+    pipeChunk(1);
+  };
+
+  $.clean = function(identifier, options) {
+    options = options || {};
+
+    // Iterate over each chunk
+    var pipeChunkRm = function(number) {
+
+      var chunkFilename = getChunkFilename(number, identifier);
+
+      //console.log('removing pipeChunkRm ', number, 'chunkFilename', chunkFilename);
+      fs.exists(chunkFilename, function(exists) {
+        if (exists) {
+
+          console.log('exist removing ', chunkFilename);
+          fs.unlink(chunkFilename, function(err) {
+            if (options.onError) options.onError(err);
+          });
+
+          pipeChunkRm(number + 1);
+
+        } else {
+
+          if (options.onDone) options.onDone();
+
+        }
+      });
+    };
+    pipeChunkRm(1);
+  };
+
+  return $;
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="__Server_Connections.html">__Server_Connections</a></li><li><a href="__Server_Constants.html">__Server_Constants</a></li><li><a href="__Server_Flow.html">__Server_Flow</a></li><li><a href="__Server_Messages.html">__Server_Messages</a></li><li><a href="__Server_MonitorDB.html">__Server_MonitorDB</a></li><li><a href="__Server_PDF.html">__Server_PDF</a></li><li><a href="__Server_PG_API.html">__Server_PG_API</a></li><li><a href="__Server_REST_API.html">__Server_REST_API</a></li><li><a href="__Server_REST_API_Appointment.html">__Server_REST_API_Appointment</a></li><li><a href="__Server_REST_API_Authentication.html">__Server_REST_API_Authentication</a></li><li><a href="__Server_REST_API_Companies.html">__Server_REST_API_Companies</a></li><li><a href="__Server_REST_API_Countries.html">__Server_REST_API_Countries</a></li><li><a href="__Server_REST_API_Logging.html">__Server_REST_API_Logging</a></li><li><a href="__Server_REST_API_People.html">__Server_REST_API_People</a></li><li><a href="__Server_REST_API_People_Companies.html">__Server_REST_API_People_Companies</a></li><li><a href="__Server_REST_API_Positions.html">__Server_REST_API_Positions</a></li><li><a href="__Server_REST_API_Reminders.html">__Server_REST_API_Reminders</a></li><li><a href="__Server_REST_API_Roles.html">__Server_REST_API_Roles</a></li><li><a href="__Server_REST_API_Sales_Pipeline.html">__Server_REST_API_Sales_Pipeline</a></li><li><a href="__Server_REST_API_Sales_Pipeline_Stages.html">__Server_REST_API_Sales_Pipeline_Stages</a></li><li><a href="__Server_REST_API_Tasks.html">__Server_REST_API_Tasks</a></li><li><a href="__Server_REST_API_TimeZones.html">__Server_REST_API_TimeZones</a></li><li><a href="__Server_REST_API_User.html">__Server_REST_API_User</a></li><li><a href="__Server_Socket.html">__Server_Socket</a></li><li><a href="__Server_Tools.html">__Server_Tools</a></li><li><a href="__Server_TOOLS_API_ExportsFactory.html">__Server_TOOLS_API_ExportsFactory</a></li><li><a href="actionButtons.html">actionButtons</a></li><li><a href="AgendaCtrl.html">AgendaCtrl</a></li><li><a href="alerts.html">alerts</a></li><li><a href="alertsModal.html">alertsModal</a></li><li><a href="AlertsService.html">AlertsService</a></li><li><a href="angucomplete.html">angucomplete</a></li><li><a href="AppointmentCtrl.html">AppointmentCtrl</a></li><li><a href="AppointmentService.html">AppointmentService</a></li><li><a href="CalendarCtrl.html">CalendarCtrl</a></li><li><a href="CompaniesCtrl.html">CompaniesCtrl</a></li><li><a href="CompaniesService.html">CompaniesService</a></li><li><a href="CompanyCtrl.html">CompanyCtrl</a></li><li><a href="CountriesService.html">CountriesService</a></li><li><a href="DatepickerFactory.html">DatepickerFactory</a></li><li><a href="datepickerNotia.html">datepickerNotia</a></li><li><a href="DateService.html">DateService</a></li><li><a href="header.html">header</a></li><li><a href="language.html">language</a></li><li><a href="LogData.html">LogData</a></li><li><a href="MainCtrl.html">MainCtrl</a></li><li><a href="MessengerService.html">MessengerService</a></li><li><a href="MetaService.html">MetaService</a></li><li><a href="PageAncestorService.html">PageAncestorService</a></li><li><a href="PeopleCtrl.html">PeopleCtrl</a></li><li><a href="PeopleService.html">PeopleService</a></li><li><a href="PersonCtrl.html">PersonCtrl</a></li><li><a href="pillsNotia.html">pillsNotia</a></li><li><a href="ratingNotia.html">ratingNotia</a></li><li><a href="ReminderCtrl.html">ReminderCtrl</a></li><li><a href="Reminders.html">Reminders</a></li><li><a href="ReminderService.html">ReminderService</a></li><li><a href="SalesPipelineCtrl.html">SalesPipelineCtrl</a></li><li><a href="SalesPipelineService.html">SalesPipelineService</a></li><li><a href="SalesPipelineStagesService.html">SalesPipelineStagesService</a></li><li><a href="SocketFactory.html">SocketFactory</a></li><li><a href="TestCtrl.html">TestCtrl</a></li><li><a href="TimeZonesService.html">TimeZonesService</a></li><li><a href="ToolsService.html">ToolsService</a></li><li><a href="UsersService.html">UsersService</a></li><li><a href="VyvojCtrl.html">VyvojCtrl</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Tue Jan 20 2015 15:55:58 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

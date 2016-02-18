@@ -1,0 +1,7 @@
+<div class="alert-notia">
+    <div role="alert" class="alert alert-dismissible" data-ng-click="close($index)" data-ng-class="{'alert-info': item.type === 'INFO', 'alert-success': item.type === 'SUCCESS', 'alert-warning': item.type.indexOf('WARNING') > -1, 'alert-danger': item.type === 'ERROR'}" data-ng-repeat="item in alerts.items"> <!--style="margin-top: 60px;"-->
+        <button type="button" class="close" data-dismiss="alert" data-ng-click="close($index)"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <span data-ng-if="item.messages" data-ng-repeat="msg in item.messages">{{msg.prefix | translate}}{{msg.message | translate}}{{msg.message2 | translate}}{{msg.sufix | translate}}</span>
+        <span data-ng-if="item.message">{{item.prefix | translate}}{{item.message | translate}}{{item.message2 | translate}}{{item.sufix | translate}}</span>
+    </div>
+</div>

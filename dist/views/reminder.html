@@ -1,0 +1,126 @@
+<div class="container-fluid appointment">
+  <div class="">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <span class="h1">{{'REMINDER' | translate}}</span>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="">
+    <div class="form-group">
+      <label for="XXX1" class="sr-only">{{'REMIND_ME' | translate}}</label>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input type="radio" name="remindPerson" value="1" tabindex="1" data-ng-model="reminderTmp.remind" data-ng-click="setRecipient()">
+        </span>
+        <input id="XXX1" name="XXX1" type="text" class="form-control" placeholder="{{'REMIND_ME' | translate}}" tabindex="2" readonly="true" data-ng-model="reminderTmp.remindMeName" data-ng-disabled="reminderTmp.remind==2">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="XXX22" class="sr-only">{{'REMIND_PERSON' | translate}}</label>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <input id="XXX22" type="radio" name="remindPerson" value="2" tabindex="3" data-ng-model="reminderTmp.remind" data-ng-click="setRecipient()">
+        </span>
+        <!--<input id="XXX2" name="XXX2" type="text" class="form-control" placeholder="{{'REMIND_PERSON' | translate}}"
+               data-ng-model="reminderTmp.remindPersonName"
+               data-ng-disabled="reminderTmp.remind==1">-->
+        <data-angucomplete id="XXX2" placeholder="{{'REMIND_PERSON' | translate}}" data-pause="400" data-box-items="reminderTmp.remindBox" data-menu-left="true" data-model="reminderTmp.remindPersonNameModel" data-selected-object-id="id" data-url="/api/people/all/search/" data-search-fields="name" data-title-field="name" data-selected-field="name2" data-input-class="form-control" data-multiple="false" data-show-as-box="false" data-ng-show="true" data-input-all-data="true" data-label-name="REMIND_PERSON" data-label-class="sr-only" data-tabindex="4" data-search-str="reminderTmp.remindPersonName" data-disabled="reminderTmp.remind==1">
+        </data-angucomplete>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="">
+    <div class="form-group">
+      <label for="XXX3" class="sr-only">{{'WHAT_TO_REMIND' | translate}}</label>
+      <input id="XXX3" name="XXX3" type="text" class="form-control" data-ng-maxlength="100" placeholder="{{'WHAT_TO_REMIND' | translate}}" data-ng-model="reminder.subject">
+    </div>
+    <div class="form-group">
+      <div class="">
+        <label for="XXX4" class="sr-only">{{'NOTE' | translate}}</label>
+        <textarea id="XXX4" name="XXX4" class="form-control" placeholder="{{'NOTE' | translate}}" data-ng-model="reminder.note" data-ng-maxlength="2000" tabindex="3"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix" data-ng-if="reminder.id"></div>
+  <div class="" data-ng-if="reminderTmp.type.exist">
+    <div class="form-group">
+      <label for="XXX6" class="sr-only">{{'TASK' | translate}}</label>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">{{reminderTmp.type.name | translate}}</button>
+        </span>
+        <input id="XXX6" name="XXX6" type="text" class="form-control" placeholder="{{'SUBJECT_OF_TASK_OR_APPOINTMENT' | translate}}" readonly="true" data-ng-model="reminderTmp.type.subject">
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="">
+      <div class="col-xs-6 col-sm-6 form-group n-padding-left-0">
+        <label for="XXX7" class="sr-only">{{'AT' | translate}}</label>
+        <div class="input-group">
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="4">
+                {{'AT' | translate}}
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li data-ng-repeat="item in reminderTimes">
+                  <a href="javascript:void(0);" data-ng-click="setDate($index)">{{item.name | translate}}</a>
+                </li>
+              </ul>
+          </span>
+          <input type="text" id="XXX7" name="XXX7" class="form-control" tabindex="5" data-ng-class="{invalid: dp.invalidDate('XXX7')}" data-uib-datepicker-popup="{{format}}" data-ng-model="reminderTmp.originalDate" data-is-open="opened.originalDate" data-min-date="minDate">
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default" data-ng-click="dp.open('originalDate', 'XXX7')" tabindex="6">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-6 form-group n-padding-right-0">
+        <label for="XXX8" class="sr-only">{{'DATE' | translate}}</label>
+        <div class="input-group" id="groupTimepickerStart">
+          <input id="XXX8" name="XXX8" type="text" class="form-control" tabindex="7" data-ng-model="reminderTmp.originalTime" data-time-format="{{formatTime}}" data-model-time-format="{{formatTime}}" data-time-type="date" data-trigger="manual" data-html-true="true" data-bs-show="showTPstart" bs-timepicker="">
+          <span class="input-group-btn">
+            <button type="button" id="btTimeStart" class="btn btn-default" data-ng-click="showTPstart=!showTPstart" tabindex="8">
+              <span class="glyphicon glyphicon-time"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="">
+    <div class="form-group">
+      <label for="XXX9" class="sr-only">{{'REMIND_ONLINE_IN_APP' | translate}}</label>
+      <div class="input-group">
+          <span class="input-group-addon">
+            <input name="remindType" type="checkbox" tabindex="9" data-ng-model="reminder.in_app_rem" data-ng-true-value="1" data-ng-false-value="0">
+          </span>
+          <input id="XXX9" name="XXX9" type="text" class="form-control" placeholder="{{'REMIND_ONLINE_IN_APP' | translate}}" readonly="true">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="XXX10" class="sr-only">{{'VALUE' | translate}}</label>
+      <div class="input-group">
+          <span class="input-group-addon">
+            <input name="remindType" type="checkbox" tabindex="10" data-ng-model="reminder.email_rem" data-ng-true-value="1" data-ng-false-value="0">
+          </span>
+        <input data-ng-class="{invalid: !validateEmail(reminder.email)}" id="XXX10" name="XXX10" type="text" class="form-control" tabindex="12" placeholder="{{'VALUE' | translate}}" data-ng-model="reminder.email" data-ng-maxlength="100">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default dropdown-toggle" tabindex="13" data-toggle="dropdown" aria-expanded="false" data-ng-disabled="loginUserEmails.length==0">
+            {{'EMAIL' | translate}} <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li data-ng-repeat="item in loginUserEmails track by $index">
+              <a href="javascript:void(0);" data-ng-click="reminder.email=item">{{item}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <data-action-buttons buttons="actionButtons"></data-action-buttons>

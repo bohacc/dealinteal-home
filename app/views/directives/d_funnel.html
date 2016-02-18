@@ -1,0 +1,359 @@
+<html>
+  <head>
+    <style>
+      .funnel .corner {
+          width: 100%;
+          box-sizing:border-box;
+          height: 0px;          
+      }
+      .funnel .data {
+          width: 2em;          
+          padding: 0 1em;
+          overflow: hidden;  
+      }
+      .funnel .data .vertical {
+          /* writing-mode:tb-rl;*/
+          -webkit-transform:rotate(-90deg);
+          -moz-transform:rotate(-90deg);
+          -o-transform: rotate(-90deg);
+          -ms-transform:rotate(-90deg);
+          transform: rotate(-90deg);
+          white-space:nowrap;
+          display:block;
+          bottom:0;
+          width:30em;
+          height:30em;     
+      }
+      .n-ha-center {
+          text-align: center;         
+      }             
+       .funnel .stage1 {
+          float: left;
+          width: 2em;
+          margin: 0 2em 0 0;
+      }
+      .funnel .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage1 .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage1 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage1 .data {
+          background-color: #bcbbbc;
+          height: 30em;
+      }
+      .funnel .stage1 .data .vertical {
+          width: 30em;
+          height: 30em;     
+      }      
+      .funnel .stage2 {
+          float: left;
+          width: 2em;
+          margin: 1em 2em 1em 0;
+      }
+      .funnel .stage2 .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage2 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage2 .data {
+          background-color: #bcbbbc;
+          height: 28em;
+      }
+      .funnel .stage2 .data .vertical {
+          width: 28em;
+          height: 28em;     
+      }        
+      .funnel .stage3 {
+          float: left;
+          Width: 2em;
+          margin: 2em 2em 2em 0;
+      }
+      .funnel .stage3 .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage3 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage3 .data {
+          background-color: #bcbbbc;
+          height: 26em;
+      }
+      .funnel .stage3 .data .vertical {
+          width: 26em;
+          height: 26em;     
+      }  
+      .funnel .stage4 {
+          float: left;
+          Width: 2em;
+          margin: 3em 2em 3em 0;
+      }
+      .funnel .stage4 .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage4 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage4 .data {
+          background-color: #bcbbbc;
+          height: 24em;
+      }
+       .funnel .stage4 .data .vertical {
+          width: 24em;
+          height: 24em;     
+      }  
+      .funnel .stage5 {
+          float: left;
+          Width: 2em;
+          margin: 4em 2em 4em 0;
+      }
+      .funnel .stage5 .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage5 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage5 .data {
+          background-color: #bcbbbc;
+          height: 22em; 
+      }
+      .funnel .stage5 .data .vertical {
+          width: 22em;
+          height: 22em;     
+      }  
+      .funnel .stage6 {
+          float: left;
+          Width: 2em;
+          margin: 5em 2em 5em 0;
+      }
+      .funnel .stage6 .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage6 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage6 .data {
+          background-color: #bcbbbc;
+          height: 20em; 
+      }
+      .funnel .stage6 .data .vertical {
+          width: 20em;
+          height: 20em;     
+      }  
+      .funnel .stage7 {
+          float: left;
+          Width: 2em;
+          margin: 6em 2em 6em 0;
+      }
+      .funnel .stage7 .corner-top {
+          border-top: 1em solid transparent;    
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage7 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage7 .data {
+          background-color: #bcbbbc;
+          height: 18em;
+      }
+      .funnel .stage7 .data .vertical {
+          width: 18em;
+          height: 18em;     
+      }        
+      .funnel .stage8 {
+          float: left;
+          Width: 2em;
+          margin: 7em 2em 7em 0;
+      }
+      .funnel .stage8 .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage8 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage8 .data {
+          background-color: #bcbbbc;
+          height: 16em;
+      }
+      .funnel .stage8 .data .vertical {
+          width: 16em;
+          height: 16em;     
+      }        
+      .funnel .stage9 {
+          float: left;
+          Width: 2em;
+          margin: 8em 2em 8em 0;
+      }
+      .funnel .stage9 .corner-top {
+          border-top: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage9 .corner-bottom {
+          border-bottom: 1em solid transparent;
+          border-left: 4em solid #bcbbbc;
+      }
+      .funnel .stage9 .data {
+          background-color: #bcbbbc;
+          height: 14em;
+      }
+      .funnel .stage9 .data .vertical {
+          width: 14em;
+          height: 14em;     
+      }              
+    </style>
+  </head>
+  <body>
+    <div class="funnel">
+      <div class="stage1">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>
+      <div class="stage2">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>
+      <div class="stage3">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>
+      <div class="stage4">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>
+      <div class="stage5">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>
+      <div class="stage6">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>
+      <div class="stage7">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>
+      <div class="stage8">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>
+      <div class="stage9">
+        <div class="corner-top corner">
+          &nbsp;
+        </div>
+        <div class="data">
+          <div class=vertical>
+            <div class="n-ha-center">1.590.450 Kè</div>
+            <div class="n-ha-center">38</div>
+          </div>  
+        </div>
+        <div class="corner-bottom corner">
+          &nbsp;
+        </div>
+      </div>                                          
+    </div>  
+  </body>
+</html>

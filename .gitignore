@@ -1,0 +1,9 @@
+.tmp
+.sass-cache
+node_modules
+app/bower_components
+heroku
+public
+.idea
+
+npm-debug.log

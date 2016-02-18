@@ -1,0 +1,173 @@
+<div class="container-fluid pipeline-setup">
+    <div class="n-module-header">
+        <div class="col-xs-8 col-sm-8 col-md-10 col-lg-10">
+            <span class="h1">{{'PIPELINE_SETUP' | translate}}</span>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-2 col-lg-2">
+            <div class="form-group btn-group">
+                <button type="button" class="btn n-btn-4" data-ng-click="newStage()">{{'NEW_PIPELINE_PHASE' | translate}}</button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="n-module-content">
+        <div class="panel panel-default" data-ng-show="pipelines.activeStageIndex===-1">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <div class="col-xs-1 col-sd-1 col-md-1 col-lg-1">{{config.newStage.id}}</div>
+                    <div class="col-xs-8 col-sd-8 col-md-9 col-lg-9">{{config.newStage.name}}</div>
+                    <div class="col-xs-3 col-sd-3 col-md-2 col-lg-2 n-ha-right">
+                        <span>{{config.newStage.chance}}</span>
+                        <span data-ng-if="config.newStage.chance">%</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="col-xs-6 col-sd-4 col-md-3 col-lg-2">
+                    <div class="form-group">
+                        <label for="XXX1" class="n-label-2">{{'PIPELINE_PHASE_NAME' | translate}}</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-6 col-sd-4 col-md-3 col-lg-2">
+                    <div class="form-group">
+                        <input id="XXX1" name="XXX1" type="text" class="form-control n-input"
+                               data-ng-model="config.newStage.name"
+                               placeholder="{{'PIPELINE_PHASE_NAME' | translate}}">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-xs-6 col-sd-4 col-md-3 col-lg-2">
+                    <div class="form-group">
+                        <label for="XXX2" class="n-label-2">{{'DEFAULT_PROBABILITY' | translate}}</label>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-xs-6 col-sd-4 col-md-3 col-lg-2">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <!--<input id="XXX2" name="XXX2" type="number" class="form-control n-input"
+                                   data-ng-model="stages.newStage.chance"
+                                   placeholder="{{'PROBABILITY' | translate}}">-->
+                            <input data-format-number id="XXX2" name="XXX2" type="text" class="form-control n-ha-right"
+                                   data-ng-model="config.newStage.chance"
+                                   placeholder="{{'PROBABILITY' | translate}}">
+                            <span class="input-group-addon">%</span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+                <div>
+                    <data-action-buttons buttons="pipelines.actionButtons"></data-action-buttons>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="panel panel-default" data-ng-repeat="item in config.stages">
+            <div class="panel-heading" data-ng-click="openDetail($index)">
+                <div class="panel-title">
+                    <div class="col-xs-1 col-sd-1 col-md-1 col-lg-1">{{item.id}}</div>
+                    <div class="col-xs-8 col-sd-8 col-md-9 col-lg-9">{{item.name}}</div>
+                    <div class="col-xs-3 col-sd-3 col-md-2 col-lg-2 n-ha-right">
+                        <span>{{item.chance}}</span>
+                        <span data-ng-if="item.chance">%</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="panel-body" data-ng-show="pipelines.activeStageIndex===$index">
+                <div data-ng-hide="pipelines.showDeleteDialog">
+                  <div class="col-xs-6 col-sd-4 col-md-3 col-lg-2">
+                      <div class="form-group">
+                          <label for="XXX3" class="n-label-2">{{'PIPELINE_PHASE_NAME' | translate}}</label>
+                      </div>
+                      <div class="clearfix"></div>
+                  </div>
+                  <div class="col-xs-6 col-sd-4 col-md-3 col-lg-2">
+                      <div class="form-group">
+                          <input id="XXX3" name="XXX3" type="text" class="form-control n-input"
+                                 data-ng-model="item.name"
+                                 placeholder="{{'PIPELINE_PHASE_NAME' | translate}}">
+                      </div>
+                      <div class="clearfix"></div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-xs-6 col-sd-4 col-md-3 col-lg-2">
+                      <div class="form-group">
+                          <label for="XXX4" class="n-label-2">{{'DEFAULT_PROBABILITY' | translate}}</label>
+                      </div>
+                      <div class="clearfix"></div>
+                  </div>
+                  <div class="col-xs-6 col-sd-4 col-md-3 col-lg-2">
+                      <div class="form-group">
+                          <div class="input-group">
+                              <!--<input id="XXX4" name="XXX4" type="number" class="form-control n-input"
+                                     data-ng-model="item.chance"
+                                     placeholder="{{'PROBABILITY' | translate}}">-->
+                              <input data-format-number id="XXX4" name="XXX4" type="text" class="form-control n-ha-right"
+                                     data-ng-model="item.chance"
+                                     placeholder="{{'PROBABILITY' | translate}}">
+                              <span class="input-group-addon">%</span>
+                          </div>
+                      </div>
+                      <div class="clearfix"></div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div>
+                      <data-action-buttons buttons="pipelines.actionButtons"></data-action-buttons>
+                  </div>
+                </div>
+
+                <div class="container-fluid" data-ng-show="pipelines.showDeleteDialog">
+                  <div class="col-xs-12 col-sd-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                      <span>{{'REMOVE_PHASE' | translate}}</span>
+                      <span>{{item.id}}&nbsp;{{item.name}}</span>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-xs-12 col-sd-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                      <span>{{'AND_REPLACE_WITH_PHASE' | translate}}</span>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="col-xs-6 col-sd-4 col-md-4 col-lg-3">
+                    <div class="input-group">
+                      <input type="text" class="form-control" disabled="disabled" data-ng-model="pipelines.selectedStageForMove.name">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <li data-ng-repeat="stage in config.stages | filter: {id: '!'+item.id}">
+                            <a href="javascript:void(0);" data-ng-click="setStageForMove(stage)">{{stage.id}}&nbsp;{{stage.name}}</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="col-xs-6 col-sd-8 col-md-9 col-lg-10">
+                    <button type="button" class="btn btn-default" name="storno" data-ng-click="pipelines.showDeleteDialog=false">{{'STORNO' | translate}}</button>
+                    <button type="button" class="btn btn-default" name="delete" data-ng-click="deleteStage()">{{'DELETE' | translate}}</button>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+
+
+            </div>
+            <div class="clearfix"></div>
+
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>

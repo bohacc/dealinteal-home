@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app/scripts/services/contact.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: app/scripts/services/contact.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*jslint node: true */
+'use strict';
+
+/**
+ * @file Contact
+ * @fileOverview ContactFactory
+ */
+
+/**
+ * @namespace ContactFactory
+ * @author Martin Boháč
+ */
+
+angular.module('crmPostgresWebApp')
+  .factory('ContactFactory', function ($http, $q) {
+    // Service logic
+    // ...
+
+    // Public API here
+    return {
+      /**
+       * @memberof ContactFactory
+       * @method
+       * @name get
+       * @description get current Contact
+       * @param id {integer}
+       * @returns void
+       */
+      get: function (id) {
+        var deferred = $q.defer();
+        $http.get('/api/contact/' + id)
+          .success(function (data) {
+            var data_fmt = {
+              id: data.id,
+              title: decodeURIComponent(data.title || ''),
+              firstName: decodeURIComponent(data.first_name || ''),
+              middleName: decodeURIComponent(data.middle_name || ''),
+              lastName: decodeURIComponent(data.last_name || ''),
+              suffix: decodeURIComponent(data.suffix || ''),
+              nickname: decodeURIComponent(data.nickname || ''),
+              picture: decodeURIComponent(data.picture || ''),
+              managerName: decodeURIComponent(data.manager_name || ''),
+              assistantName: decodeURIComponent(data.assistant_name || ''),
+              spouse: decodeURIComponent(data.spouse || ''),
+              children: decodeURIComponent(data.children || ''),
+              birthday: decodeURIComponent(data.birthday || ''),
+              anniversary: decodeURIComponent(data.anniversary || ''),
+              anniversaryName: decodeURIComponent(data.anniversary_name || ''),
+              gender: decodeURIComponent(data.gender || ''),
+              hobbies: decodeURIComponent(data.hobbies || ''),
+              businessAddrName: decodeURIComponent(data.business_addr_name || ''),
+              businessAddrStreet: decodeURIComponent(data.business_addr_street || ''),
+              businessAddrCity: decodeURIComponent(data.business_addr_city || ''),
+              businessAddrZip: decodeURIComponent(data.business_addr_zip || ''),
+              businessAddrRegion: decodeURIComponent(data.business_addr_region || ''),
+              businessAddrCountry: decodeURIComponent(data.business_addr_country || ''),
+              homeAddrName: decodeURIComponent(data.home_addr_name || ''),
+              homeAddrStreet: decodeURIComponent(data.home_addr_street || ''),
+              homeAddrCity: decodeURIComponent(data.home_addr_city || ''),
+              homeAddrZip: decodeURIComponent(data.home_addr_zip || ''),
+              homeAddrRegion: decodeURIComponent(data.home_addr_region || ''),
+              homeAddrCountry: decodeURIComponent(data.home_addr_country || ''),
+              otherAddrName: decodeURIComponent(data.other_addr_name || ''),
+              otherAddrStreet: decodeURIComponent(data.other_addr_street || ''),
+              otherAddrCity: decodeURIComponent(data.other_addr_city || ''),
+              otherAddrZip: decodeURIComponent(data.other_addr_zip || ''),
+              otherAddrRegion: decodeURIComponent(data.other_addr_region || ''),
+              otherAddrCountry: decodeURIComponent(data.other_addr_country || ''),
+              email: decodeURIComponent(data.email || ''),
+              email2: decodeURIComponent(data.email2 || ''),
+              skype: decodeURIComponent(data.skype || ''),
+              other_im: decodeURIComponent(data.other_im || ''),
+              linkedin: decodeURIComponent(data.linkedin || ''),
+              twitter: decodeURIComponent(data.twitter || ''),
+              facebook: decodeURIComponent(data.facebook || ''),
+              businessPhone: decodeURIComponent(data.business_phone || ''),
+              assistantPhone: decodeURIComponent(data.assistant_phone || ''),
+              homePhone: decodeURIComponent(data.home_phone || ''),
+              mobilePhone: decodeURIComponent(data.mobile_phone || ''),
+              otherPhone: decodeURIComponent(data.other_phone || ''),
+              fax: decodeURIComponent(data.fax || ''),
+              teamMember: decodeURIComponent(data.team_member || ''),
+              private: decodeURIComponent(data.private || ''),
+              note: decodeURIComponent(data.note || ''),
+              noteAuthor: decodeURIComponent(data.note_author || ''),
+              noteDate: decodeURIComponent(data.note_date || ''),
+              // table COMPANY
+              companyName: decodeURIComponent(data.company_name || ''),
+              // table POSITIONS
+              position: decodeURIComponent(data.position || ''),
+              // table ROLES
+              role: decodeURIComponent(data.role || '')
+            };
+            deferred.resolve(data_fmt);
+          })
+          .error(function (data) {
+            deferred.reject(data);
+          });
+        return deferred.promise;
+      },
+
+      /**
+       * @memberof ContactFactory
+       * @method
+       * @name put
+       * @description put current Contact
+       * @param contact {object}
+       * @returns void
+       */
+      put: function (contact) {
+        var deferred = $q.defer(),
+          obj_send = {
+            title: encodeURIComponent(contact.title || ''),
+            firstName: encodeURIComponent(contact.firstName || ''),
+            middleName: encodeURIComponent(contact.middleName || ''),
+            lastName: encodeURIComponent(contact.lastName || ''),
+            suffix: encodeURIComponent(contact.suffix || ''),
+            nickname: encodeURIComponent(contact.nickname || ''),
+            email: encodeURIComponent(contact.email || ''),
+            mobilePhone: encodeURIComponent(contact.mobilePhone || ''),
+            businessPhone: encodeURIComponent(contact.businessPhone || ''),
+            homePhone: encodeURIComponent(contact.homePhone || ''),
+            assistantPhone: encodeURIComponent(contact.assistantPhone || ''),
+            otherPhone: encodeURIComponent(contact.otherPhone || ''),
+            fax: encodeURIComponent(contact.fax || '')
+          };
+        $http.put('/api/contact/' + contact.id, obj_send)
+          .success(function (data) {
+            deferred.resolve(data);
+          })
+          .error(function (data) {
+            deferred.reject(data);
+          });
+        return deferred.promise;
+      },
+
+      /**
+       * @memberof ContactFactory
+       * @method
+       * @name post
+       * @description post current Contact
+       * @param contact {object}
+       * @returns void
+       */
+      post: function (contact) {
+        var deferred = $q.defer(),
+          obj_send = {
+            title: encodeURIComponent(contact.title),
+            firstName: encodeURIComponent(contact.firstName),
+            middleName: encodeURIComponent(contact.middleName),
+            lastName: encodeURIComponent(contact.lastName),
+            suffix: encodeURIComponent(contact.suffix),
+            nickname: encodeURIComponent(contact.nickname),
+            email: encodeURIComponent(contact.email),
+            mobilePhone: encodeURIComponent(contact.mobilePhone),
+            businessPhone: encodeURIComponent(contact.businessPhone),
+            homePhone: encodeURIComponent(contact.homePhone),
+            assistantPhone: encodeURIComponent(contact.assistantPhone),
+            otherPhone: encodeURIComponent(contact.otherPhone),
+            fax: encodeURIComponent(contact.fax),
+            role: encodeURIComponent(contact.role),
+            position: encodeURIComponent(contact.position)
+          };
+        $http.post('/api/contact', obj_send)
+          .success(function (data) {
+            deferred.resolve(data);
+          })
+          .error(function (data) {
+            deferred.reject(data);
+          });
+        return deferred.promise;
+      },
+
+      /**
+       * @memberof ContactFactory
+       * @method
+       * @name delete
+       * @description delete current Contact
+       * @param contact {object}
+       * @returns void
+       */
+      delete: function (contact) {
+        var deferred = $q.defer();
+        $http.delete('/api/contact/' + contact.id)
+          .success(function (data) {
+            deferred.resolve(data);
+          })
+          .error(function (data) {
+            deferred.reject(data);
+          });
+        return deferred.promise;
+      }
+    };
+  });
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="__Server_Flow.html">__Server_Flow</a></li><li><a href="__Server_PDF.html">__Server_PDF</a></li><li><a href="__Server_PG_API.html">__Server_PG_API</a></li><li><a href="__Server_REST_API.html">__Server_REST_API</a></li><li><a href="__Server_Tools.html">__Server_Tools</a></li><li><a href="alerts.html">alerts</a></li><li><a href="alertsModal.html">alertsModal</a></li><li><a href="AlertsService.html">AlertsService</a></li><li><a href="CompaniesCtrl.html">CompaniesCtrl</a></li><li><a href="CompaniesService.html">CompaniesService</a></li><li><a href="CompanyCtrl.html">CompanyCtrl</a></li><li><a href="ContactCtrl.html">ContactCtrl</a></li><li><a href="ContactFactory.html">ContactFactory</a></li><li><a href="ContactsCtrl.html">ContactsCtrl</a></li><li><a href="ContactsService.html">ContactsService</a></li><li><a href="CountriesService.html">CountriesService</a></li><li><a href="DateService.html">DateService</a></li><li><a href="header.html">header</a></li><li><a href="LogData.html">LogData</a></li><li><a href="MetaService.html">MetaService</a></li><li><a href="PageAncestorService.html">PageAncestorService</a></li><li><a href="pillsNotia.html">pillsNotia</a></li><li><a href="SalesPipelineCtrl.html">SalesPipelineCtrl</a></li><li><a href="SalesPipelineService.html">SalesPipelineService</a></li><li><a href="SalesPipelineStagesService.html">SalesPipelineStagesService</a></li><li><a href="TestCtrl.html">TestCtrl</a></li><li><a href="ToolsService.html">ToolsService</a></li><li><a href="UserFactory.html">UserFactory</a></li><li><a href="VyvojCtrl.html">VyvojCtrl</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Wed Sep 03 2014 10:31:55 GMT+0200 (CEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

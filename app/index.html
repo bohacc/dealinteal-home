@@ -1,0 +1,212 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" data-ng-app="crmPostgresWebApp"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" data-ng-app="crmPostgresWebApp"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" data-ng-app="crmPostgresWebApp"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" data-ng-app="crmPostgresWebApp"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title data-ng-bind-template="{{'APP_NAME' | translate}} - {{title | translate}} | {{'USER_TITLE' | translate}} : {{meta.title | translate}}">Deal in Teal</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" >
+
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.min.css">
+    <link rel='stylesheet' href="bower_components/textAngular/dist/textAngular.css">
+  <link rel='stylesheet' href="bower_components/components-font-awesome/css/font-awesome.css">
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+</head>
+<body data-ng-controller="MainCtrl">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<![endif]-->
+
+<header></header>
+
+<form name="login-form" id="login-form" method="POST" action="/api/pre_login.html" style="display: none;">
+  <input name="username" id="login-login" type="text">
+  <input name="password" id="login-password" type="password">
+  <input name="pin" id="login-password2" type="text">
+</form>
+
+<!-- Add your site or application content here -->
+<div id="content" data-ng-view class="n-content"></div>
+
+<footer></footer>
+
+<!-- build:js scripts/plugins.js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/Chart.js/src/Chart.Core.js"></script>
+<script src="bower_components/Chart.js/src/Chart.Doughnut.js"></script>
+<script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+
+<script src="bower_components/textAngular/dist/textAngular-rangy.min.js"></script>
+<script src="bower_components/textAngular/dist/textAngular-sanitize.min.js"></script>
+<script src="bower_components/textAngular/dist/textAngularSetup.js"></script>
+<script src="bower_components/textAngular/dist/textAngular.js"></script>
+
+<script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js"></script>
+<script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.js"></script>
+<script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
+<script type="text/javascript" src="bower_components/fullcalendar/dist/lang/cs.js"></script>
+<script type="text/javascript" src="bower_components/fullcalendar/dist/lang/sk.js"></script>
+<script type="text/javascript" src="bower_components/fullcalendar/dist/lang/en-gb.js"></script>
+
+<script src="bower_components/spin.js/spin.js"></script>
+<script src="bower_components/angular-spinner/angular-spinner.js"></script>
+<script src="bower_components/angular-translate/angular-translate.js"></script>
+<script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+<script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+
+<script src="bower_components/angular-strap/dist/modules/compiler.js"></script>
+<script src="bower_components/angular-strap/src/helpers/date-formatter.js"></script>
+<script src="bower_components/angular-strap/dist/modules/date-parser.js"></script>
+<script src="bower_components/angular-strap/dist/modules/dimensions.js"></script>
+<script src="bower_components/angular-strap/dist/modules/tooltip.js"></script>
+<script src="bower_components/angular-strap/dist/modules/tooltip.tpl.js"></script>
+<script src="bower_components/angular-strap/dist/modules/timepicker.js"></script>
+<script src="bower_components/angular-strap/dist/modules/timepicker.tpl.js"></script>
+<script src="bower_components/angular-strap/dist/modules/popover.js"></script>
+<script src="bower_components/angular-strap/dist/modules/popover.tpl.js"></script>
+
+<script src="bower_components/angular-socket-io/socket.js"></script>
+<script src="bower_components/socket.io-client/socket.io.js"></script>
+<script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/modules.js -->
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/main.js"></script>
+<script src="scripts/services/authentication.js"></script>
+<script src="scripts/controllers/home.js"></script>
+<script src="scripts/controllers/login.js"></script>
+<script src="scripts/directives/header.js"></script>
+<script src="scripts/directives/portlet_reservation_office.js"></script>
+<script src="scripts/directives/portlets.js"></script>
+<script src="scripts/services/tools.js"></script>
+<script src="scripts/controllers/opportunity.js"></script>
+<script src="scripts/services/users.js"></script>
+<script src="scripts/services/user_locale.js"></script>
+<script src="scripts/controllers/vyvoj.js"></script>
+<script src="scripts/controllers/people.js"></script>
+<script src="scripts/controllers/person.js"></script>
+<script src="scripts/services/admin.js"></script>
+<script src="scripts/services/people.js"></script>
+<script src="scripts/controllers/sales_pipeline.js"></script>
+<script src="scripts/controllers/tasks.js"></script>
+<script src="scripts/controllers/team.js"></script>
+<script src="scripts/controllers/config.js"></script>
+<script src="scripts/directives/pagination.js"></script>
+<script src="scripts/services/constants.js"></script>
+<script src="scripts/services/meta.js"></script>
+<script src="scripts/directives/footer.js"></script>
+<script src="scripts/controllers/test.js"></script>
+<script src="scripts/services/countries.js"></script>
+<script src="scripts/controllers/company.js"></script>
+<script src="scripts/services/log_data.js"></script>
+<script src="scripts/services/page_ancestor.js"></script>
+<script src="scripts/services/sales_pipeline_stages.js"></script>
+<script src="scripts/services/sales_pipeline.js"></script>
+<script src="scripts/services/companies.js"></script>
+<script src="scripts/controllers/companies.js"></script>
+<script src="scripts/services/date.js"></script>
+<script src="scripts/directives/pillsnotia.js"></script>
+<script src="scripts/services/alerts.js"></script>
+<script src="scripts/directives/alerts.js"></script>
+<script src="scripts/directives/alerts_modal.js"></script>
+<script src="scripts/directives/ratingnotia.js"></script>
+<script src="scripts/directives/angucomplete.js"></script>
+<script src="scripts/directives/action_buttons.js"></script>
+<script src="scripts/services/auth_http_response_interceptor.js"></script>
+<script src="scripts/services/language.js"></script>
+<script src="scripts/services/socketfactory.js"></script>
+<script src="scripts/controllers/appointment.js"></script>
+<script src="scripts/services/appointment.js"></script>
+<script src="scripts/services/timezones.js"></script>
+<script src="scripts/services/datepickerfactory.js"></script>
+<script src="scripts/controllers/reminder.js"></script>
+<script src="scripts/controllers/reminders.js"></script>
+<script src="scripts/services/messenger.js"></script>
+<script src="scripts/services/reminder.js"></script>
+<script src="scripts/controllers/calendar.js"></script>
+<script src="scripts/controllers/agenda.js"></script>
+<script src="scripts/services/agenda.js"></script>
+<script src="scripts/controllers/task.js"></script>
+<script src="scripts/controllers/sales_plan.js"></script>
+<script src="scripts/filters/filter_owner.js"></script>
+<script src="scripts/services/tasks.js"></script>
+<script src="scripts/controllers/appointments.js"></script>
+<script src="scripts/services/sales_plan.js"></script>
+<script src="scripts/controllers/our_company.js"></script>
+<script src="scripts/services/people_companies.js"></script>
+<script src="scripts/directives/format_currency.js"></script>
+<script src="scripts/directives/format_number.js"></script>
+<script src="scripts/controllers/products.js"></script>
+<script src="scripts/controllers/product.js"></script>
+<script src="scripts/controllers/project.js"></script>
+<script src="scripts/controllers/projects.js"></script>
+<script src="scripts/services/products.js"></script>
+<script src="scripts/services/projects.js"></script>
+<script src="scripts/services/currency.js"></script>
+<script src="scripts/controllers/search.js"></script>
+<script src="scripts/directives/textarea_calc.js"></script>
+<script src="scripts/controllers/opportunities.js"></script>
+<script src="scripts/services/units.js"></script>
+<script src="scripts/services/opportunities.js"></script>
+<script src="scripts/controllers/changelog.js"></script>
+<script src="scripts/controllers/changelogs.js"></script>
+<script src="scripts/services/changelogs.js"></script>
+<script src="scripts/services/files.js"></script>
+<script src="scripts/controllers/companies_import.js"></script>
+<script src="scripts/services/import_csv.js"></script>
+<script src="scripts/controllers/dashboard.js"></script>
+<script src="scripts/controllers/sales.js"></script>
+<script src="scripts/controllers/pipeline_setup.js"></script>
+<script src="scripts/directives/dashboard_tasks.js"></script>
+<script src="scripts/controllers/dashboard_tasks.js"></script>
+<script src="scripts/directives/dashboard_salesplan.js"></script>
+<script src="scripts/directives/dashboard_agenda.js"></script>
+<script src="scripts/directives/dashboard_activity.js"></script>
+<script src="scripts/directives/dashboard_anniversary.js"></script>
+<script src="scripts/directives/dashboard_goals.js"></script>
+<script src="scripts/directives/dashboard_pipeline.js"></script>
+<script src="scripts/directives/dashboard_calendar.js"></script>
+<script src="scripts/filters/filter_without.js"></script>
+<script src="scripts/controllers/dashboard_sales_plan.js"></script>
+<script src="scripts/controllers/dashboard_anniversary.js"></script>
+<script src="scripts/controllers/attachments.js"></script>
+<script src="scripts/services/attachments.js"></script>
+<script src="scripts/controllers/contract.js"></script>
+<script src="scripts/controllers/contracts.js"></script>
+<script src="scripts/directives/attachments.js"></script>
+<script src="scripts/directives/html_text_editor.js"></script>
+<script src="scripts/controllers/user.js"></script>
+<!-- endbuild -->
+</body>
+</html>

@@ -1,0 +1,9 @@
+<div class="n-pager">
+    <ul class="pager page_nav">
+        <li data-ng-class="{disabled: paging.page <= 1}"><a href="javascript:void(0);" data-ng-click="prior()">{{'PREVIOUS' | translate}}</a></li>
+        <!--<li data-ng-class="{disabled: paging.pageCount <= 1}"><a href="javascript:void(0)" ng-click="all()" ng-show="buttonAll">{{'ALL' | translate}}</a></li>-->
+        <li data-ng-class="{disabled: paging.pageCount <= paging.page}"><a href="javascript:void(0)" data-ng-click="next()">{{'NEXT' | translate}}</a></li>
+    </ul>
+    <div data-ng-hide="info.inProcessCount" class="page-count">{{paging.count === 0 ? 0 : (paging.page * paging.amount) - paging.amount + 1}} - {{paging.count === 0 ? 0 : (paging.pageCount === paging.page ? paging.count : paging.page * paging.amount)}} / {{paging.count | number}}</div>
+    <span data-ng-show="info.inProcessCount" data-us-spinner="{radius:3, width:1, length: 4,top: 'relative'}" data-spinner-key="spinner-paging" spinner-start-active="1"></span>
+</div>

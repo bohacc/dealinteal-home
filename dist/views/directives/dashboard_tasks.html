@@ -1,0 +1,59 @@
+<div class="panel n-panel-1 dashboard-tasks" id="dashboard-tasks">
+  <div class="panel-heading" data-ng-click="dashboardsToggle['tasks']=!dashboardsToggle['tasks']">
+    <div class="col-xs-3">
+      <h2 class="glyphicon glyphicon-tasks"></h2>
+    </div>
+    <div class="col-xs-9 text-right">
+      <div class="number">
+        <span>{{dashboard.count}}/{{dashboard.old.count}}</span>
+      </div>
+      <div class="text">
+        <span>{{'TASKS' | translate}}</span>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="panel-body" data-ng-show="dashboardsToggle['tasks']">
+    <div class="priority">
+      <div class="label label-danger">{{'BEFORE_AND_UNFULFILLED' | translate}}</div>
+      <div class="label-sep">&nbsp;</div>
+      <div data-ng-repeat="item in dashboard.old.records" class="item">
+        <a href="#/task/{{item.id}}">{{item.subject}}</a>
+      </div>
+      <div class="item" data-ng-show="dashboard.old.count>config.limit">
+        <a href="javascript:void(0);" data-ng-click="openTask(0)">{{'ALL' | translate}}({{dashboard.old.count}})</a>
+      </div>
+    </div>
+    <div class="priority">
+      <div class="label label-primary">{{'TODAY' | translate}}</div>
+      <div class="label-sep">&nbsp;</div>
+      <div data-ng-repeat="item in dashboard.today.records" class="item">
+        <a href="#/task/{{item.id}}">{{item.subject}}</a>
+      </div>
+      <div class="item" data-ng-show="dashboard.today.count>config.limit">
+        <a href="javascript:void(0);" data-ng-click="openTask(1)">{{'ALL' | translate}}({{dashboard.today.count}})</a>
+      </div>
+    </div>
+    <div class="priority">
+      <div class="label label-info">{{'TOMORROW' | translate}}</div>
+      <div class="label-sep">&nbsp;</div>
+      <div data-ng-repeat="item in dashboard.tomorrow.records" class="item">
+        <a href="#/task/{{item.id}}">{{item.subject}}</a>
+      </div>
+      <div class="item" data-ng-show="dashboard.tomorrow.count>config.limit">
+        <a href="javascript:void(0);" data-ng-click="openTask(2)">{{'ALL' | translate}}({{dashboard.tomorrow.count}})</a>
+      </div>
+    </div>
+    <div class="priority">
+      <div class="label label-default">{{'LATER' | translate}}</div>
+      <div class="label-sep">&nbsp;</div>
+      <div data-ng-repeat="item in dashboard.new.records" class="item">
+        <a href="#/task/{{item.id}}">{{item.subject}}</a>
+      </div>
+      <div class="item" data-ng-show="dashboard.new.count>config.limit">
+        <a href="javascript:void(0);" data-ng-click="openTask(3)">{{'ALL' | translate}}({{dashboard.new.count}})</a>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="panel-footer" data-ng-show="dashboardsToggle['tasks']"></div>-->
+</div>

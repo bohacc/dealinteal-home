@@ -1,0 +1,150 @@
+<div data-ng-if="errorInUploadProcess">{{'ERROR_IN_UPLOAD_PROCESS' | translate}}</div>
+<div data-ng-if="errorInImportProcess">{{'ERROR_IN_IMPORT_PROCESS' | translate}}</div>
+<div data-ng-if="errorInImportProcess">{{info.msg}}</div>
+<div>{{'IMPORT_COMPANIES_CSV_FILE_SIZE_LIMIT' | translate}}{{IMPORT_CSV_FILE_SIZE_LIMIT}}</div>
+<div data-ng-if="inProcess">{{'IMPORT_COMPANIES_IS_IN_PROCESS' | translate}}</div>
+{{importFile.name}}
+<button data-ngf-select="selectFile($file)" data-ng-disabled="inProcess">{{'SELECT_FILE' | translate}}</button>
+<div>{{'UPLOAD_FILE' | translate}}</div>
+<span class="progress" data-ng-show="importFile.progress >= 0">
+    <div style="background-color: #f99c19;width:{{importFile.progress}}%" data-ng-bind="importFile.progress + '%'"></div>
+</span>
+<div data-ng-if="uploadFileSuccess">{{'UPLOAD_FILE_SUCCESS' | translate}}</div>
+
+<div>{{'SERVER_IMPORT_FILE' | translate}}</div>
+<span class="progress" data-ng-show="info.readFile.process > 0">
+    {{info.readFile.step}} / {{info.count}}
+    <div style="background-color: #1abc9c;width:{{info.readFile.process}}%" data-ng-bind="info.readFile.process + '%'"></div>
+</span>
+<span class="progress" data-ng-show="info.process > 0">
+    {{info.step}} / {{info.count}}
+    <div style="background-color: #E671B8;width:{{info.process}}%" data-ng-bind="info.process + '%'"></div>
+</span>
+<div data-ng-if="importFileSuccess">{{'IMPORT_FILE_SUCCESS' | translate}}</div>
+<button data-ng-click="uploadFile()" data-ng-disabled="!importFile.name" data-ng-if="!inProcess">{{'UPLOAD_AND_REPLACE' | translate}}</button>
+<button data-ng-click="cancelUploadFile()" data-ng-if="inProcess">{{'CANCEL_UPLOAD' | translate}}</button>
+
+
+<div class="list-group">
+    <a href="" class="list-group-item active" data-toggle="collapse" data-ng-click="toggleStages[0]=!toggleStages[0]">
+        {{'IMPORT_CSV_ITEMS_WITHOUT_CONFLICT' | translate}}
+        <span class="pull-right glyphicon" data-ng-class="{'glyphicon-minus': toggleStages[0], 'glyphicon-plus': !toggleStages[0]}"></span>
+    </a>
+    <div class="list-group-item" data-ng-class-even="'n-list-1'" data-ng-class-odd="'n-list-2'" data-ng-repeat="row in list" data-ng-show="toggleStages[0]">
+        <div class="col-md-4 col-xs-12">
+            <div class="btn-group n-transparent">
+                <button type="button" class="btn btn-default">{{row.companyName}}</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li><a href="#/company/{{row.companyId}}">{{'OPEN_COMPANY' | translate}}</a></li>
+                        <li><a href="#/opportunity/{{row.id}}">{{'OPEN_OPPORTUNITY' | translate}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 visible-xs visible-sm">
+            <div>
+                <div class="pull-left">{{row.peoplename}}</div>
+                <div class="pull-right">&gt; 1 year</div>
+                <div class="clearfix"></div>
+            </div>
+            <div>
+                        <span class="pull-left">
+                             <span class="label label-danger">HOT</span>
+                        </span>
+                <span class="pull-right">{{row.price | currency}}</span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="col-md-6 hidden-xs hidden-sm">
+            <div class="">{{row.subject}}</div>
+            <div class="">{{row.peoplename}}</div>
+        </div>
+        <div class="col-md-2 hidden-xs hidden-sm">
+            <div>
+                <div class="pull-left">
+                    <span class="label label-danger">HOT</span>
+                </div>
+                <div class="pull-right">&gt; 1 year</div>
+            </div>
+            <div class="clearfix"></div>
+            <div>
+                <span class="pull-right">{{row.price | currency}}</span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="list-group-item n-list-2" data-ng-show="toggleStages[0]">
+        <pagination-notia load-data="dataLoader" load-data-params="dataLoaderParams" amount="rowsInStage" button-all="true" list-data="list" info="infoPaging"></pagination-notia>
+    </div>
+    <div class="list-group-item n-list-2">
+        <span class="badge pull-left">{{infoPaging.summary.count}}</span>
+        <span class="pull-right">{{infoPaging.summary.price | currency}}</span>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="list-group">
+    <a href="" class="list-group-item active" data-toggle="collapse" data-ng-click="toggleStages[1]=!toggleStages[1]">
+        {{'IMPORT_CSV_ITEMS_WITH_CONFLICT' | translate}}
+        <span class="pull-right glyphicon" data-ng-class="{'glyphicon-minus': toggleStages[1], 'glyphicon-plus': !toggleStages[1]}"></span>
+    </a>
+    <div class="list-group-item" data-ng-class-even="'n-list-1'" data-ng-class-odd="'n-list-2'" data-ng-repeat="row in list" data-ng-show="toggleStages[1]">
+        <div class="col-md-4 col-xs-12">
+            <div class="btn-group n-transparent">
+                <button type="button" class="btn btn-default">{{row.companyName}}</button>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li><a href="#/company/{{row.companyId}}">{{'OPEN_COMPANY' | translate}}</a></li>
+                        <li><a href="#/opportunity/{{row.id}}">{{'OPEN_OPPORTUNITY' | translate}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 visible-xs visible-sm">
+            <div>
+                <div class="pull-left">{{row.peoplename}}</div>
+                <div class="pull-right">&gt; 1 year</div>
+                <div class="clearfix"></div>
+            </div>
+            <div>
+                        <span class="pull-left">
+                             <span class="label label-danger">HOT</span>
+                        </span>
+                <span class="pull-right">{{row.price | currency}}</span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="col-md-6 hidden-xs hidden-sm">
+            <div class="">{{row.subject}}</div>
+            <div class="">{{row.peoplename}}</div>
+        </div>
+        <div class="col-md-2 hidden-xs hidden-sm">
+            <div>
+                <div class="pull-left">
+                    <span class="label label-danger">HOT</span>
+                </div>
+                <div class="pull-right">&gt; 1 year</div>
+            </div>
+            <div class="clearfix"></div>
+            <div>
+                <span class="pull-right">{{row.price | currency}}</span>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="list-group-item n-list-2" data-ng-show="toggleStages[1]">
+        <pagination-notia load-data="dataLoader" load-data-params="dataLoaderParams" amount="rowsInStage" button-all="true" list-data="list" info="infoPaging"></pagination-notia>
+    </div>
+    <div class="list-group-item n-list-2">
+        <span class="badge pull-left">{{infoPaging.summary.count}}</span>
+        <span class="pull-right">{{infoPaging.summary.price | currency}}</span>
+        <div class="clearfix"></div>
+    </div>
+</div>

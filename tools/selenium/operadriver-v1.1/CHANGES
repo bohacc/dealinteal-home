@@ -1,0 +1,2097 @@
+v1.1      (2012-10-09)
+
+  [API CHANGES]
+
+  * The capability opera.runner may now only be sent as a string.
+
+  [BUG FIXES]
+
+  * Enable the cookie manager service.  (andreastt)
+
+  * Fix for serialization problems of specifying the opera.runner
+    capability.  (andreastt)
+
+  * Fix for compile issues in ant build script.  (andreastt)
+
+
+v1.0      (2012-10-08)
+
+  [API CHANGES]
+
+  * ScreenCaptureReply has been renamed to ScreenCaptureReply.
+
+  * Introduced new capability, opera.runner, for specifying which
+    OperaRunner implementation to use.
+
+  * New capability, opera.emulationProfile, allows you to specify a
+    profile to use to emulate certain Opera Mobile configurations.
+
+  * Many internal classes have been renamed and moved around, but the
+    public implementations of WebDriver and WebElement should not be
+    affected.
+
+  [NEW FEATURES]
+
+  * OPDRV-223: Implement Opera Mobile emulation profiles.  (andreastt)
+
+  * In-process Java implementation of the OperaRunner interface.  It's
+    now possible to specify which runner to use by setting the
+    opera.runner capability to the full package path of the
+    implementing class, as such:
+
+      com.opera.core.systems.runner.inprocess.OperaInProcessRunner
+
+    (andreastt)
+
+  * OPDRV-225: Support for programmable soft keys.  OperaMobileKeys
+    implements SOFT_KEY_1 through 4 which can be used with #sendKeys()
+    for OperaMobileDriver.  (andreastt)
+
+  * Implement new selftest API.  (andre)
+
+  [ENHANCEMENTS]
+
+  * OPDRV-229: Refactor screen capture API and implement captures for
+    OperaInProcessRunner.  (andreastt)
+
+  * Generalize MD5 hashing functionality.  (andreastt)
+
+  [BUG FIXES]
+
+  * OperaDriver object is now cleaned up on the dereferencing of
+    itself.  (andreastt)
+
+  * Fix for warnings in OperaSettings.  (andreastt)
+
+  * Treat no value for a preference as null.  (danielb)
+
+  * Log finalized runner arguments when creating process.  (andreastt)
+
+  * Fix that Keys.RETURN was not recognized by Opera.  (andreastt)
+
+  * Don't set preferences on startup that are not recognized by Opera
+    Mobile.  (danielb)
+
+  * Null-pointer check for socketChannel in StpConnection.  (danielb)
+
+  * Extended wait time for mobile UI to become active (from 100 to 300
+    ms).  (danielb)
+
+  * Fix OperaArguments#remove().  The previous version suffered from
+    not implementing #equals() and #hashCode().  (danielb)
+
+  * On quitting Opera, make null-pointer check for whether exec has
+    been populated.  (andreastt)
+
+  * Fix Scope service version comparison.  (andreastt)
+
+  * Correct script retry code in ScopeEcmascriptDebugger.  (andreastt)
+
+  [TESTS]
+
+  * OPDRV-227: Allow parallelization of test suite.  The number of
+    parallel browsers can be specified using the parallelDrivers
+    system property when running against *Tests.java classes.
+    (andreastt)
+
+  * Tessts for Proxy interface integration to OperaSettings.
+    (andreastt)
+
+  * Split out parser tests for preferences from files to separate test
+    class, OperaFilePreferencesParserTest.  (andreastt)
+
+  * Moved in-test resources to separate files.  (danielb, andreastt)
+
+  * Tests for form submission.  (andreastt)
+
+  * HTTP authentication window tests for Mobile.  (andreastt)
+
+  * Clean up reset window state tests.  (andreastt)
+
+  * Change RequiresService annotation to use ScopeService enumeration
+    for services.  (andreastt)
+
+  * Fix key events for ExecKeyTest tests.  (andreastt)
+
+  * Page load is correctly only checked on input to an element now.
+    (andreastt)
+
+  * Fixes to OperaScopePreferencesTest.  (andreastt)
+
+  * Test setup now properly supports using OPERA_PATH to specify a
+    custom build to run the tests against.  (andreastt)
+
+  [OTHER]
+
+  * OPDRV-198: Major code cleanup and package renaming.  (andreastt)
+
+  * Upgraded to Guava 13.0.1.  (andreastt)
+
+
+v0.18     (2012-08-27)
+
+  [NEW FEATURES]
+
+  * Support for HTML5 forms interaction on modern Opera builds (not
+    released).  (andreastt)
+
+  [ENHANCEMENTS]
+
+  * Refactored typing code.  This should address issue with typing
+    when using OperaDriver as a remote driver.  (andreastt)
+
+  * Connection checks before calling eval() in most cases, also
+    removes runtime check for eval().  (andreastt)
+
+  [BUG FIXES]
+
+  * WebDriver PUA key mappings for PAGE_UP and PAGE_DOWN were wrongly
+    interpreted in OperaDriver.  They should now be recognized.
+    (andreastt)
+
+  * Fix disabling of -pd argument sent to Opera.  (andreastt)
+
+  * Disable preferences system on core mini profile.  (andreastt)
+
+  * Allow ES init of windows without runtimes, but instead throw on
+    eval().  (andreastt)
+
+  * Fix issue with subsequent OperaDriver#get() calls non script
+    injectable pages.  Requested URLs are now cached under these
+    circumstances.  (andreastt)
+
+  * Refactor OperaDriver#getCurrentUrl() for non script injectable
+    runtimes.  (andreastt)
+
+  * Always call OperaRunner#shutdown() on ScopeServices#quit() in case
+    of an exception.  (danielb)
+
+  * Ignore AsynchronousCloseExceptions which sometimes occur on
+    shutdown.  (andreastt)
+
+  * NPE check in EcmascriptService#findRuntime() in case XPath pointer
+    returns null.  This happens when the XPath matches no properties
+    in the graph, and is documented by the library.  (danielb)
+
+  * Workaround for -fullscreen argument must be sent last on Opera
+    Desktop on Mac.  (danielb, andreastt)
+
+  * Fix OperaProxy init for disconnected tests.  (andreastt)
+
+  [TESTS]
+
+  * Fix issue with disabling JavaScript injection in JavascriptTest.
+    (andreastt)
+
+  * Set default logging level in tests to Level.INFO.  (andreastt)
+
+  * Use Keyboard directly for DriverKeysTest.  (andreastt)
+
+  [OTHER]
+
+  * Update WebDriver atoms to latest Selenium HEAD.  (andreastt)
+
+  * Update Selenium dependencies to latest Selenium HEAD.  (andreastt)
+
+
+v0.17     (2012-08-21)
+
+  [API CHANGES]
+
+  * Implemented WebDriver's Logs interface.  Options#logs() will no
+    longer throw an UnsupportedOperationException.
+
+  * Introduced OperaLogType which lists the available logs you may
+    fetch from Opera through WebDriver's Logs API.  In addition to the
+    ones listed there, OperaDriver supports LogType.DRIVER.
+
+  [NEW FEATURES]
+
+  * Add Architecture utility to help smoothen over JDK
+    incompatibilities.
+
+  * Implement Scope console logger service, which allows fetching
+    different types of console logs through OperaDriver.  (andreastt)
+
+  [BUG FIXES]
+
+  * OperaSettings#setProfile("") now properly disabled -debugproxy.
+    (andreastt)
+
+  * Fix issue with element equality when using the OperaDriver as a
+    remote driver.  (andreastt)
+
+  * Fix possible exception recursion in OperaDriver#gc().  (andreastt,
+    virgild)
+
+  * Cover all cases of invalid service lists.  (andreastt)
+
+  * Allow ES init of windows without runtimes, but instead throw on
+    eval().
+
+    SDK has tests that disable scripting, therefore there will be no
+    runtime.  Instead of using the prefs API to check for
+    scriptability, we use findRuntime() because it should be faster.
+
+    (andreastt)
+
+  * Fall back to quit Opera with OperaRunner if all else fails during
+    quit.  (andreastt)
+
+  * Fix OperaDriver#getScreenshotAs() for non-HTML type documents.
+    (andreastt)
+
+  * Fix compile issues in Eclipse.  (danielb)
+
+  * Exclude SDK product from new window closing mechanism.
+    (andreastt)
+
+  * Handle preferences with backslashes in OperaFilePreferences.
+    (virgild)
+
+  * Mention which bundled launcher was not found.  (danielb)
+
+  * NPE check in EcmascriptService in findRuntime().  (danielb)
+
+  * Fixes for double-wrapped WebDriverExceptions in StpConnection.
+    (andreastt)
+
+  [TESTS]
+
+  * Fix exception message assertions for OperaSettingsIntegrationTest
+    and OperaLauncherRunnerTest.  (andreastt)
+
+  * Remove outdated tests from OperaSettingsCapabilitiesTest.
+    (andreastt)
+
+  * Fix double call to OperaRunner#stopOpera() without null pointer
+    check.  (andreastt)
+
+  [OTHER]
+
+  * Remove spammy log message called in a loop in OperaLauncherRunner.
+    (danielb)
+
+  * Set WINDOW_CLOSE_TIMEOUT to 500 ms.  (danielb)
+
+  * 32-bit GNU/Linux launchers are named "i386" now.  (andreastt)
+
+  * Update operalaunchers to 1.1.  (andreastt)
+
+  * Update Selenium to daily snapshot 2.25.0-20120817.  (andreastt)
+
+
+v0.16.1   (2012-08-09)
+
+  [BUG FIXES]
+
+  * Fix 32-bit bundled launcher issue with Oracle JDK and OpenJDK.
+
+    The property "sun.arch" returns different things based on whether
+    you're using Oracle's or the Open JDK.  On Oracle JDK it returns
+    "i386", whereas it returns "ia32" on OpenJDK.
+
+    This caused problems for anyone not using OpenJDK following the
+    03f9f2c27377b6b86a052fe56b859068c326f4b7 patch.  This will fix the
+    OperaDriver tests on Suace's and Google's infrastructure.
+
+    (andreastt)
+
+
+v0.16     (2012-08-02)
+
+  [API CHANGES]
+
+  * Introduced OperaMobileDriver class, exposing the following
+    additional APIs (inherits from OperaDriver):
+
+      - void rotate(ScreenOrientation orientation)
+      - ScreenOrientation getOrientation()
+      - TouchScreen getTouch()
+
+  * Several Opera specific features are now declared in role-based
+    interfaces, and the different products in OperaDriver implements
+    different sets of these interfaces.  This should help future
+    compatibility with the Selenium remote driver.  (andreastt)
+
+  * OperaProduct#toString() will now return an actual string
+    representation of the product, and not the identifier string.  To
+    get the identifier, please use
+    OperaProduct#getDescriptionString().
+
+  * OperaDriver#proxy() returns OperaProxy, which can be used to
+    manipulate the proxy configuration during runtime.  But please
+    prefer using org.openqa.selenium.Proxy as a capability instead.
+    (andreastt)
+
+  [NEW FEATURES]
+
+  * Support for Opera Mobile:
+
+    - Partial support for TouchScreen.  down(), up(), move(), scroll()
+      and flick() will currently throw UnsupportedOperationExceptions.
+
+    - Partial support for Rotatable.
+      OperaMobileDriver#rotate(orientation) will throw
+      UnsupportedOperationException.
+
+    (andreastt)
+
+  * Support for Selenium's Proxy configuration.  (mexicano, andreastt)
+
+  * Using precalculated MD5 sums for launchers.  (danielb)
+
+  [BUG FIXES]
+
+  * Fix OPERA_ARGS not being parsed always.  (andreastt)
+
+  * Fix OperaDriver#quit() to not hide any recursive exceptions,
+    especially dealing with garbage collection.
+
+    OperaDriver 0.15 may have left Opera instances running on the
+    system, and this patch should address that problem by more
+    reliably dealing with exceptions during shutdown.
+
+    (virgild, andreastt)
+
+  * Fix some cases of double-wrapped WebDriverExceptions.  (andreastt)
+
+  * Checks for connection and null pointers in OperaDriver#gc().
+    (virgild)
+
+  [TESTS]
+
+  * Adapt test framework to support OperaMobileDriver.  (andreastt)
+
+  * Run configuration for FindElementsTest.  (andreastt)
+
+  * Fix OperaFilePreferencesTest for Mobile and cache
+    product/platform.  (andreastt)
+
+  [OTHER]
+
+  * Updated the WebDriver atoms.  (andreastt)
+
+  * Fix static analysis exclusions.  (danielb)
+
+  * Updated Guava to 12.0.1.  (andreastt)
+
+  * Updated window-manager Scope protocol to version 2.3.  (andreastt)
+
+
+v0.15     (2012-07-23)
+
+  [API CHANGES]
+
+  * DSK-354630: Add QuickMenu#isVisible().  (mzajaczkowski)
+
+  * DSK-348592: Allowing retrieval of elements that contain format
+    identifiers.  (mzajaczkowski)
+
+  * Colours in OperaPreferences are now returned as strings instead of
+    instances of OperaColor.  (andreastt)
+
+  * OPDRV-188: Selftest API refactor.
+
+    OperaDriver#selftest() no longer accepts a list of modules.  It
+    now accepts exactly one module instead.  (andreastt)
+
+  * Added API for altering the selftest timeout:
+    OperaTimeouts#selftestTimeout().  (andreastt)
+
+  [NEW FEATURES]
+
+  * Add support for the ARM platform.  (farre)
+
+  [ENHANCEMENTS]
+
+  * Improving performance of the WM's window close code.  (andreastt)
+
+  * OPDRV-201: Improving performance of executable location algorithm.
+    (andreastt)
+
+  * Relying on Selenium's Color class to do colour conversions.
+    Thanks to Bob Silverberg.  (andreastt)
+
+  * OPDRV-195: Converting OperaIntervals to use Duration, and renaming
+    OperaFlags to OperaDefaults.  (andreastt)
+
+  * Introduce a generic CallbackWait for use everywhere.  (andreastt)
+
+  * Rewrite binary lookup code.  (andreastt)
+
+  * Implemented launcher for ARM and changed naming scheme of
+    launchers.  (farre)
+
+  [BUG FIXES]
+
+  * Service version comparison based on actual available service
+    versions given by Opera.  (andreastt)
+
+  * OPDRV-185: Fixes fatal error when evaluating in a non-existent
+    runtime.  (andreastt)
+
+  * DSK-358129: Make sure JARs aren't put in a subdirectory in case
+    `git describe` returns a string with a slash.  (mzajaczkowski)
+
+  * DSK-354628: Fix profile handling in OperaDesktopDriver.
+    (mzajaczkowski)
+
+  * DSK-348590: Delay if two consequtive clicks are sent in a shorter
+    time period than the OS double-click timeout.  (mzajaczkowski)
+
+  * DSK-355527: Respecting opera.no_quit in OperaDesktopDriver.
+    (mzajaczkowski)
+
+  * DSK-355552: Consider all special characters in regular expression
+    for WatirUtils.  (mzajaczkowski)
+
+  * DSK-357520: Improve have_ui_string error handling.
+    (mzajaczkowski)
+
+  * DSK-346471: Items in folderdropdown in bookmark star dialogue
+    cannot be clicked on *nix.  (mzajaczkowski)
+
+  * DSK-346770: change_page_with_click method returns success if
+    dialogue page changed.  (mzajaczkowski)
+
+  * DSK-358152: Improve logging in problematic places for
+    OperaDesktopDriver.  (mzajaczkowski)
+
+  * DSK-360865: Create Scope services after starting Opera to prevent
+    crash in OperaDesktopDriver.  (mzajaczkowski)
+
+  * DSK-360264: Fixes issue with clicking checkboxes in some
+    dialogues.  (mzajaczkowski)
+
+  * Only quit Opera if told not to detach the process.  (andreastt)
+
+  * Handle + (plus) and - (dash) when parsing command-line arguments.
+    (danielb)
+
+  * Don't modify the logging level in AbstractTestCase, let the
+    suppliers decide.  (andreastt)
+
+  * OPDRV-187: Restrict logging to com.opera.core.systems package.
+    (andreastt)
+
+  * Null pointer fix for OperaSettings#setBinary().  (danielb)
+
+  * OPDRV-190: Prevent excessive console logging.  (andreastt)
+
+  * Fix for equality bug in Canvas.  (andreastt)
+
+  * Only close a window if we are connected to Opera.  (andreastt)
+
+  * Some selftests can take up to 200s to finish, increased the
+    overall selftest timeout to 200 s.  (andreastt)
+
+  * Null pointer fix in EcmascriptService#setRuntime().  (danielb,
+    virgild)
+
+  * Opera SDK builds identify themselves as "devices", not "sdk".
+    (andreastt)
+
+  * Cleaned up retry and sleeps when failing to evaluate ECMAscript.
+    (danielb)
+
+  * Don't attempt to eval ECMAscript if script injection is not
+    available.  (danielb)
+
+  * Handle preferences with no values.  (danielb)
+
+  * Don't make launcher executable if it already is.  (virgild)
+
+  * Use java.io.File#setExecutable() to make files executable.
+    (virgild)
+
+  [TESTS]
+
+  * OPDRV-13: Tests for OperaDesktopDriver (mzajaczkowski, andreastt)
+
+  * Integration of OperaDesktopDriver as a natural part of the test
+    framework.  (andreastt)
+
+  * Added NeedsLocalEnvironment annotation for tests that needs to be
+    run locally.  (andreastt)
+
+  * Ensuring runner shutdown for OperaLauncherRunnerTest.  (andreastt)
+
+  * Add process manager to allow probing and force killing on
+    GNU/Linux and Windows.  (andreastt)
+
+  * Test for OPERA_PATH and for detaching browser correctly.
+    (andreastt)
+
+  [OTHER]
+
+  * Much, much cleaning.  (andreastt)
+
+  * Corrected documentation for OperaDefaults#APPEND_TO_LOGFILE.
+    (danielb)
+
+  * Updated Selenium dependency to 2.25.0.  (andreastt)
+
+  * OPDRV-191: Removing unused class ScopeActions.  (andreastt)
+
+  * OPDRV-193: Moving CaseInsensitiveStringSet to common.collect.
+    (andreastt)
+
+  * Updated URL of Sonar server.  (danielb)
+
+  * Upgraded opera-launchers dependency to 0.9.  (andreastt)
+
+
+v0.14     (2012-05-29)
+
+  [API CHANGES]
+
+  * Added OperaMouse#tripleClick() and #quadrupleClick() which are
+    recognized by Opera.  (andreastt)
+
+  * OperaUtils#getOS() renamed to #getPlatform(), and now returns type
+    Platform.  (andreastt)
+
+  * Introduced ScopeServices#isConnected() to check for a connection
+    to Opera.  (andreastt)
+
+  [NEW FEATURES]
+
+  * OPDRV-121: Implemented window-manager's CreateWindow command.
+    (andreastt)
+
+  [ENHANCEMENTS]
+
+  * OPDRV-179: Upgraded exec service to 2.2.  (andreastt)
+
+  * Upgraded window-manager service to 2.2.  (andreastt)
+
+  * OPDRV-127: Retreiving multi-click interval from awt.
+    (mzajaczkowski)
+
+  * Implemented Closeables.  (andreastt)
+
+  * Abstracted hardcoded timeout for launcher response timeout to
+    OperaIntervals.  (andreastt)
+
+  * Window closing code now respects that core-gogi and Desktop on
+    Windows has different concepts of what a window is.  We cache the
+    number of open windows before WebDriver#close() call because they
+    will auto-open new windows when the last one is closed.  If the
+    user tries to close the last window, we will quit the browser
+    according to the WebDriver spec.  (andreastt)
+
+  * Cleaned up driver quit code: Opera is first closed, runner forces
+    an Opera shutdown, shuts down itself, then services are shut down.
+    Finally the profile and log files are cleaned up (after browser is
+    shut down), and then a garbage collection occurs.  The `runner'
+    field is not nulled because the user might want to query whether
+    browser is running or not.  (andreastt)
+
+  * No longer wrapping exceptions from Scope in WebDriverException's
+    as this obfuscates the real intent and since WebDriverException is
+    a final exception it will print twice since we catch it in
+    OperaDriver#init().  (andreastt)
+
+  * Generalized the sleep time between a window close in
+    OperaIntervals#WINDOW_CLOSE_SLEEP.  (andreastt)
+
+  * Implemented OperaSettings#equals().
+
+  [BUG FIXES]
+
+  * Made default product DESKTOP, fixes issue with reusing old
+    profiles.  (andreastt)
+
+  * OperaDriver#getWindowHandles() will return an empty set if we are
+    no longer connected to Opera.  (andreastt)
+
+  * Fix OperaProfile to work with RemoteWebDriver.  (dawagner)
+
+  * Close the socket output stream on
+    OperaLauncherProtocol#shutdown().  (danielb)
+
+  * Close the selector in SocketMonitor when done, otherwise we will
+    leak file descriptors.  (danielb)
+
+  * Close ServerSocket if an exception is thrown.  (danielb)
+
+  * OPDRV-125: Avoid sending double shutdown commands to launcher.
+    (mzajaczkowski)
+
+  * Logging file name and the actual IO issue when something goes bad
+    in OperaFilePreferences.  (andreastt)
+
+  * Using an immutable list to define services.  (andreastt)
+
+  * Propagating exception from OperaDriver#createScopeServices() since
+    we already catch everything and throw to WebDriverException in
+    OperaDriver#init().  (andreastt)
+
+  * Catching IOException explicitly in
+    OperaWebElement#saveScreenshot().  (andreastt)
+
+  * Not printing stack traces from SocketMonitor#stop() to stdout any
+    more.  (andreastt)
+
+  * OperaLauncherProtocol now uses an immutable map as a reverse
+    lookup.  (andreastt)
+
+  [TESTS]
+
+  * Replaced old window management code with CreateWindow from Scope.
+    (andreastt)
+
+  * Converted the HTTP redirect test to a local test.  (andreastt)
+
+  * OPDRV-121: Added tests for resetting windows on a running browser.
+    Used in SpartanRunner.  (andreastt)
+
+  * Refactored test framework to support probing of correct product.
+    (andreastt)
+
+  * Moved from Jetty to Webbit to match the Selenium project.
+    (andreastt)
+
+  * Misc. cleanup in WindowManager.  (andreastt)
+
+  * TestOperaDriver#isRunning() makes call to
+    ScopeServices#isConnected() if runner is not present rather than
+    relying on a local boolean value.  (andreastt)
+
+  * Removed unused method TestOperaDriver.getDefaultCapabilities().
+    (andreastt)
+
+  * Make sure runner is always shut down in OperaLauncherRunnerTest.
+    Fixes a test on GNU/Linux.  (andreastt)
+
+  [OTHER]
+
+  * Officially targetting Java 6/JDK 1.6.  (andreastt)
+
+  * Upgraded the WebDriver atoms.  (andreastt)
+
+
+v0.13     (2012-05-08)
+
+  [API CHANGES]
+
+  * Removed OperaDriver.getVersion().  (andreastt)
+
+  [BUG FIXES]
+
+  * Fix for overwriting outdated launchers.  (andreastt)
+
+  * The default product in OperaSettings is now OperaProduct.ALL, so
+    that the command-line argument `-profile' is not appeneded every
+    time to the launcher.  (andreastt)
+
+  * OperaUtils.getPID() might return null, so changing return type
+    from primitive int to Integer.  (andreastt)
+
+  * Reverted patch to fixing useless control flows in
+    EcmaScriptDebugger since it caused issues for the
+    FrameSwitchingTest in Selenium.  (andreastt)
+
+  [TESTS]
+
+  * Tests for checking `-profile' command-line argument in
+    OperaLauncherRunnerTest.  (andreastt)
+
+  [OTHER]
+
+  * Upgraded operalaunchers to 0.8.  (andreastt)
+
+  * Added Sonar build target.  (danielb)
+
+
+v0.12     (2012-05-04)
+
+  [API CHANGES]
+
+  * Removed deprecated methods OperaDriver.setPref() and getPref().
+    (andreastt)
+
+  * Removed deprecated methods OperaDriver.click(x,y) and
+    click(times).  (andreastt)
+
+  * Deprecated method OperaDriver.getOperaActionList().  (andreastt)
+
+  * Deprecated method OperaWebElement.containsColor().  (andreastt)
+
+  * Deprecated capability opera.no_restart.  (andreastt)
+
+  * Deprecated capability opera.no_quit, replaced by new capability
+    opera.detach.  (andreastt)
+
+  [NEW FEATURES]
+
+  * Added OperaSettings for managing options to OperaDriver
+    internally.  While this can be used for OperaDriver's constructor,
+    it's highly recommended to use Capabilities instead.  (andreastt)
+
+  * Added ready-transformed Google Protobuf compatible protocols in
+    /protos.  Original Scope protocols have been moved to
+    /protos/scope.  See /protos/README for detailed instructions on
+    compilation.  (andreastt)
+
+  [ENHANCEMENTS]
+
+  * Added default path lookup for Opera Mobile for Unix, Mac and
+    Windows.  (andreastt)
+
+  * Raised handshake timeout to 60 seconds.  (andreastt)
+
+  * By default we are now allowing popups to be opened when using
+    Opera through OperaDriver.
+
+    This can be disabled by doing:
+
+        preferences().set("User Prefs", "Ignore Unrequested Popups",
+                          true);
+
+    (andreastt)
+
+  [BUG FIXES]
+
+  * Preserving mouse and keyboard state.
+
+    When running OperaDriver through a remote server stateless calls
+    are made through the JSON wire protocol.  When performing an
+    Actions chain like this:
+
+        new Actions(driver).sendKeys(element, "foo").perform();
+
+    … we need to make sure to preserve the mouse move coordinates for
+    the next click() call.
+
+    (andreastt)
+
+  * Enabling clicking of disabled elements by default.  Removed
+    jar_internal build target.  (andreastt)
+
+  * Workaround for letting Opera Mobile autofocus form elements
+    through ECMAScript.  (andreastt)
+
+  * Environment variable OPERA_LAUNCHER did not get recognized
+    properly.  Cleaned up some dubious code paths in
+    OperaLauncherRunnerSettings.  (andreastt)
+
+  * Made call to java.io.File.canExecute() in OperaLauncherRunner Java
+    1.5 safe.  (andreastt)
+
+  * Added class OperaBoolean containing utility methosd for doing C to
+    JVM conversions.  (andreastt)
+
+  * Implemented OperaArguments.toJson() for bean-to-JSON conversion.
+    (andreastt)
+
+  * Now using CommandLine from Selenium to launch Opera if using the
+    Java-based OperaRunner.  (andreastt)
+
+  * Using OperaIntervals.RESPONSE_TIMEOUT for connection monitoring in
+    StpThread instead of a hardcoded 60 second value.  (andreastt)
+
+  * Using correct interval for script retrying consistenly.  Removed
+    OperaIntervals.SCRIPT_RETRY, replaced by SCRIPT_RETRY_INTERVAL.
+    (andreastt)
+
+  * Switched on logging for SocketMonitor.  (andreastt)
+
+  * Removed PbActionHandler, and replaced by making calls directly to
+    OperaMouse.  (andreastt)
+
+  * Check for null in OperaArguments.merge().  (andreastt)
+
+  * Fixed infinite recursive loop in OperaDesktopDriver.isOperaRunning().
+    (andreastt)
+
+  * Fixed dead store field in OperaStrings.  (andreastt)
+
+  * In ScreenShotReply user-supplied byte array was stored directly, now
+    cloning it.  (andreastt)
+
+  * List array to string array conversion with size boundaries in
+    OperaRunner.  (andreastt)
+
+  * Correct lock release in OperaRunner under all exception
+    conditions.  (andreastt)
+
+  * Fixed dead store field in OperaLauncherProtocol.  (andreastt)
+
+  * SelfTestResult.hashCode() implemented to match equals().  (andreastt)
+
+  * Ensuring unlock on all exception paths in SocketMonitor.
+    (andreastt)
+
+  * All threads are now being notified in WaitState.  (andreastt)
+
+  * Fixed many statical analysis bugs in DesktopWindowManager.
+    (andreastt)
+
+  * Preserving stack traces and forcing UTF-8 in ScopeServices.
+    (andreastt)
+
+  * OperaArguments.merge() made final because it's used from
+    constructor.  (andreastt)
+
+  * Removed unused method OperaDriverBuilder.getDefaultSettings().
+    (andreastt)
+
+  * Using implied modifiers in many interfaces.  (andreastt)
+
+  * Reusing OperaIntervals.PROCESS_START_SLEEP in OperaLauncherRunner.
+    (andreastt)
+
+  [TESTS]
+
+  * Mimicking Selenium test setup to more easily allow for test
+    sharing.  (andreastt)
+
+  * Added FreshDriver, NoDriverAfterTest, NoDriver, RequireService and
+    Settings annotations to improve test setup.  (andreastt)
+
+  * Added MockOperaDriver to allow testing of configuration parsing in
+    OperaSettingsTest.  (andreastt)
+
+  * Enabled test web server to use a non-loopback address for testing
+    so that remote Operas can connect.  (andreastt)
+
+  * Generalized environmental variables management to be included in
+    the generic test setup.  (andreastt)
+
+  * Made it possible to also unset environmental variables during
+    runtime.  (andreastt)
+
+  * Replaced TestOperaDriver.getDefaultCapabilities() with
+    TestOperaDriverSupplier instead.  (andreastt)
+
+  * If testing on a remote device, we might not be using a local
+    OperaRunner.  Added check for this.  (andreastt)
+
+  * Removed getFixture() and related methods.  Now relying completely
+    upon WebServer and Pages.  (andreastt)
+
+  [OTHER]
+
+  * Upgraded to Selenium 2.21.0.  (andreastt)
+
+  * Upgraded to Guava 12.0.  (dawagner)
+
+  * Upgraded launchers to 0.7, now with support for taking external
+    screenshots on Mac.  (andreastt)
+
+
+v0.11     (2012-03-05)
+
+  [API CHANGES]
+
+  * Introducing OperaTimeouts.responseTimeout() for customizing the
+    response timeout interval.  (andreastt)
+
+  * Removed opera.guess_binary_path capability.  (andreastt)
+
+  * Recognizing opera.launcher capability.  (andreastt)
+
+  * Deprecated OperaWebElement.click(int times), click(int x, int y)
+    and middleClick().  (andreastt)
+
+  [NEW FEATURES]
+
+  * Using new extension to hob, javagen, for generating Java classes
+    from Scope protocols.  (andreastt)
+
+  * Support for clearing private data.  (danielb/andreastt)
+
+  [ENHANCEMENTS]
+
+  * Upgraded to Selenium 2.20.  (andreastt)
+
+  * Raising response timeout to 60 seconds.  (andreastt)
+
+  * Improved reliability of implicit waits.  (andreastt)
+
+  * OperaProfile.toJson() now returns a proper JSON representation of
+    the profile.  (andreastt)
+
+  * Now relying more on the data types given by Opera for preferences.
+    (andreastt)
+
+  * Functionality for converting OperaDriver settings to capabilities.
+    (andreastt)
+
+  * Delegated more responsibilities during initialization to
+    OperaRunnerSettings.  (andreastt)
+
+  [BUG FIXES]
+
+  * OperaArguments.merge() will now return a reference to it self.
+    (andreastt)
+
+  * OperaRunnerSettings.setBinary() now accepts java.io.File as the
+    default argument.  (andreastt)
+
+  * If ENABLE_CHECKS is enabled, this is no longer applied to asserting
+    whether elements are displayed or not.  (andreastt)
+
+  * Recompiled ecmascript service protocols to facilitate CORE-36517,
+    fixes SPARTAN-1165.  (andreastt)
+
+  * Facilitate connecting to a remote host, addresses OPDRV-152.
+    (andreastt)
+
+  * Removed desktop-specific hardcoded response timeout to 30 seconds
+    when a window is loaded.  (andreastt)
+
+  * Remove a redundant cast.  (hansd)
+
+  * AbstractEventHandler turned into an interface, and EventHandler
+    into an actual abstract class.  Fixes inconsistencies.  (andreastt)
+
+  * Renamed AbstractEventHandler to ScopeEventHandler (implementation)
+    and removed STP/0 support.  (andreastt)
+
+  * Unspecified type for field shuttingDown in ScopeServices.
+    (andreastt)
+
+  * Removed temporary fix for CORE-33057.  (andreastt)
+
+  * We were not respecting implicit waits, removing unused EXEC_SLEEP
+    workaround.  (andreastt)
+
+  [TESTS]
+
+  * Major refactoring of test setup.  (andreastt)
+
+  * Introducing annotation FreshDriver for forcing a driver restart.
+    (andreastt)
+
+  * In-process web server for tests (much like Selenium's).
+    (andreastt)
+
+  * Introduced OperaDriverBuilder and various OperaDriverSuppliers
+    for use in SpartanRunner and for testing.  (andreastt)
+
+  * Added methods toString() and toList() to OperaIntervals for
+    debugging purposes.  (andreastt)
+
+  * Added test for specifying launcher from capabilities.  (andreastt)
+
+  [OTHER]
+
+  * Protocol files no longer have version numbers in filenames,
+    resolves OPDRV-154.  (andreastt)
+
+  * Printing warnings when compiling OperaDriver.  (hansd)
+
+  * Removed old getting started examples, relocated remote example.
+    (andreastt)
+
+  * Various fixes for documentation.  (andreastt)
+
+
+v0.10     (2012-01-24)
+
+  [API CHANGES]
+
+  * Added short-hand ScopePreference.reset() method for resetting a
+    single preference.  (andreastt)
+
+  * OperaDriver.preferences().* now returns a ScopePreference so that
+    it won't have to be casted.  (andreastt)
+
+  [ENHANCEMENTS]
+
+  * Upgraded WebDriver atoms.  (andreastt)
+
+  * Upgraded to Selenium 2.17.  (andreastt)
+
+  * Cleaning VERSION file on build target "clean".  (danielb)
+
+  [BUG FIXES]
+
+  * Handle cyclic references in JavaScript results to avoid stack
+    overflow.  (rjatkins)
+
+  * Fix for proxied WebElement not being wrapped in OperaDriver.
+    (rjatkins)
+
+  * setLastModified() check fails on Windows, resolves issue #38.
+    (andreastt)
+
+  * Fix for NullPointerException in DesiredCapabilitiesTest.
+    (andreastt)
+
+  * Fix for SpartanRunner not exiting, resolves SPARTAN-1026.
+    (danielb)
+
+  * Escape quotes in JavaScript parameters.  (rjatkins)
+
+  * Added OperaProfile.toJson(), avoids StackOverflowException in
+    BeantoJsonConverter.  (dawagner)
+
+  * Logging levle is now passed down to launcher on startup.
+    (andreastt)
+
+  [TESTS]
+
+  * Converted ignored mouse tests to a low-level OperaMouse test,
+    MouseTest.  (andreastt)
+
+  * Added stale element exception tests for navigating between same
+    page and two different pages.  (andreastt)
+
+  * Added window switching tests.  (andreastt)
+
+  * Tests for WebElements being proxied in PageFactory.  (rjatkins)
+
+  * Check for whether @Ignore annotation is empty, fixes a few failing
+    Windows tests.  (andreastt)
+
+  * Removed or refactored tests relying on external resources.
+    (andreastt)
+
+  [OTHER]
+
+  * Fix code quotes in README.  (stuk)
+
+  * Upgraded Guava to 11.0.1.  (ajayk)
+
+  * Added more IntelliJ run configurations.  (andreastt)
+
+  * Added Richard Atkins to the AUTHORS file.  (andreastt)
+
+  * Upgraded launcher dependency to 0.6 (which includes the
+    command-line arguments -profile and -backend).  (andreastt)
+
+
+v0.9      (2011-01-16)
+
+  [API CHANGES]
+
+  * Removed deprecated interface OperaDriverSettings.  (andreastt)
+
+  * Removed deprecated method OperaWebElement.hover().  (andreastt)
+
+  * Removed methods OperaWebElement.mouseOver(), mouseOut(),
+    mouseDown() and mosueUp().  (andreastt)
+
+  * Removed deprecated methods OperaWebElement.getValue() and
+    isVisible().  (andreastt)
+
+  * Removed unknown, unused method OperaWebElement.getElementName().
+    (andreastt)
+
+  * Removed method OperaWebElement.rightClick().  (andreastt)
+
+  * Removed deprecated methods OperaWebElement.dragAndDropBy() and
+    dragAndDropOn().  (andreastt)
+
+  * Removed deprecated method OperaDriver.getRunner().  (andreastt)
+
+  * OperaDriver's constructor now also takes OperaProfile as an
+    argument. (andreastt)
+
+  * OperaRunnerSettings.setProfile() now accepts an OperaProfile
+    object as argument.  (andreastt)
+
+  * The capabilities for Opera now accepts an OperaProfile object for
+    "opera.profile".  (andreastt)
+
+  * The capabilities for Opera now accepts a Level object for
+    "opera.logging.level".  (andreastt)
+
+  * OperaIntervals.ENABLE_DEBUGGER has been moved to
+    OperaFlags.ENABLE_DEBUGGER.  (andreastt)
+
+  * Upgraded Selenium dependency to 2.17.  (andreastt)
+
+  * Removed interface Utils.  (andreastt)
+
+  * OperaUtils.getProduct() now returns OperaProduct instead of
+    String.  (andreastt)
+
+  * Removed OperaDriver.isJavascriptEnabled().  (andreastt)
+
+  * Removed methods OperaDriver.key(), keyDown(), keyUp(),
+    releaseKeys() and type().  (andreastt)
+
+  * Added OperaDriver.manage().logs() to support Selenium 2.16.1.
+    (ajaykv)
+
+
+  [NEW FEATURES]
+
+  * New interface OperaProfile for interacting with the profile for
+    Opera.  You can for example modify or set new preferences on
+    profile before Opera is started:
+
+       OperaProfile profile = new OperaProfile();  // fresh profile
+       profile.preferences().set("User Prefs",
+                                 "Ignore Unrequested Popups", false);
+       WebDriver driver = new OperaDriver(profile);
+
+    You can also interact with existing profiles by passing in the
+    directory to OperaProfile's constructor.
+
+    (andreastt)
+
+  * New interface OperaPreferences for managing preferences in
+    preference files (like operaprefs.ini) and during runtime through
+    Scope.
+
+    Calls to preference may be done like this:
+
+       driver.preferences().set("User Prefs",
+                                "Ignore Unrequested Popups", false);
+
+    OperaScopePreferences replaces OperaDriver.getPref() and
+    OperaDriver.setPref() which are now deprecated.
+
+    (andreastt)
+
+  [ENHANCEMENTS]
+
+  * Reduced much code duplication.  (andreastt)
+
+  * Default product for OperaRunnerSettings is now DESKTOP.
+    (andreastt)
+
+  * Upgraded WebDriver atoms.  (andreastt)
+
+  * Upgraded OperaWebElement.click() to use new atoms for selecting an
+    OPTION element.  (andreastt)
+
+  * Check for whether launcher exists immediately.  (andreastt)
+
+  * Upgraded operalaunchers to 0.5.  Fixes issue with OperaDriver
+    through Maven not being able to find launchers.  (andreastt)
+
+
+  [BUG FIXES]
+
+  * Asserting if element is stale on OperaWebElement.getText(),
+    getLocation(), getTagName() and clear().  (andreastt)
+
+  * If a page load times out we now return control of the browser _in
+    all_ situations.  (andreastt)
+
+  * Reverted check for setLastModified on newly copied launcher as it
+    seems to be failing on Windows.  (andreastt)
+
+  * OperaLauncherRunner.isOperaRunning() no longer throws exception if
+    launcher has shut down, but returns false instead.  (andreastt)
+
+  * Object IDs are being garbage collected on each new page load, no
+    need to store and verify URL when checking for stale elements.
+    (andreastt)
+
+  * OperaLauncherBinary is now using Platform.is() (from Selenium) for
+    platform comparison.  Will output nicer warning when failing on
+    Windows without VS C++ 2008 redistributable package.  (andreastt)
+
+  * Fixed issue with SocketException for double shutdown call in
+    OperaLauncherRunnerProtocol, fixes tests for Windows.  (andreastt)
+
+  * Getting colours with non-RGB values (such as "transparent") now
+    works.  Resolves issue #49.  (andreastt)
+
+  * OperaDriver.close() should quit browser if it closes the last
+    window, resolves issue #48.  (andreastt)
+
+  [TESTS]
+
+  * Added many new test run configurations for IntelliJ.  (andreastt)
+
+  * Fixed NullPointerException in the case something went wrong during
+    initialization of OperaDriver in OperaDriverTestCase.  (andreastt)
+
+  * Added tests for OperaStrings.  (ajayk)
+
+  * Tests for circumstances where StaleElementReferenceException
+    should be thrown.  (andreastt)
+
+  * Refactored many tests so that they pass on Windows, where JUnit
+    test order is not guaranteed.  (andreastt)
+
+  * Tests for handing back control to user after reaching
+    PAGE_LOAD_TIMEOUT.  (andreastt)
+
+  [OTHER]
+
+  * Documented many methods.  (andreastt)
+
+  * Updated Eclipse configuration.  (ajayk)
+
+  * Updated IntelliJ configuration for version 11.  (andreastt)
+
+  * Compile target “compile_tests” now requires “jar”.  (andreastt)
+
+  * Added more examples to the README.  (andreastt)
+
+  * Removed old interactions implementation in
+    com.opera.core.systems.interaction since it was never used.
+    (andreastt)
+
+
+v0.8.1    2011-11-24
+
+  [API CHANGES]
+
+  * OperaDriver.get() and OperaNavigation().to() now catches
+    ResponseNotReceivedException so that when a page load times out on
+    very slow-loading pages, the control of the browser instance to the
+    user.  (andreastt)
+
+  * Added method pageLoadTimeout() to OperaTimeouts which allows you to
+    control the default page load timeout, that is the timeout for when
+    control of the browser should be handed back to the user.  Example:
+
+      driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+
+    (andreastt)
+
+  [NEW FEATURES]
+
+  * Output from Opera and the launcher is now forwarded to the
+    appropriate logging level in OperaDriver.  (andreastt, danielb)
+
+  [ENHANCEMENTS]
+
+  * Upgraded Selenium dependency to 2.13.0.  (andreastt)
+
+  * Upgraded WebDriver atoms to match Selenium 2.13.0.  (andreastt)
+
+  * Refactored heuristic for figuring out a sensible logging level
+    between OperaDriver and launcher.  (andreastt)
+
+  * Refactored OperaPaths.operaPath() to look for Opera Next binaries on
+    all platforms.  Resolves OPDRV-104.  (andreastt)
+
+  [BUG FIXES]
+
+  * Ensuring that the launcher is executable on each run.  (andreastt)
+
+  * Fixed bug with synchronized locks ought to be on fields classified
+    as final in WaitState.  (andreastt)
+
+  * OperaArguments does not parse OPERA_ARGS, so calling
+    OperaCoreArguments on startup instead.  Fixes bug with OPERA_ARGS
+    not being parsed.  Addresses OPDRV-108.  (andreastt)
+
+  * Parsing a single argument failed due to a bug in regex, corrected.
+    Addresses OPDRV-108.  (andreastt)
+
+  * Removed superflous call to isPathValid() in OperaPaths when checking
+    whether a specified/set path is invalid.  (andreastt)
+
+  * Arguments added in OperaCoreArgument's constructor were not merged
+    if OperaRunner received an OperaRunnerSettings object with the
+    arguments field set.  (andreastt)
+
+  * Actions sent to OperaDriver.operaAction() are now converted to lower
+    case in OperaExec.  (andreastt)
+
+  [TESTS]
+
+  * Removed superflous code in OperaLauncherRunnerTest, and made
+    assertions static.  (andreastt)
+
+  * Added deprecated OperaDriverSettings tests to a separate file.
+    (andreastt)
+
+  * Added test for single argument parsing to OperaArgumentsTest.
+    (andreastt)
+
+  * Added new run configuration for OperaLauncherRunnerTest and
+    OperaRunnerTest.  (andreastt)
+
+  * Added tsts for OperaLauncherRunner.toLauncherLoggingLevel().
+    (andreastt)
+
+  * The "File Types Section Info" section does not exist on core-tv,
+    using "Disk Cache" instead for PrefsTest, resolves about five
+    failing tests on this configuration.  (andreastt)
+
+  * Moved context menu test to be run last in ElementsTest because it's
+    known to cause problems for consecutive tests.  (andreastt)
+
+  * OperaRunnerTest now uses a mocking OperaRunner instance,
+    TestOperaRunner, which exposes the settings field through a getter.
+    (andreastt)
+
+  [OTHER]
+
+  * Fixed classpath issues with previous release.  (ajayk)
+
+  * Added Apache Commons Exec 1.1 as dependency as
+    org.openqa.selenium.os.CommandLine now depends on it.  (andreastt)
+
+  * Explanation for IllegalArgumentException for
+    OperaExec.mouseAction(), helps WTR-362.  (andreastt)
+
+
+v0.8    2011-11-17
+
+  [API CHANGES]
+
+  * OperaDriver now uses temporary profile and random port by default.
+    This breaks backwards-compatibility with Opera < 11.60.  Please set
+    capabilities opera.profile to "" (empty string) and opera.port to -1
+    for it to not use a temporary profile and the default port (7001).
+    (stuartk)
+
+  * Updated Selenium dependency to 2.12.0.  (andreastt)
+
+  * Throwing UnsupportedCommandException rather than a
+    WebDriverException in OperaExec, so that it can be recovered.
+    (andreastt)
+
+  * Throwing UnsupportedOperationException for Options.ime().
+    (andreastt)
+
+  * Added Options.window() as a beta feature.  Currently not
+    implemented, and will throw UnsupportedOperationException.
+    (andreastt)
+
+  * OperaRunnerSettings.setProduct() now accepts an OperaProduct, and
+    not a String anymore.  (andreastt)
+
+  [NEW FEATURES]
+
+  * EcmascriptService is now used by default in OperaDriver, instead of
+    EcmaScriptDebugger.  This means any injected JavaScript now
+    potentially goes through JIT, enabling the JIT compiler inside the
+    browser.  (stuartk)
+
+  * Added "compile_protos" target to Ant build file for compiling proto
+    files to Java classes.  (stuartk)
+
+  * Added support for frame switching.  (stuartk)
+
+  * Introducing OperaArguments (with accompanying OperaArgument,
+    OperaCoreArgument and OperaDesktopArgument) which defines a joint
+    interface for interacting with arguments to various kinds of Opera
+    products.  (andreastt)
+
+  * OperaProduct keeps a list of all Opera products.  (andreastt)
+
+  [ENHANCEMENTS]
+
+  * Update EcmascriptService to be more similar to EcmaScriptDebugger.
+    (stuartk)
+
+  * Abstracted RuntimeNode from EcmaScriptDebugger into its own class so
+    that it can be reused in EcmascriptService.  (stuartk)
+
+  * Move methods common to EcmaScriptDebugger and EcmascriptService to a
+    new class, AbstractEcmascriptService.
+
+  * Replacing Apache Commons IO library calls with Guava (Simon Stewart,
+    andreastt)
+
+  * Upgraded from using OperaDriverSettings to using DesiredCapabilities
+    in OperaDesktopDriver.  (andreastt)
+
+  * The launchers have now been moved to a separate JAR,
+    operalaunchers-*.jar, effectively removing the need to traverse the
+    repo when running from source in SpartanRunner.  (andreastt)
+
+  * OperaLauncherRunner made separate from OperaRunner.  OperaRunner now
+    implements a Java native way of launching Opera.  (andreastt)
+
+  * Logging all ES implementations used to FINE rather than INFO.
+    (andreastt)
+
+  * Which Opera product is used is fetched after connecting and stored
+    in the capability "opera.product".  (andreastt)
+
+  [BUG FIXES]
+
+  * OperaWebElement.getCssValue() now returns HEX values for
+    colour-related variables.  (andreastt)
+
+  * We were setting OperaIntervals#WAIT_FOR_ELEMENT to 0 every time when
+    looking for an element, which overrode the implicit wait time
+    specified through driver.manage().timeouts().  (andreastt)
+
+  * Use the passed idle argument, not forcing idle to be true when
+    calling setUseOperaIdle().  (danielb)
+
+  * Since -pd is ignored by core builds, we must for some reason send
+    -autotestmode last so that it doesn't consider the temporary profile
+    to be the starting URL.  (andreastt)
+
+  * Fix for making sure we create runtimes when we try to find them,
+    instead of when we try to update the runtimes in EcmascriptService.
+    (stuartk)
+
+  * getWindowHandles() now gives names to windows without names.
+    (stuartk)
+
+  * Fix for NullPointerException if both window name and title are null
+    in OperaDriver.window().  (stuartk)
+
+  * Fix for a better way to verify whether EcmascriptService is
+    available.  (stuartk)
+
+  * Catch invalid runtime exception for EcmascriptService.  (stuartk)
+
+  * Now logging which status we receive from the launcher.  (andreastt)
+
+  * Doing all port guessing in OperaRunnerSettings since it's specific
+    to launching Opera.  (andreastt)
+
+  * Making sure Capabilities and OperaRunnerSettings are synchronized on
+    launch.  (andreastt)
+
+  * Logging for when launcher is copied was misplaced, now corrected to
+    reflect reality.  (andreastt)
+
+  [TESTS]
+
+  * Added tests for VersionUtils comparison.  (dturkoglu)
+
+  * Removed irrelevant tests, corrected misleading pass conditions.
+    (andreastt, stuartk)
+
+  * Logging level when running tests is now set to FINE.  (stuartK)
+
+  * Assert.assert* calls have now been replaced by static imports for
+    JUnit tests.  (ajay, andreastt)
+
+  * Added tests for all new code added in this version.  (andreastt)
+
+  * Added method for setting the launcher manually to
+    OperaLauncherRunnerSettings.  This should never be used for other
+    purposes than testing.  (andreastt)
+
+  * Added new @Ignore annotation which lets you ignore a test based on
+    product and/or platform.  (andreastt)
+
+  * Corrected ignores for core- and desktop-specific tests.  (andreastt)
+
+  * Reworked tests to use OperaDriverTestCase as a base.  (andreastt)
+
+  * Added tests for OperaColor.  (andreastt)
+
+  [OTHER]
+
+  * Added descriptions for all packages.  (stuartk)
+
+  * A lot of documentation added to various places.  (stuartk,
+    andreastt)
+
+  * Fixes for documentation in OperaDesktopDriver.  (andreastt)
+
+  * Added IntelliJ run configurations for various tests.  (andreastt)
+
+  * Removed reference to pkg/ as a library in IntelliJ configuration.
+    (andreastt)
+
+  * Examples have been cleaned up.  (andreastt)
+
+
+v0.7.3    2011-09-19
+
+  [API CHANGES]
+
+  * Update Selenium JAR to 2.6.0.  (Ajay Kemparaj)
+
+  * Update the protobuf library from 2.3.0 to 2.4.1 and regenerating all
+    Proto files.  (stuartk)
+
+  * If OPERA_PATH or OPERA_LAUNCHER are set to invalid paths, we will now fail
+    instead of attempting to recover by guessing Opera's path.  (andreastt)
+
+  [NEW FEATURES]
+
+  * Add support for OperaDriver.switchTo().frame(WebElement).  (stuartk)
+
+  [BUG FIXES]
+
+  * Fix bug preventing switching to frames beneath the current one.  (stuartk)
+
+  * Fix for switching to sub-sub-frames.  (stuartk)
+
+  * Fix getAttribute("value") on option element.  (takahah)
+
+  [TESTS]
+
+  * Ignore failing tests.  (stuartk)
+
+  [OTHER]
+
+  * Major refactoring of OperaPaths.  (andreastt)
+
+  * Better exception if failing to start the launcher on Windows, explaining
+    Visual C++ dependency.  (andreastt)
+
+  * Add script to compile Opera .proto files.  (stuartk)
+
+  * Add .proto file for Opera launcher.  (stuartk)
+
+  * Lowering error logging level for key errors.  (andreastt)
+
+  * Update Selenium atoms to r13805.  (stuartk)
+
+  * Add documentation for some internal methods.  (stuartk)
+
+  * If running OperaDriver from the source directory it will now find the
+    launcher in the launcher/ directory.  (andreastt)
+
+  * Update OperaWebElement.saveScreenshot() to use FileChannels.  (Ajay Kemparaj)
+
+
+v0.7.2    2011-09-08
+
+  [API CHANGES]
+
+  * DefaultDriverFactory in Selenium expects a Capabilities type constructor
+    argument rather than DesiredCapabilities.  OperaDriver now uses Capabilities
+    instead to match the other WebDriver implementations.  This fixes various
+    problems related to remote driving.  (andreastt)
+
+  * The capability "opera.binary_profile" has been renamed to "opera.product".
+    (andreastt)
+
+  [BUG FIXES]
+
+  * Fix OperaWebElement.getLocation for SVG documents.  (stuartk)
+
+  * -autotestmode, -debugproxy and -pd arguments are now sent to Opera before
+    unwrapping the arbitrary list of arguments sent by user.  (andreastt)
+
+  * Sanitizing capabilities sent across the wire, as Ruby will sent us Long's
+    for Integer's which are not easily converted in Java.  (andreastt)
+
+  [TESTS]
+
+  * Correct checking for Windows platform in tests.  (stuartk)
+
+  * Updated various tests.  (andreastt)
+
+  [OTHER]
+
+  * OperaWebElement now has its own logger.  (stuartk)
+
+  * Java code refactoring.  (ajayk)
+
+
+v0.7.1    2011-09-06
+
+  [API CHANGES]
+
+  * Remove deprecated method OperaDriver.stop().  (andreastt)
+
+  * Remove deprecated method OperaDriver.closeAll().  (andreastt)
+
+  * Remove OperaDriver.convertByToAtom() as the WebDriver atoms now support
+    getting locators by nice wire strings.  (andreastt)
+
+  * Remove OperaDriver.getProduct(), .getOS(), .getBinaryPath(),
+    .getCoreVersion(), .getUserAgent() and .getPID() and replace with
+    OperaDriver.utils().*  (andreastt)
+
+  [BUG FIXES]
+
+  * Make OperaWebElement.sendKeys enter text at the end when an input has
+    default text.  (stuartk)
+
+  * Clear Should only clear editable and enabled elements.  (ajayk)
+
+  * Call services.shutdown(), as .quit() will also shut down Opera even if
+    'opera.no_quit' is set to true.  (andreastt)
+
+  [NEW FEATURES]
+
+  * Add backwards-compat support for Window Manager 2.0 (for Opera Mobile).
+    (stuartk)
+
+  [OTHER]
+
+  * Cleaning up logging in OperaLauncherRunner, OperaLauncherBinary,
+    OperaLauncherProtocol, StpConnection, ScopeServices.  (andreastt)
+
+  * Documenation and formatting fixes.  (andreastt)
+
+  * Updated the atoms.  (andreastt)
+
+
+v0.7    2011-09-02
+
+  [API CHANGES]
+
+  * Support the use of DesiredCapabilities, instead of OperaDriverSettings.
+    OperaDriverSettings is still supported for backward compatibility, but
+    will be removed in the next point version (0.8).  (stuartk)
+
+  * Update Selenium jar to 2.5.0.
+
+  * Remove OperaDriver.mouseEvent() method. Use the advanced interaction API
+    instead. Update OperaExec to allow several mouse keys to be pressed at once.
+    (andreastt)
+
+  * Updated SocketMonitor to not be a singleton, so that connections to
+    multiple instances of Opera can be maintained.  (stuartk)
+
+  * Renamed OperaPaths.getOperaLauncherPath() to extractLauncher(path) to better match
+    what the method is actually doing.  (andreastt)
+
+  * Remove OperaDriver.shutdown().  (stuartk)
+
+  [NEW FEATURES]
+
+  * Support DesiredCapabilities. Capabilities include "opera.binary" and
+    "opera.arguments" amongst others. See the top of the OperaDriver class
+    for all of them.  (stuartk)
+
+  * Support the "personal directory", `-pd`, flag with the "opera.profile"
+    capability. Currently only available on Linux Opera builds.
+
+  * Add "opera.port" capability to set the port that Opera communicates with
+    driver on. Allows multiple instances of Opera to be run at once. Requires
+    the `-debugproxy` flag, which is not yet available in current versions
+    of Opera.  (stuartk)
+
+  * Add capability to set the logging level and file with "opera.logging.level"
+    and "opera.logging.file".  (andreastt)
+
+  * Updated Linux launcher to support the `-profile` argument, to specify
+    which build profile we are using (Note: this ISN'T the Opera user profile).
+    (Iaroslav Tymchenko)
+
+  * Display the command used to start Opera when it exits immediately (usually
+    due to bad command line arguments).  (stuartk)
+
+  [BUG FIXES]
+
+  * Correct LEFT_CONTROL enum in OperaKeys to make code such as
+    `action.sendKeys(Keys.CONTROL + "c")` work.  (stuartk)
+
+  * Escape double quotes instead of single quotes in findElementsBy* methods.
+
+    Fixes the problems with pre-escaped strings sent from selenium-webdriver.
+    (andreastt)
+
+  * Fix for bug DSK-344905; Opera should not quit after testrun with noquit
+    option (Karianne Ekern)
+
+  * Wait between two double clicks so that Opera doesn't interpret it as as a
+    quadruple-click.  (andreastt)
+
+  * Throw InvalidSelectorException when selectors are invalid.  (stuartk)
+
+  * Use OpenURL command in new Window Manager service. Fixes case where loading
+    a page in a new window would cause a ResponseNotReceivedException.  (stuartk)
+
+  * Don't timeout when a window is closed by Javascript.  (stuartk)
+
+  * Check services isn't null before shutting it down.  (stuartk)
+
+  [TESTS]
+
+  * Add tests for modifier keys.  (stuartk)
+
+  * Ignore some launcher tests on Windows.  (stuartk)
+
+  * Skip selftest tests when service isn't supported.  (stuartk)
+
+  * Add tests for Profile and Port capabilities.  (stuartk)
+
+  [OTHER]
+
+  * Update build.xml to target Java 5/1.5.  (stuartk)
+
+  * Compile tests to the bin/ directory, rather than the tests/ directory.
+    (andreastt)
+
+  * Reduce the logging level from FINE to FINER or FINEST for noisy log
+    messages.  (stuartk)
+
+  * Update Window Manager service from 2.0 to 2.1.  (stuartk)
+
+
+v0.6.1    2011-08-29
+
+  [API CHANGES]
+
+  * Remove OperaDriver.mouseEvent().  (andreastt)
+
+  * Switch order and type of arguments to OperaExec.mouseAction().  (andreastt)
+
+  * Update Selenium jar to r13628, to include double-click fix in r13592.
+    (andreastt)
+
+  [BUG FIXES]
+
+  * Wait in between sending double-click events so that Opera does not think
+    that it is a quadruple-click.  (andreastt)
+
+  [TESTS]
+
+  * Fix tests to not use OperaDriver.mouseEvent().  (andreastt)
+
+
+v0.6    2011-08-03
+
+  [API CHANGES]
+
+  * Add complete support for the Advanced User Interactions API:
+
+      <URI:http://code.google.com/p/selenium/wiki/AdvancedUserInteractions>
+
+  * OperaWebElement.getLocation() now returns the location in the DOM, rather
+    than in the viewport. To get viewport location use
+    `getCoordinates().getLocationInViewPort()`.  (andreastt, stuartk)
+
+  * Use Selenium atoms (see below).
+
+  * Update Selenium jar to 2.3.0.
+
+  [NEW FEATURES]
+
+  * Added ability to navigate menus in Opera Desktop.  (Karianne Ekern,
+    Adam Minchinton)
+
+  * Add selftest service.  (Arne Skjærholt)
+
+  * Use atoms from the Selenium project instead of our own custom JS for:
+
+    - Finding elements from OperaDriver and OperaWebElement
+    - Getting attributes, style, location and size of OperaWebElement
+    - Getting displayed, enabled and selected state of OperaWebElement
+    - Submitting and toggling OperaWebElement
+    - Getting the text of OperaWebElement
+
+    (stuartk)
+
+  * If available show Ecmascript error message in the exception.  (stuartk)
+
+  * Correctly return WebElements when they are in another JS object, such as
+    an array.  (stuartk)
+
+  [BUG FIXES]
+
+  * OperaDriver.navigate().frame(String) now switches to frames with "."s in
+    rather than sub-frames.  (stuartk)
+
+  [TESTS]
+
+  * Add tests for selftest.  (Arne Skjærholt)
+
+  * Add test for finding sub-elements on a OperaWebElement.  (stuartk)
+
+  * Add test for executing Javascript returning an array of elements.  (stuartk)
+
+  [OTHER]
+
+  * Add UMS protobuf file. Regenerate the Java code (no effective changes).
+    (stuartk)
+
+  * Move OperaMouse and OperaKeyboard into separate classes.  (andreastt)
+
+  * Update pom.xml to contain all needed info.  (stuartk)
+
+
+v0.5.2    2011-07-01
+
+  [BUG FIXES]
+
+  * Escape quotes for strings passed to find*By* methods on OperaWebElement
+    (andreastt)
+
+  * Fix for click()ing/toggling multiple-select <option> elements (stuartk)
+
+
+v0.5.1    2011-06-27
+
+  [BUG FIXES]
+
+  * Core Scope service no longer required, to support earlier Opera versions.
+    (stuartk)
+
+  * Shutdown Scope services in alternate way to support earlier Opera versions.
+    (stuartk)
+
+
+v0.5    2011-06-26
+
+  [KNOWN ISSUES]
+
+  * Requires Administrator privileges on Windows Vista and 7 when Opera is
+    installed in the default location (Program Files).  See README.txt for
+    workarounds.
+
+  * getScreenshotAs() only returns image data of the current viewport, other
+    parts of the image will be black.
+
+  [API CHANGES]
+
+  * Add getOS(), getProduct(), getBinaryPath(), getUserAgent(), getPID() to
+    OperaDriver.  (andreastt)
+
+  * Implement TakesScreenshot.  (stuartk)
+
+  * Extend RemoteWebDriver.  (stuartk)
+
+  * Implement HasDevices (Advanced interaction API). Not fully tested, use
+    with caution! (stuartk)
+
+  * Add listAllPrefs() method on OperaDriver.  (stuartk)
+
+  * Change listPrefs() to return a map of preference name to Pref object,
+    instead of a list of Pref objects.
+
+  * Update to selenium-java-2.0rc3
+
+  [NEW FEATURES]
+
+  * Add ability to get meta-information about Opera when using Opera 11.50 or
+    greater (see   [API CHANGES]).  (andreastt)
+
+  * Selenium APIs implemented: RemoteWebDriver, TakesScreenshot, HasDevices
+    (stuartk)
+
+  * Added maven/pom.xml.  (michael tamm)
+
+  [ENHANCEMENTS]
+
+  * Forward crash status along with the screenshot reply (danielb)
+
+  * Capture more logging (danielb)
+
+  * Add RemoteWebDriver example.  (stuartk)
+
+  [BUG FIXES]
+
+  * Fix click() method in OperaWebElement for OPTION elements.  (stuartk)
+
+  * Escape quotes for strings passed to find*By* methods.  (stuartk, andreastt)
+
+  [TESTS]
+
+  * Ignore failing screenshot test.  (stuartk)
+
+  * Add test for quote escaping.  (andreastt)
+
+  * Added tests for getting preferences.  (andreastt)
+
+  [OTHER]
+
+  * Rename released jar from webdriver-opera-${version}.jar to
+    operadriver-${version}.jar.  (stuartk)
+
+  * Include source jar in release zip file.  (stuartk)
+
+
+v0.4.3    2011-06-14
+
+  [API CHANGES]
+
+  * Update to a snapshot of selenium post 2.0rc2. This removes
+    RenderedWebElement, and OperaWebElement.getvalue().  Use
+    getAttribute("value") instead.
+
+  [NEW FEATURES]
+
+  * Add OperaDriver.setUseOperaIdle(boolean).
+
+  [ENHANCEMENTS]
+
+  * Check Opera Actions case-insensitively.
+
+  [BUG FIXES]
+
+  * Keep closer track of the Opera Idle timeout for cases where we don't
+    receive the idle message.
+
+  * Fix socket timeout.
+
+  [TESTS]
+
+  * Remove consistently failing tests "testFlash" and "testReflow".
+
+
+v0.4.2    2011-05-19
+
+  [NEW FEATURES]
+
+  * Add ability to get source of XML page.
+
+  * Read value of the OPERA_ARGS environment variable.  This is concatenated
+    with any arguments set in OperaDriverSettings.setOperaBinaryArguments().
+
+  [ENHANCEMENTS]
+
+  * Reduce page load timeout to 30 seconds from 60s.
+
+  * Remove check for pressing already pressed key.
+
+  [BUG FIXES]
+
+  * Distinguish between upper- and lower-case attributes in XHTML documents.
+
+  * Selenium test suite fixes:
+
+    - Fix isDisplayed on map elements
+    - Only switch to frames underneath the current frame
+    - Return value property instead of attribute in getAttribute
+    - Don't press and release shift to type captials if it's already down
+    - Hold down shift and control keys in sendKeys
+
+  [TESTS]
+
+  * Remove repeating keys tests.
+
+
+v0.4.2.pre7    2011-05-06
+
+  [ENHANCEMENTS]
+
+  * Do not use idle detection unless the core version is >= 1.1.
+
+  * Call quit if init fails in OperaDriver.
+
+  * Show the output from launcher when using fine logging.
+
+  * Set socket timeout also for new sockets.
+
+  [BUG FIXES]
+
+  * OperaWebElement.isDisplayed() returns true for <option> elements whose
+    <select> parent is displayed.
+
+  * OperaWebElement.getText() collapses two spaces in two adjacent inline
+    elements.
+
+  * Don't switch to first frame on a page with a frameset.
+
+  * Fix for communication with Opera being faster than Opera.
+
+
+v0.4.2.pre6    2011-04-29
+
+  [API CHANGES]
+
+  * Un-deprecate OperaDriverSettings.getNoQuit/setNoQuit and UmsEventHandler.
+
+  * Deprecate OperaDriver.shutdown().
+
+  * OperaDriver.quit() replaces OperaDriver.shutdown().
+
+  * Deprecate OperaDriver.closeAll(), .executeActions(), .stop().
+
+  * Deprecate RenderedWebElement methods on OperaWebElement.
+
+  * Deprecate OperaWebElement.hover().
+
+  * Add OperaWebElement.mouseOver() (replace .hover()).
+
+  * Update Selenium JAR to code from SVN revision 12071.
+
+  [NEW FEATURES]
+
+  * Add ScopeServices.captureOperaIdle(). Enables the tracking of any Idle
+    events received between now and when you call waitForOperaIdle().
+
+  * Add OperaWebElement.saveScreenshot() to match behaviour of
+    OperaDriver.saveScreenshot() method.
+
+  * Add timeout for Opera to connect to Driver. If exceeded an exception is thrown.
+
+  * Throw exception if Opera quits immediately after launch, for example if it
+    doesn't recognise arguments.
+
+  [ENHANCEMENTS]
+
+  * Regenerated desktopwm protos from updated service with new griditem and
+    gridview types (Desktop).
+
+  * Make specifying or constructing buttons by position possible (Desktop).
+
+  * Add type checking to retrieval algorithm for widgets (Desktop).
+
+  [BUG FIXES]
+
+  * Setting operaBinaryArguments to null no longer causes a crash.
+
+  * Correctly shutdown when Opera crashes (Desktop).
+
+  * Updated launcher-linux-x86_64 to work with an older libc library.
+
+  * Updated OperaWebElement to pass more Selenium tests:
+
+    - OperaWebElement implements WrapsDriver
+    - OperaWebElement uses InvalidElementStateExceptions
+    - Add more checks for disabled or hidden elements
+    - OperaWebElement.sendKeys now sends 'special' keys when part of a string
+
+  [TESTS]
+
+  * Move test fixture setup into own function to allow use in tests that do
+   not start driver.
+
+  * Improved Idle tests.
+
+  [OTHER]
+
+  * Add the Scope .proto files to the repository.
+
+
+v0.4.2.pre5    2011-03-14
+
+  [API CHANGES]
+
+  * Removed preference paths from OperaDriverSettings.
+
+  [NEW FEATURES]
+
+  * New settings added to OperaDriverSettings:
+
+    - Disable Opera Idle
+    - Autostart setting to replace passing `null` into OperaDriver().
+
+  * Always pass `-autotestmode` in to Opera. This will cause versions of Opera
+    which do not support this flag to fail to start. Use a manual start instead.
+
+  [ENHANCEMENTS]
+
+  * Increase page load timeout from 5 seconds to 60 seconds.
+
+  * Merged desktop changes.
+
+  * Disallow deletion of default main user profile.
+
+  * Do not use pageload timeout for window events
+
+  * Reduce level of Opera Idle logging output.
+
+  * Correctly re-extract launchers when they have changed inside the JAR.
+
+  * Buildfile updated to make testing and releasing easier.
+
+    - Version number is obtained from `git describe`.
+    - `test` target generates reports.
+    - Individual tests can be run using -Dclass=com.opera.core.systems.<Class>
+     where <Class> is one of the classes under test/.
+    - Add launchers to jar in `jar` task, rather than executing `zip`.
+     Compatibility with Windows.
+
+  [BUG FIXES]
+
+  * Update launchers to die after losing their connection to OperaDriver. Fix
+    for launchers on Windows lingering.
+
+  * Fixes for some "No response in a timely fashion" exceptions.  Prevent
+    buffer under-runs on slow connections.
+
+  [TESTS]
+
+  * Added and updated unit tests for:
+
+    - Frames
+    - OperaDriver core
+    - OperaLauncherRunner
+    - Opera path guessing
+    - Opera Idle

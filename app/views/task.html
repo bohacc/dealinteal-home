@@ -1,0 +1,464 @@
+<div class="container-fluid task">
+  <div class="n-module-header">
+    <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
+      <span class="h1">{{'TASK' | translate}}</span>
+      <span class="h3" data-ng-if="!task.id">{{'NEW' | translate | lowercase}}</span>
+    </div>
+    <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 n-ha-right">
+      <div class="form-group btn-group n-ha-left">
+        <button type="button" class="btn n-btn-4" data-ng-click="newTask()">{{'NEW_TASK' | translate}}</button>
+        <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="javascript:void(0);" data-ng-click="copyTaskAsNew()">{{'COPY_TASK' | translate}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-content">
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX1" class="n-label-2">{{'SUBJECT' | translate}}</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <input id="XXX1" name="XXX1" type="text" class="form-control" data-ng-model="task.subject" maxlength="100" tabindex="1">
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX2" class="n-label-2">{{'PROJECT' | translate}}</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+          <!--<input id="XXX2" name="XXX2" type="text" class="form-control"  data-ng-model="task.project" maxlength="100" tabindex="2">-->
+        <data-angucomplete id="XXX2" placeholder="{{'PROJECT' | translate}}" data-tabindex="2"
+                           data-pause="400" data-model="taskTmp.project" data-input-all-data="true"
+                           data-selected-object-id="id" data-url="/api/projects/search/" data-search-fields="name"
+                           data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true"
+                           data-box-items="task.project" data-label-name="PROJECT"
+                           data-label-class="sr-only" data-record-url="{{pageAncestor.routes.PROJECT}}">
+        </data-angucomplete>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX3" class="n-label-2">{{'DESCRIPTION' | translate}}</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <textarea id="XXX3" class="form-control" data-ng-model="task.description" maxlength="255" tabindex="3"></textarea>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX4" class="n-label-2">{{'TAG_DESCRIPTION' | translate}}</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <!--<input id="XXX4" name="XXX4" type="text" class="form-control"  data-ng-model="task.subject">-->
+        <data-angucomplete id="XXX4" placeholder="{{'TAG_DESCRIPTION' | translate}}"
+                           data-pause="0" data-box-items="task.taskTags" data-model="taskTmp.tmpSelectedTaskTag"
+                           data-selected-object-id="id" data-local-data="localDataTags" data-search-fields="name"
+                           data-title-field="name" data-input-class="" data-multiple="true" data-show-as-box="true"
+                           data-ng-show="true" data-input-all-data="true" data-label-name="TAG_DESCRIPTION"
+                           data-label-class="sr-only" data-tabindex="4">
+        </data-angucomplete>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX5" class="n-label-2">{{'ASSIGNED_TO' | translate}}</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input type="radio" data-ng-model="taskTmp.assignedToTeam" data-ng-value="false" tabindex="5">
+          </span>
+          <input id="XXX5" name="XXX5" type="text" class="form-control n-input" disabled="disabled" placeholder="{{'TO_ME' | translate}}">
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX6" class="n-label-2">&nbsp;</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input type="checkbox" data-ng-model="task.private" data-ng-true-value="'1'" data-ng-false-value="'0'" tabindex="8">
+          </span>
+          <input id="XXX6" name="XXX6" type="text" class="form-control n-input" disabled="disabled" placeholder="{{'PRIVATE' | translate}}">
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        &nbsp;
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input type="radio" data-ng-model="taskTmp.assignedToTeam" data-ng-value="true" tabindex="6">
+          </span>
+          <input id="XXX7" name="XXX7" type="text" class="form-control n-input"  placeholder="{{'TEAM_MEMBER' | translate}}" data-ng-model="selectedTeamUser.name">
+          <span class="input-group-btn">
+            <button type="button" tabindex="7" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li data-ng-repeat="user in usersWithoutOwner"><a href="javascript:void(0);" data-ng-click="selectTeamUser($index)">{{user.name}}</a></li>
+            </ul>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        &nbsp;
+      </div>
+      <div class="col-md-4 col-lg-4">
+        &nbsp;
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            {{'DUE_DATE' | translate}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">action</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group">
+          <input id="XXX88" type="text" class="form-control" placeholder="" aria-describedby="XXX8" tabindex="9"
+                 data-ng-class="{invalid: dp.invalidDate('XXX88')}"
+                 data-uib-datepicker-popup="{{format}}"
+                 data-ng-model="taskTmp.dueDate"
+                 data-is-open="opened.dueDate"
+                 data-min-date="minDate"
+                 data-ng-change="recalculateDateTime()"
+            />
+          <!--<span class="input-group-addon glyphicon glyphicon-calendar" id="XXX8"></span>-->
+          <span class="input-group-btn" id="XXX8">
+            <button type="button" class="btn btn-default" data-ng-click="dp.open('dueDate', 'XXX88')">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group" id="groupTimepickerDue">
+          <input type="text" id="XXX99" class="form-control" placeholder="" aria-describedby="XXX9" tabindex="10"
+                 data-ng-model="taskTmp.dueTime"
+                 data-time-format="{{formatTime}}"
+                 data-model-time-format="{{formatTime}}"
+                 data-time-type="date"
+                 data-trigger="manual"
+                 data-html-true="true"
+                 data-bs-show="showTPdue"
+                 data-ng-change="recalculateDateTime()"
+                 bs-timepicker
+            />
+          <!--<span class="input-group-addon glyphicon glyphicon-time" id="XXX9"></span>-->
+          <span class="input-group-btn" id="XXX9">
+            <button type="button" id="btTimeDue" class="btn btn-default" data-ng-click="showTPdue=!showTPdue">
+              <span class="glyphicon glyphicon-time"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX6" class="n-label-2">{{'PRIORITY' | translate}}</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <div class="input-group">
+          <input type="text" class="form-control" value="{{selectedPriority.name | translate}}">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="11">
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li data-ng-repeat="item in priority">
+                <a href="javascript:void(0);" data-ng-click="setPriority($index)">{{item.name | translate}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            {{'START' | translate}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">action</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group">
+          <input type="text" id="XXX1010" class="form-control" placeholder="" aria-describedby="XXX10" tabindex="12"
+                 data-ng-class="{invalid: dp.invalidDate('XXX1010')}"
+                 data-uib-datepicker-popup="{{format}}"
+                 data-ng-model="taskTmp.startDate"
+                 data-is-open="opened.startDate"
+                 data-min-date="minDate"
+                 data-ng-change="recalculateDateTime()"
+            />
+          <!--<span class="input-group-addon glyphicon glyphicon-calendar" id="XXX10"></span>-->
+          <span class="input-group-btn" id="XXX10">
+            <button type="button" class="btn btn-default" data-ng-click="dp.open('startDate', 'XXX1010')">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group" id="groupTimepickerStart">
+          <input type="text" id="XXX1111" class="form-control" placeholder="" aria-describedby="XXX11" tabindex="13"
+                 data-ng-model="taskTmp.startTime"
+                 data-time-format="{{formatTime}}"
+                 data-model-time-format="{{formatTime}}"
+                 data-time-type="date"
+                 data-trigger="manual"
+                 data-html-true="true"
+                 data-bs-show="showTPstart"
+                 data-ng-change="recalculateDateTime()"
+                 bs-timepicker
+            />
+          <!--<span class="input-group-addon glyphicon glyphicon-time" id="XXX11"></span>-->
+          <span class="input-group-btn" id="XXX11">
+            <button type="button" id="btTimeStart" class="btn btn-default" data-ng-click="showTPstart=!showTPstart">
+              <span class="glyphicon glyphicon-time"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            {{'FINISH' | translate}}
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">action</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group">
+          <input type="text" id="XXX1212" class="form-control" placeholder="" aria-describedby="XXX12" tabindex="14"
+                 data-ng-class="{invalid: dp.invalidDate('XXX12')}"
+                 data-uib-datepicker-popup="{{format}}"
+                 data-ng-model="taskTmp.finishDate"
+                 data-is-open="opened.finishDate"
+                 data-min-date="minDate"
+            />
+          <!--<span class="input-group-addon glyphicon glyphicon-calendar" id="XXX12"></span>-->
+          <span class="input-group-btn" id="XXX12">
+            <button type="button" class="btn btn-default" data-ng-click="dp.open('finishDate', 'XXX12')">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group" id="groupTimepickerFinish">
+          <input type="text" id="XXX1313" class="form-control" placeholder="" aria-describedby="XXX13" tabindex="15"
+                 data-ng-model="taskTmp.finishTime"
+                 data-time-format="{{formatTime}}"
+                 data-model-time-format="{{formatTime}}"
+                 data-time-type="date"
+                 data-trigger="manual"
+                 data-html-true="true"
+                 data-bs-show="showTPfinish"
+                 data-ng-change="setFinishTime()"
+                 bs-timepicker
+            />
+          <!--<span class="input-group-addon glyphicon glyphicon-time" id="XXX13"></span>-->
+          <span class="input-group-btn" id="XXX13">
+            <button type="button" id="btTimeFinish" class="btn btn-default" data-ng-click="showTPfinish=!showTPfinish">
+              <span class="glyphicon glyphicon-time"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="16">
+            <span class="glyphicon glyphicon-bell"></span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li data-ng-repeat="remind in listReminder">
+              <a href="javascript:void(0);" data-ng-click="setReminder($index)">{{remind.prefix}}&nbsp;{{remind.name | translate}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-2 col-lg-2">
+          <input type="text" class="form-control n-input" placeholder="" aria-describedby="XXX14" data-ng-disabled="true" value="{{taskTmp.tmpReminderPrefix}} {{taskTmp.tmpReminder | translate}}">
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="17">
+              <span class="glyphicon glyphicon-plane"></span>
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li data-ng-repeat="zone in timeZones">
+                <a href="javascript:void(0);" data-ng-click="setTimeZone($index)">{{zone.name}}</a>
+              </li>
+            </ul>
+          </div>
+          <input type="text" class="form-control n-input" data-ng-disabled="true" data-ng-model="task.timezoneName">
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        &nbsp;
+      </div>
+      <div class="col-md-4 col-lg-4">
+        &nbsp;
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX15" class="n-label-2">{{'RELATED_TO' | translate}}</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <!--<input id="XXX15" name="XXX7" type="text" class="form-control" value="{{'COMPANY' | translate}}">-->
+        <data-angucomplete id="XXX15" placeholder="{{'COMPANY' | translate}}" data-tabindex="18"
+                           data-pause="400" data-model="taskTmp.tmpCompanyName" data-input-all-data="true"
+                           data-selected-object-id="id" data-url="/api/companies/search/" data-search-fields="name"
+                           data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true"
+                           data-box-items="task.company" data-label-name="COMPANY"
+                           data-label-class="sr-only" data-record-url="{{pageAncestor.routes.COMPANY}}">
+        </data-angucomplete>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        &nbsp;
+      </div>
+      <div class="col-md-4 col-lg-4">
+        &nbsp;
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        &nbsp;
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <!--<input id="XXX16" name="XXX16" type="text" class="form-control" value="{{'PERSON' | translate}}">-->
+        <data-angucomplete id="XXX16" placeholder="{{'PERSON' | translate}}" data-tabindex="19"
+                           data-pause="400" data-model="taskTmp.tmpSelectedPerson" box-items="task.person"
+                           data-selected-object-id="id" data-url="/api/people/all/without-team/search/" data-search-fields="name"
+                           data-title-field="name" data-input-class="" data-multiple="false" data-show-as-box="true"
+                           data-ng-show="true" data-label-name="PERSON"
+                           data-label-class="sr-only" data-input-all-data="true" data-record-url="{{pageAncestor.routes.PERSON}}">
+        </data-angucomplete>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        &nbsp;
+      </div>
+      <div class="col-md-4 col-lg-4">
+        &nbsp;
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX17" class="n-label-2">{{'OPPORTUNITY' | translate}}</label>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <!--<input id="XXX17" name="XXX17" type="text" class="form-control">-->
+        <data-angucomplete id="XXX17" placeholder="{{'OPPORTUNITY' | translate}}" data-tabindex="20"
+                           data-pause="400" data-model="taskTmp.tmpSalesPipeline" data-input-all-data="true"
+                           data-selected-object-id="id" data-url="/api/companies/{{getCompanyId()}}/sales-pipeline/all/" data-search-fields="name"
+                           data-title-field="name" data-input-class="" data-multiple="false" data-show-as-box="true"
+                           data-box-items="task.salesPipeline" data-label-name="OPPORTUNITY"
+                           data-label-class="sr-only" data-disabled="task.company.length===0" data-record-url="{{pageAncestor.routes.OPPORTUNITY}}">
+        </data-angucomplete>
+      </div>
+      <div class="col-md-2 col-lg-2">
+        <div class="input-group">
+          <input id="XXX18" name="XXX18" type="text" class="form-control n-input" value="{{'PIPELINE_STAGE' | translate}}"
+               data-ng-model="taskTmp.tmpSalesPipelineStage"
+               data-ng-readonly="true">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="21"
+                    data-ng-disabled="salesPipelineStages.length===0 || task.salesPipeline.length===0">
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li data-ng-repeat="sales in salesPipelineStages">
+                <a href="javascript:void(0);" data-ng-click="setSalesPipelineStage($index)">{{sales.name}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1 col-lg-1">
+        <label for="XXX19" class="n-label-2">{{'OWNER' | translate}}</label>
+      </div>
+      <div class="col-md-4 col-lg-4">
+        <input id="XXX19" name="XXX19" type="text" class="form-control n-input" data-ng-disabled="true" data-ng-model="meta.ownerName">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="n-nav" data-ng-if="task.id">
+      <ul class="nav nav-pills">
+        <li role="presentation" data-ng-class="{'active': tabsRelated[relatedIndex]}">
+          <a href="javascript:void(0);" data-ng-click="setTabsRelated(relatedIndex)">
+            {{'ALL_RELATED_TASKS' | translate}}
+            &nbsp;<span class="badge">{{relatedTasksList[relatedIndex].length || 0}}</span>
+          </a>
+        </li>
+        <li role="presentation" data-ng-class="{'active': tabsRelated[relatedPrecedingIndex]}">
+          <a href="javascript:void(0);" data-ng-click="setTabsRelated(relatedPrecedingIndex)">
+            {{'PRECEDING_TASKS' | translate}}
+            &nbsp;<span class="badge n-badge">{{relatedTasksList[relatedPrecedingIndex].length || 0}}</span>
+          </a>
+        </li>
+        <li role="presentation" data-ng-class="{'active': tabsRelated[relatedFollowingIndex]}">
+          <a href="javascript:void(0);" data-ng-click="setTabsRelated(relatedFollowingIndex)">
+            {{'FOLLOWING_TASKS' | translate}}
+            &nbsp;<span class="badge n-badge">{{relatedTasksList[relatedFollowingIndex].length || 0}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="row" data-ng-if="task.id && tabsRelated[relatedTaskIndex]" data-ng-repeat="row in relatedTasksList[relatedTaskIndex]">
+      <div class="col-md-1 col-lg-1 n-vpadding-05">
+        {{row.startDate | date}}
+      </div>
+      <div class="col-md-4 col-lg-4 n-vpadding-05">
+        <a data-ng-href="#/task/{{row.id}}">{{row.subject}}&nbsp;({{row.assigneeName}})</a>
+      </div>
+      <div class="col-md-1 col-lg-1 n-vpadding-05">
+        {{row.dueDate | date}}
+      </div>
+      <div class="col-md-4 col-lg-4 n-vpadding-05">
+        {{row.projectName}}&nbsp;{{row.opportunityName}}&nbsp;{{row.salesPipelineStageName}}&nbsp;{{row.companyName}}&nbsp;{{row.personName}}
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-footer">
+    <data-action-buttons buttons="actionButtons"></data-action-buttons>
+  </div>
+</div>
+

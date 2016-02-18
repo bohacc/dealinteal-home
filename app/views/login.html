@@ -1,0 +1,73 @@
+<nav class="n-loginbar navbar-fixed-top">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-ld-6 n-ha-left">
+      <!--<a class="n-appname" href="#">Deal<span>in</span>Teal</a>-->
+      <a class="n-applogo" href="javascript:void(0);">
+        <img src="/images/dealinteal_header_logo.png">
+      </a>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-ld-6 ">
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
+                <ul class="dropdown-menu pull-right">
+                    <li><a href="javascript:void(0)" data-ng-click="changeLanguage(LANGUAGE_KEYS[0])">{{"LANGUAGE_CZ" | translate}}</a></li>
+                    <li><a href="javascript:void(0)" data-ng-click="changeLanguage(LANGUAGE_KEYS[1])">{{"LANGUAGE_EN" | translate}}</a></li>
+                    <li><a href="javascript:void(0)" data-ng-click="changeLanguage(LANGUAGE_KEYS[2])">{{"LANGUAGE_SK" | translate}}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="alert-notia">
+  <div class="login-message alert-danger" data-ng-class="{alert: message}">{{message | translate}}</div>
+</div>
+
+<div id="login" ng-controller="LoginController" class="container">
+    <div class="clearfix"></div>
+
+    <div class="col-xs-1 col-sm-3 col-md-3 col-lg-3">
+        &nbsp;
+    </div>
+    <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 well">
+        <h4>{{"LOGIN_INTO_APP" | translate}}</h4>
+        <form data-ng-submit="login()" class="form-horizontal" name="login-form">
+            <div class="form-group">
+                <div class="col-xs-4 col-md-3">
+                    <label for="lg" class="n-label">{{"LOGIN_STRING" | translate}}</label>
+                </div>
+                <div class="col-xs-8 col-md-9">
+                    <input type="text" name="username" id="lg" class="form-control" data-ng-model="credentials.login" placeholder="{{'ENTER_LOGIN' | translate}}" required autocomplete="on" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-xs-4 col-md-3">
+                    <label for="pw" class="n-label">{{"PASSWORD" | translate}}</label>
+                </div>
+                <div class="col-xs-8 col-md-9">
+                    <input type="password" name="password" id="pw" class="form-control" data-ng-model="credentials.password" placeholder="{{'ENTER_PASSWORD' | translate}}" required />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="col-xs-4 col-md-3">
+                    <label for="pinpw" class="n-label">{{"PIN_PASSWORD" | translate}}</label>
+                </div>
+                <div class="col-xs-8 col-md-9">
+                    <input type="text" name="pin" id="pinpw" class="form-control" data-ng-model="credentials.pin" placeholder="{{'ENTER_PIN_PASSWORD' | translate}}" required />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group">
+                <div class="n-ha-center">
+                    <button class="btn btn-primary btn-large">{{"LOGIN" | translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-1 col-sm-3 col-md-3 col-lg-3">
+        &nbsp;
+    </div>
+    <div class="clearfix"></div>
+</div>

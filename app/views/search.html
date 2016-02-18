@@ -1,0 +1,26 @@
+<p>This is the search view.</p>
+<!--Companies-->
+<div><strong>{{'COMPANIES' | translate}}</strong></div>
+<div data-ng-repeat="item in companies">
+    <a href="#/company/{{item.id}}">{{item.name}}</a>
+</div>
+<!--People-->
+<div><strong>{{'PEOPLE' | translate}}</strong></div>
+<div data-ng-repeat="item in people">
+    <a href="#/person/{{item.id}}">{{item.name}}</a>
+</div>
+<!--Team-->
+<div><strong>{{'TEAM' | translate}}</strong></div>
+<div data-ng-repeat="item in team">
+    <a href="#/person/{{item.id}}">{{item.name}}</a>
+</div>
+<!--Opportunity-->
+<div><strong>{{'OPPORTUNITY' | translate}}</strong></div>
+<div data-ng-repeat="item in opportunities">
+    <a href="#/opportunity/{{item.id}}">{{item.name}}</a>
+</div>
+<!--Projects-->
+<div><strong>{{'PROJECTS' | translate}}</strong></div>
+<div data-ng-repeat="item in projects">
+    <a href="#/project/{{item.id}}">{{item.name}}</a>
+</div>

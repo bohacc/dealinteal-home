@@ -1,0 +1,147 @@
+<nav class="navbar navbar-fixed-top n-navbar" role="navigation" data-ng-hide="pageWithoutHeader()">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsed-menu" data-ng-click="setShowMenu()">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand n-applogo" href="javascript:void(0);">
+              <img src="/images/dealinteal_header_logo.png">
+            </a>
+        </div>
+        <div id="navbar-collapsed-menu" class="collapse" data-ng-if="!hideMenu">
+            <ul class="nav navbar-nav navbar-left">
+                <li data-ng-class="{active: activeMenuItem(modules.home)}">
+                    <a href="#/home" data-ng-click="setHideMenu()">{{"HOME" | translate}}</a>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.contacts)}">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{"CONTACTS" | translate}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="item in modules.contacts"><a data-ng-href="#{{item.redirect}}" data-ng-click="setHideMenu()">{{item.name | translate}}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.activity)}">
+                  <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{"ACTIVITY" | translate}} <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li data-ng-repeat="item in modules.activity"><a data-ng-href="#{{item.redirect}}" data-ng-click="setHideMenu()">{{item.name | translate}}</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.pipeline)}">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{"PIPELINE" | translate}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="item in modules.pipeline"><a data-ng-href="#{{item.redirect}}" data-ng-click="setHideMenu()">{{item.name | translate}}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.sales)}">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{"SALES" | translate}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="item in modules.sales"><a data-ng-href="#{{item.redirect}}" data-ng-click="setHideMenu()">{{item.name | translate}}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.team)}">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">{{"TEAM" | translate}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="item in modules.team"><a data-ng-href="#{{item.redirect}}" data-ng-click="setHideMenu()">{{item.name | translate}}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="hidden-xs">
+            <ul class="nav navbar-nav navbar-left">
+                <li data-ng-class="{active: activeMenuItem(modules.home)}">
+                    <a class="hidden-md hidden-lg" href="#/home"><span class="glyphicon glyphicon-dashboard"></span> </a>
+                    <a class="hidden-sm" href="#/home" data-ng-click="setActive('HOME')">{{"HOME" | translate}}</a>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.contacts)}">
+                    <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">
+                      <span class="hidden-md hidden-lg glyphicon glyphicon-user"> </span>
+                      <span class="hidden-sm">{{"CONTACTS" | translate}} </span>
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="item in modules.contacts"><a data-ng-href="#{{item.redirect}}">{{item.name | translate}}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.activity)}">
+                    <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">
+                      <span class="hidden-md hidden-lg glyphicon glyphicon-calendar"> </span>
+                      <span class="hidden-sm">{{"ACTIVITY" | translate}} </span>
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="item in modules.activity"><a data-ng-href="#{{item.redirect}}">{{item.name | translate}}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.pipeline)}">
+                  <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">
+                    <span class="hidden-md hidden-lg glyphicon glyphicon-tasks"> </span>
+                    <span class="hidden-sm">{{"PIPELINE" | translate}} </span>
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li data-ng-repeat="item in modules.pipeline"><a data-ng-href="#{{item.redirect}}">{{item.name | translate}}</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.sales)}">
+                    <a class="dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">
+                      <span class="hidden-md hidden-lg glyphicon glyphicon-random"> </span>
+                      <span class="hidden-sm">{{"SALES" | translate}} </span>
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="item in modules.sales"><a data-ng-href="#{{item.redirect}}">{{item.name | translate}}</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown" data-ng-class="{active: activeMenuItem(modules.team)}">
+                    <a class="hidden-sm dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown">
+                      <span class="hidden-md hidden-lg glyphicon glyphicon-random"> </span>
+                      <span class="hidden-sm">{{"TEAM" | translate}} </span>
+                      <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li data-ng-repeat="item in modules.team"><a data-ng-href="#{{item.redirect}}">{{item.name | translate}}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="hidden-xs">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle hidden-sm hidden-md" data-toggle="dropdown">{{"SETTINGS" | translate}} <b class="caret"></b></a>
+                    <a href="javascript:void(0);" class="dropdown-toggle hidden-lg" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#/profil">{{"ABOUT" | translate}}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:void(0)" data-ng-click="logout()">{{"LOGOFF" | translate}}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:void(0)" data-ng-click="changeLanguage(LANGUAGE_KEYS[0])">{{"LANGUAGE_CZ" | translate}}</a></li>
+                        <li><a href="javascript:void(0)" data-ng-click="changeLanguage(LANGUAGE_KEYS[1])">{{"LANGUAGE_EN" | translate}}</a></li>
+                        <li><a href="javascript:void(0)" data-ng-click="changeLanguage(LANGUAGE_KEYS[2])">{{"LANGUAGE_SK" | translate}}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#/user">{{"SETTING_USER" | translate}}</a></li>
+                      <li><a href="#/pipeline-setup">{{"PIPELINE_SETUP" | translate}}</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#/changelogs">{{"CHANGELOG" | translate}}</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="hidden-xs">
+            <form class="navbar-form navbar-right col-sm-2 col-md-2 col-lg-2" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="{{'SEARCH' | translate}}" data-ng-keyup="enterSearch($event)" data-ng-model="searchCode">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-ng-click="search()">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<data-alerts></data-alerts>
+<data-alerts-modal></data-alerts-modal>

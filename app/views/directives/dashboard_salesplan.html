@@ -1,0 +1,47 @@
+<div class="panel n-panel-1 dashboard-salesplan" id="dashboard-salesplan">
+  <div class="panel-heading" data-ng-click="dashboardsToggle['salesplan']=!dashboardsToggle['salesplan']">
+    <div class="col-xs-3">
+      <h2 class="glyphicon glyphicon-dashboard"></h2>
+    </div>
+    <div class="col-xs-9 text-right">
+      <div class="number">
+        <span>64%</span>
+      </div>
+      <div class="text">
+        <span>{{'FULFILLMENT_OF_SALES_PLAN' | translate}}</span>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="panel-body" data-ng-show="dashboardsToggle['salesplan']">
+    <div class="col-xs-12 month">říjen</div>
+    <div>&nbsp;</div>
+    <div class="n-ha-center">
+      <!--<img src="../images/kolacovy_graf.png">-->
+      <canvas id="doughnut" class="chart chart-doughnut" width="245" height="245"
+              chart-data="chartData"
+              chart-labels="chartLabels"
+              chart-legend="chartLegend"
+              chart-colours="chartColours"
+              chart-options="chartOptions"
+      >
+      </canvas>
+    </div>
+    <div>&nbsp;</div>
+    <div class="col-xs-6">
+      plán
+    </div>
+    <div class="col-xs-6 number">
+      1.080.000,-
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-xs-6">
+      plnění
+    </div>
+    <div class="col-xs-6 number">
+      626.500,-
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <!--<div class="panel-footer" data-ng-show="dashboardsToggle['salesplan']">Panel footer</div>-->
+</div>

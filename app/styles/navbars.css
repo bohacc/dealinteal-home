@@ -1,0 +1,87 @@
+/* variables  - colours*/
+/*@n-green-3: #008080;*/
+/* variables  - text*/
+/* variables  - spaces*/
+/* Do not show collapsed menu on other than xs devices */
+@media (min-width: 768px) {
+  .collapse {
+    display: none !important;
+  }
+}
+/* navbar */
+.n-navbar {
+  background-color: #008d96;
+}
+.n-navbar A {
+  color: #ffffff;
+}
+/*.n-navbar .n-appname{
+}*/
+.n-navbar .n-applogo {
+  padding: 0 0 0 15px;
+}
+/*.n-navbar .n-appname SPAN{
+  font-style: italic;
+  font-weight: 100;
+}*/
+.n-navbar .nav .active > A,
+.n-navbar .nav .open > A,
+.n-navbar .nav .open > A:hover,
+.n-navbar .nav .open > A:focus,
+.n-navbar .nav > LI > A:hover,
+.n-navbar .nav > LI > A:focus {
+  background-color: #2d2d2d;
+}
+.n-navbar .icon-bar {
+  background-color: #ffffff;
+}
+/* login bar */
+.n-loginbar {
+  background-color: #008d96;
+  color: #ffffff;
+}
+.n-loginbar A {
+  color: #ffffff;
+}
+/*.n-loginbar .n-appname SPAN{
+  display: inline-block;
+  padding: 13px 0 12px 0;
+  font-size: 18px;
+}*/
+/*.n-loginbar .n-appname SPAN{
+  font-style: italic;
+  font-weight: 100;
+}*/
+.n-loginbar .nav .active > A,
+.n-loginbar .nav .open > A,
+.n-loginbar .nav .open > A:hover,
+.n-loginbar .nav .open > A:focus,
+.n-loginbar .nav > LI > A:hover,
+.n-loginbar .nav > LI > A:focus {
+  background-color: #2d2d2d;
+}
+/* footer bar */
+.n-footerbar {
+  background-color: #008d96;
+  color: #ffffff;
+  z-index: 999;
+}
+.n-footerbar .panel-body {
+  padding: 11px 15px;
+}
+.n-footerbar A {
+  color: #ffffff;
+}
+.n-footerbar .n-applogo {
+  padding: 0;
+}
+.n-footerbar .n-appdesc {
+  line-height: 28px;
+}
+/*
+
+.n-footerbar .n-appname SPAN{
+  font-style: italic;
+  font-weight: 100;
+}
+*/

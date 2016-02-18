@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/controllers/connections.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lib/controllers/connections.js</h1>
+
+
+  <section>
+        <article>
+            <pre class="prettyprint source"><code>/**
+ * Notia Informační systémy, spol. s r. o.
+ * Created by Martin Boháč on 11.09.2014.
+ */
+/*jslint node: true, unparam: true*/
+'use strict';
+
+/**
+ * @file connections
+ * @fileOverview __Server_Connections
+ */
+
+/**
+ * @namespace __Server_Connections
+ * @author Martin Boháč
+ */
+
+var connections = [],
+  env,
+  clientDBDevelopment = null,
+  Promise = require('promise'),
+  tools = require('./tools'),
+  auth = require('./authentication'),
+  postgres = require('./api_pg'),
+  constants = require('./constants'),
+  socketio = require('./socketio'),
+  conn = require('./connections');
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name setEnv
+ * @description set NODE_ENV
+ * @param str {String} string for ENV
+ * @returns void
+ */
+exports.setEnv = function (str) {
+  env = str;
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name getEnv
+ * @description get NODE_ENV
+ * @returns String
+ */
+exports.getEnv = function () {
+  return env;
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name ConnObj
+ * @description object for instances connections
+ * @param obj {Object} object with connection data
+ * @returns void
+ */
+exports.ConnObj = function (obj) {
+  this.loginToken = obj.loginToken;
+  this.id = obj.id;
+  this.user = obj.user;
+  this.password = obj.password;
+  this.database = obj.database;
+  this.host = obj.host;
+  this.port = obj.port;
+  this.connectString = obj.connectString;
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name connect
+ * @description application login user, create client token and save to DB
+ * @param req {Object} request reference object
+ * @param res {Object} response reference object
+ * @returns void
+ */
+exports.connect = function (req, res) {
+  var credentials = tools.prepareCredentials(req);
+  conn.getConnInfoFromLoggingDB(credentials).then(
+    function (result) {
+      if (result && JSON.stringify(result) !== '{}') {
+        // add information for connection from logging dB
+        tools.updateCredentials(credentials, result);
+        // connect to DB
+        auth.signin(credentials, req, res).then(
+          function (obj) {
+            if (obj.success) {
+              // save current login
+              credentials.loginToken = obj.loginToken;
+              conn.addConnection(credentials);
+            }
+            res.json({success: obj.success, socketid: obj.socketid});
+          },
+          function (result) {
+            res.json({message: {type: constants.MESSAGE_ERROR, message: constants.MESSAGE_CONNECT_INVALID_USERNAME_OR_PASSWORD + ' (' + result + ')'}});
+          }
+        );
+      } else {
+        res.json({message: {type: constants.MESSAGE_ERROR, message: constants.MESSAGE_CONNECT_INVALID_CONNECT_STRING + ' (connection not found)'}});
+      }
+    },
+    function (result) {
+      res.json({message: {type: constants.MESSAGE_ERROR, message: constants.MESSAGE_CONNECT_INVALID_CONNECT_STRING + ' (' + result + ')'}});
+    }
+  );
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name getConnection
+ * @description get connection to DB
+ * @param req {Object} request reference object
+ * @returns Object
+ */
+exports.getConnection = function (req) {
+  var i, l, connect = {}, loginToken;
+  loginToken = tools.getLoginToken(req);
+  if (conn.getEnv() === 'development') {
+    connect = {
+      user: 'notia_user',
+      password: 'notia',
+              database: 'dit_develop',
+      host: 'localhost',
+      port: 5432,
+      clientDB: clientDBDevelopment
+    };
+  } else {
+    // search connection on PRODUCTION
+    for (i = 0, l = connections.length; i &lt; l; i += 1) {
+      if (connections[i].loginToken === loginToken) {
+        connect = connections[i];
+        break;
+      }
+    }
+  }
+  return connect;
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name setConnectionClientDB
+ * @description set connection to DB
+ * @param req {Object} request reference object
+ * @param client {Object} client instance for DB
+ * @returns void
+ */
+exports.setConnectionClientDB = function (req, client) {
+  var i, l, loginToken;
+  loginToken = tools.getLoginToken(req);
+  if (conn.getEnv() === 'development') {
+    clientDBDevelopment = client;
+  } else {
+    // search connection on PRODUCTION
+    for (i = 0, l = connections.length; i &lt; l; i += 1) {
+      if (connections[i].loginToken === loginToken) {
+        connections[i].clientDB = client;
+        break;
+      }
+    }
+  }
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name getConnectionString
+ * @description get connectionString to DB
+ * @param req {Object} request reference object
+ * @returns Object
+ */
+exports.getConnectionString = function (obj) {
+  return 'postgres://' + obj.user + ':' + obj.password + '@' + obj.host + ':' + obj.port + '/' + obj.database;
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name getConnectionToLoggingDB
+ * @description get connection to logging DB, persist
+ * @returns Object
+ */
+exports.getConnectionToLoggingDB = function () {
+  return {
+    user: 'notia_user_logging',
+    password: 'notia',
+              database: 'dit_logging',
+    host: 'localhost',
+    port: 5432,
+    clientDB: null
+  };
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name removeConnection
+ * @description remove connection instance from connection stack
+ * @param req {Object} request reference object
+ * @returns void
+ */
+exports.removeConnection = function (req) {
+  try {
+    var loginToken = tools.getLoginToken(req), i;
+    for (i = 0; i &lt; connections.length; i += 1) {
+      if (loginToken === connections[i].loginToken) {
+        connections.splice(i, 1);
+        return;
+      }
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name addConnection
+ * @description push connection instance to connection stack
+ * @param credentials {Object} credentials data
+ * @returns void
+ */
+exports.addConnection = function (credentials) {
+  try {
+    connections.push({
+      loginToken: credentials.loginToken,
+      id: credentials.id,
+      user: credentials.user,
+      password: credentials.password,
+      database: credentials.database,
+      host: credentials.host,
+      port: credentials.port,
+      connectString: credentials.connectString
+    });
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+/**
+ * @memberof __Server_Connections
+ * @method
+ * @name getConnInfoFromLoggingDB
+ * @description push connection instance to connection stack
+ * @param credentials {Object} credentials data
+ * @returns Promise
+ */
+exports.getConnInfoFromLoggingDB = function (credentials) {
+  var sql = 'SELECT * FROM connections WHERE connect_string = $1';
+  return new Promise(function (resolve, reject) {
+    postgres.selectLoggingDB(sql, [credentials.connectString]).then(
+      function (result) {
+        resolve(tools.getSingleResult(result));
+      },
+      function (result) {
+        reject({});
+      }
+    );
+  });
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="__Server_Connections.html">__Server_Connections</a></li><li><a href="__Server_Constants.html">__Server_Constants</a></li><li><a href="__Server_Flow.html">__Server_Flow</a></li><li><a href="__Server_Messages.html">__Server_Messages</a></li><li><a href="__Server_MonitorDB.html">__Server_MonitorDB</a></li><li><a href="__Server_PDF.html">__Server_PDF</a></li><li><a href="__Server_PG_API.html">__Server_PG_API</a></li><li><a href="__Server_REST_API.html">__Server_REST_API</a></li><li><a href="__Server_REST_API_Appointment.html">__Server_REST_API_Appointment</a></li><li><a href="__Server_REST_API_Authentication.html">__Server_REST_API_Authentication</a></li><li><a href="__Server_REST_API_Companies.html">__Server_REST_API_Companies</a></li><li><a href="__Server_REST_API_Countries.html">__Server_REST_API_Countries</a></li><li><a href="__Server_REST_API_Logging.html">__Server_REST_API_Logging</a></li><li><a href="__Server_REST_API_People.html">__Server_REST_API_People</a></li><li><a href="__Server_REST_API_People_Companies.html">__Server_REST_API_People_Companies</a></li><li><a href="__Server_REST_API_Positions.html">__Server_REST_API_Positions</a></li><li><a href="__Server_REST_API_Reminders.html">__Server_REST_API_Reminders</a></li><li><a href="__Server_REST_API_Roles.html">__Server_REST_API_Roles</a></li><li><a href="__Server_REST_API_Sales_Pipeline.html">__Server_REST_API_Sales_Pipeline</a></li><li><a href="__Server_REST_API_Sales_Pipeline_Stages.html">__Server_REST_API_Sales_Pipeline_Stages</a></li><li><a href="__Server_REST_API_Tasks.html">__Server_REST_API_Tasks</a></li><li><a href="__Server_REST_API_TimeZones.html">__Server_REST_API_TimeZones</a></li><li><a href="__Server_REST_API_User.html">__Server_REST_API_User</a></li><li><a href="__Server_Socket.html">__Server_Socket</a></li><li><a href="__Server_Tools.html">__Server_Tools</a></li><li><a href="__Server_TOOLS_API_ExportsFactory.html">__Server_TOOLS_API_ExportsFactory</a></li><li><a href="actionButtons.html">actionButtons</a></li><li><a href="AgendaCtrl.html">AgendaCtrl</a></li><li><a href="alerts.html">alerts</a></li><li><a href="alertsModal.html">alertsModal</a></li><li><a href="AlertsService.html">AlertsService</a></li><li><a href="angucomplete.html">angucomplete</a></li><li><a href="AppointmentCtrl.html">AppointmentCtrl</a></li><li><a href="AppointmentService.html">AppointmentService</a></li><li><a href="CalendarCtrl.html">CalendarCtrl</a></li><li><a href="CompaniesCtrl.html">CompaniesCtrl</a></li><li><a href="CompaniesService.html">CompaniesService</a></li><li><a href="CompanyCtrl.html">CompanyCtrl</a></li><li><a href="CountriesService.html">CountriesService</a></li><li><a href="DatepickerFactory.html">DatepickerFactory</a></li><li><a href="datepickerNotia.html">datepickerNotia</a></li><li><a href="DateService.html">DateService</a></li><li><a href="header.html">header</a></li><li><a href="language.html">language</a></li><li><a href="LogData.html">LogData</a></li><li><a href="MainCtrl.html">MainCtrl</a></li><li><a href="MessengerService.html">MessengerService</a></li><li><a href="MetaService.html">MetaService</a></li><li><a href="PageAncestorService.html">PageAncestorService</a></li><li><a href="PeopleCtrl.html">PeopleCtrl</a></li><li><a href="PeopleService.html">PeopleService</a></li><li><a href="PersonCtrl.html">PersonCtrl</a></li><li><a href="pillsNotia.html">pillsNotia</a></li><li><a href="ratingNotia.html">ratingNotia</a></li><li><a href="ReminderCtrl.html">ReminderCtrl</a></li><li><a href="Reminders.html">Reminders</a></li><li><a href="ReminderService.html">ReminderService</a></li><li><a href="SalesPipelineCtrl.html">SalesPipelineCtrl</a></li><li><a href="SalesPipelineService.html">SalesPipelineService</a></li><li><a href="SalesPipelineStagesService.html">SalesPipelineStagesService</a></li><li><a href="SocketFactory.html">SocketFactory</a></li><li><a href="TestCtrl.html">TestCtrl</a></li><li><a href="TimeZonesService.html">TimeZonesService</a></li><li><a href="ToolsService.html">ToolsService</a></li><li><a href="UsersService.html">UsersService</a></li><li><a href="VyvojCtrl.html">VyvojCtrl</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Tue Jan 20 2015 15:55:58 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

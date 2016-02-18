@@ -1,0 +1,87 @@
+<!-- Modal -->
+<div class="modal fade" data-backdrop="static" keyboard="false" id="newEventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel2">Nová událost</h4>
+            </div>
+            <alert ng-repeat="alert in alertsEvents" type="alert.type" close="closeAlertEvent($index)">{{alert.msg}}</alert>
+            <div class="form-horizontal">
+                <div class="modal-body">
+                    <div class="main-box">
+                        <div class="form-group">
+                            <label for="subject" class="control-label col-sm-2">Předmět</label>
+                            <div class="col-sm-10">
+                                <input type="text" ng-model="event.subject" id="subject" ng-required="true" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="place" class="control-label col-sm-2">Místo</label>
+                            <div class="col-sm-10">
+                                <input type="text" ng-model="event.place" id="place" ng-required="true" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_from" class="control-label col-sm-2">Od</label>
+                            <div class="col-sm-10">
+                                <div class="form-inline">
+                                    <input type="text" size="10" id="date_from" class="form-control" ng-model="event.date_from" ng-change="setDateTo()" data-autoclose="1" ng-required="true" placeholder="Datum" bs-datepicker="">
+
+                                    <input type="text" size="6" class="form-control" ng-model="event.time_from" ng-change="setTimeTo()" data-autoclose="1" placeholder="Čas" bs-timepicker="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_to" class="control-label col-sm-2">Do</label>
+                            <div class="col-sm-10">
+                                <div class="form-inline">
+                                    <input size="10" type="text" id="date_to" class="form-control" ng-model="event.date_to" data-autoclose="1" ng-required="true" placeholder="Datum" bs-datepicker="">
+
+                                    <input type="text" size="6" class="form-control" ng-model="event.time_to" data-autoclose="1" placeholder="Čas" bs-timepicker="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">Účastníci</label>
+                            <div class="col-sm-10">
+                                <angucomplete class="" id="members" placeholder="Hledání..." pause="400" selectedobject="tmpSearch" url="/api/search/contacts/" datafield="rows" searchfields="name" titlefield="name" inputclass="inputBox" items="event.contacts" ondelete="deleteEventContact" boxclass="box-angucomplete">
+                                </angucomplete>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="control-label col-sm-2">Popis</label>
+                            <div class="col-sm-10">
+                                <textarea name="" id="description" ng-model="event.description" cols="30" rows="5" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger pull-left" type="button" ng-show="event.id" ng-click="deleteEvent()">Smazat</button>
+                    <button class="btn btn-primary" type="button" ng-click="postEvents($event)">Uložit</button>
+                    <button class="btn btn-default" data-dismiss="modal">Zavřít</button>
+                </div>
+            </div>  <!--form-->
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<alert ng-repeat="alert in alertsMain" type="alert.type" close="closeAlertMain($index)">{{alert.msg}}</alert>
+<div class="main-box">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <button ng-click="newRecord()" data-toggle="modal" data-target="#newEventModal" id="newEvent" class="btn btn-info">{{"NEW_EVENT_BUTTON" | translate}}</button>
+            <button data-toggle="modal" data-target="#newEventModal" id="currentEvent" ng-show="false" class="btn btn-info">Vybraná událost</button>
+            <button type="button" class="btn btn-primary" ng-model="team" ng-click="setTeam()" btn-checkbox="">Události týmu</button>
+            <!--<div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type="checkbox">Události týmu
+                </label>
+            </div>-->
+        </div>
+    </form>
+</div>
+<div>&nbsp;</div>
+
+<div ui-calendar="uiConfig.calendar" id="calendar" class="span8 calendar" ng-model="eventSources"></div>

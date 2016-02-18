@@ -1,0 +1,97 @@
+@import "variables.less";
+
+/* Do not show collapsed menu on other than xs devices */
+
+@media (min-width: 768px) {
+  .collapse {
+    display: none !important;
+  }
+}
+
+/* navbar */
+.n-navbar{
+  background-color: @n-green-3;
+}
+.n-navbar A{
+  color:@n-white;
+}
+
+/*.n-navbar .n-appname{
+}*/
+.n-navbar .n-applogo {
+  padding: 0 0 0 15px;
+}
+/*.n-navbar .n-appname SPAN{
+  font-style: italic;
+  font-weight: 100;
+}*/
+
+
+.n-navbar .nav .active > A,
+.n-navbar .nav .open > A,
+.n-navbar .nav .open > A:hover,
+.n-navbar .nav .open > A:focus,
+.n-navbar .nav > LI > A:hover,
+.n-navbar .nav > LI > A:focus {
+  background-color: @n-gray-4;
+}
+
+.n-navbar .icon-bar{
+  background-color: @n-white;
+}
+
+
+/* login bar */
+.n-loginbar{
+  background-color: @n-green-3;
+  color:@n-white;
+}
+.n-loginbar A{
+  color:@n-white;
+}
+/*.n-loginbar .n-appname SPAN{
+  display: inline-block;
+  padding: 13px 0 12px 0;
+  font-size: 18px;
+}*/
+/*.n-loginbar .n-appname SPAN{
+  font-style: italic;
+  font-weight: 100;
+}*/
+.n-loginbar .nav .active > A,
+.n-loginbar .nav .open > A,
+.n-loginbar .nav .open > A:hover,
+.n-loginbar .nav .open > A:focus,
+.n-loginbar .nav > LI > A:hover,
+.n-loginbar .nav > LI > A:focus {
+  background-color: @n-gray-4;
+}
+
+/* footer bar */
+.n-footerbar{
+  background-color: @n-green-3;
+  color:@n-white;
+  z-index: 999;
+}
+.n-footerbar .panel-body{
+  padding: 11px 15px;
+}
+.n-footerbar A{
+  color:@n-white;
+}
+
+.n-footerbar .n-applogo{
+  padding: 0;
+}
+.n-footerbar .n-appdesc{
+  line-height: 28px;
+}
+
+
+/*
+
+.n-footerbar .n-appname SPAN{
+  font-style: italic;
+  font-weight: 100;
+}
+*/

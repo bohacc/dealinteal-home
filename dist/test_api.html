@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="bower_components/angular/angular.js"></script>
+</head>
+<body>
+
+<table><tr><td>
+
+    <div><h2><strong><u>SERVER</u></strong></h2></div>
+
+    <div style="color: green"><i>Basic schema</i></div>
+
+    <div>GET/api/exchange/v1/schema</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>COUNTRIES</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/countries/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/countries" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/countries/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/countries" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/countries/get/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/countries/get/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST/api/exchange/v1/countries/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/countries/create" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="iso" type="hidden" value="CZ">
+      <input name="nameCz" type="hidden" value="Česká republika">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/countries/update/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/countries/update/242" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="iso" type="hidden" value="CZ">
+      <input name="nameCz" type="hidden" value="Česká republika">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/countries/delete/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/countries/delete/999" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/countries/all/delete</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/countries/all/delete" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>COMPANIES</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/companies/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/companies/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET(param: regId)/api/exchange/v1/companies/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="regId" type="hidden" value="12345678">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/companies/get/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies/get/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST/api/exchange/v1/companies/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="reg_id" type="hidden" value="12345678">
+        <input name="vat_id" type="hidden" value="CZ12345678">
+        <input name="companyName" type="hidden" value="test">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/companies/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="reg_id" type="hidden" value="12345678">
+        <input name="vat_id" type="hidden" value="CZ12345678">
+        <input name="company_name" type="hidden" value="test">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/companies/update/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies/update/1" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="companyName" type="hidden" value="test import">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/companies/delete/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies/delete/1" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>PEOPLE</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/people/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/people" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people/get/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people/get/6" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/people/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="lastName" type="hidden" value="Boháč">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/people/update/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people/update/6" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="lastName" type="hidden" value="Boháč">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/people/delete/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people/delete/6" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>PEOPLE - COMPANIES</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/people-companies/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/people-companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people-companies/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people-companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people/:id/companies</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people/9/companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people/:id/companies/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people/9/companies/2" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/companies/:id/people</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies/2/people" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/companies/:id/people/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/companies/2/people/9" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST/api/exchange/v1/people-companies/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people-companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="peopleId" type="text" value="">
+        <input name="companiesId" type="text" value="">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(error)/api/exchange/v1/people-companies/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people-companies" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="people_id" type="text" value="">
+      <input name="companies_id" type="text" value="">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/people-companies/people/:people/company/:company/update</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people-companies/people/1/company/1/update" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="roleId" type="hidden" value="1">
+      <input name="positionId" type="hidden" value="1">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/people-companies/people/:people/company/:company/delete</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/people-companies/people/999/company/999/update" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>PRODUCTS</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/products/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/products" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/products/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/products" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/products/get/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/products/get/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/products/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/products/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/products/update/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/products/update/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/products/delete/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/products/delete/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/products/all/delete</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/products/all/delete" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>BALANCE</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/balance/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/balance" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/balance/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/balance/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/balance/all/delete</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/balance/all/delete" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>SALES</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/sales/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/sales" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/sales/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/sales/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/sales/update/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/sales/update/4" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/sales/delete/:id</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/sales/delete/4" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/sales/all/delete</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/sales/all/delete" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/sales/document/delete/:document</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/sales/document/delete/dok1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>CURRENCY</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/currency/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/currency" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/currency/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/currency" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/currency/get/:code</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/currency/get/CZK" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/currency/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/currency/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>UNITS</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/units/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/units" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/units/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/units" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/units/get/:code</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/units/get/kg" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/units/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/units/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>COMPANY-GROUPS</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/company-groups/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/schema/company-groups" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/company-groups/</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/company-groups" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/company-groups/get/:code</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/company-groups/get/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/company-groups/create</div>
+    <form action="https://dealinteal.notia.cz/api/exchange/v1/code/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+</td><td>
+
+    <div><h2><strong><u>LOCAL</u></strong></h2></div>
+
+    <div style="color: green"><i>Basic schema</i></div>
+
+    <div>POST/api/exchange/v1/schema</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>COUNTRIES</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/countries/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/countries" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/countries/</div>
+    <form action="http://localhost:9000/api/exchange/v1/countries" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/countries/get/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/countries/get/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST/api/exchange/v1/countries/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/countries/create" method="post">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="iso" type="hidden" value="CZ">
+      <input name="nameCz" type="hidden" value="Česká republika">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/countries/update/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/countries/update/242" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="iso" type="hidden" value="CZ">
+      <input name="nameCz" type="hidden" value="Česká republika">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/countries/delete/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/countries/update/242" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/countries/all/delete</div>
+    <form action="http://localhost:9000/api/exchange/v1/countries/all/delete" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>COMPANIES</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/companies/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/companies/</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET(param: regId)/api/exchange/v1/companies/</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="regId" type="hidden" value="12345678">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/companies/get/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies/get/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST/api/exchange/v1/companies/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="regId" type="hidden" value="12345678">
+        <input name="vatId" type="hidden" value="CZ12345678">
+        <input name="companyName" type="hidden" value="test import">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/companies/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="regId" type="hidden" value="12345678">
+        <input name="vatId" type="hidden" value="CZ12345678">
+        <input name="company_name" type="hidden" value="test import">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/companies/update/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies/update/1" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="companyName" type="hidden" value="test import">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/companies/delete/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies/delete/1" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>PEOPLE</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/people/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/people" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people/</div>
+    <form action="http://localhost:9000/api/exchange/v1/people" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people/get/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/people/get/6" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/people/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/people/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="lastName" type="hidden" value="Boháč">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/people/update/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/people/update/6" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="lastName" type="hidden" value="Boháč">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/people/delete/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/people/delete/6" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>PEOPLE - COMPANIES</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/people-companies/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/people-companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people-companies/</div>
+    <form action="http://localhost:9000/api/exchange/v1/people-companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people/:id/companies</div>
+    <form action="http://localhost:9000/api/exchange/v1/people/9/companies" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/people/:id/companies/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/people/9/companies/2" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/companies/:id/people</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies/2/people" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/companies/:id/people/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/companies/2/people/9" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST/api/exchange/v1/people-companies/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/people-companies/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <label for="peopleId">peopleId</label>
+        <input name="peopleId" id="peopleId" type="text" value="">
+        <label for="companiesId">companiesId</label>
+        <input name="companiesId" id="companiesId" type="text" value="">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(error)/api/exchange/v1/people-companies/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/people-companies/create" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <label for="peopleId2">peopleId</label>
+      <input name="people_id" id="peopleId2" type="text" value="">
+      <label for="companiesId2">companiesId</label>
+      <input name="companies_id" id="companiesId2" type="text" value="">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/people-companies/people/:people/company/:company/update</div>
+    <form action="http://localhost:9000/api/exchange/v1/people-companies/people/1/company/1/update" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input name="roleId" type="hidden" value="1">
+      <input name="positionId" type="hidden" value="1">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/people-companies/people/:people/company/:company/delete</div>
+    <form action="http://localhost:9000/api/exchange/v1/people-companies/people/999/company/999/update" method="POST">
+      <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+      <input name="connectString" type="hidden" value="DEALINTEAL_API">
+      <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>PRODUCTS</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/products/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/products" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+   <div>GET/api/exchange/v1/products/</div>
+    <form action="http://localhost:9000/api/exchange/v1/products" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/products/get/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/products/get/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/products/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/products/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/products/update/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/products/update/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/products/delete/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/products/delete/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/products/all/delete</div>
+    <form action="http://localhost:9000/api/exchange/v1/products/all/delete" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>BALANCE</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/balance/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/balance" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/balance/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/balance/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/balance/all/delete</div>
+    <form action="http://localhost:9000/api/exchange/v1/balance/all/delete" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>SALES</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/sales/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/sales" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/sales/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/sales/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>PUT/api/exchange/v1/sales/update/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/sales/update/4" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/sales/delete/:id</div>
+    <form action="http://localhost:9000/api/exchange/v1/sales/delete/4" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/sales/all/delete</div>
+    <form action="http://localhost:9000/api/exchange/v1/sales/all/delete" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>DELETE/api/exchange/v1/sales/document/delete/:document</div>
+    <form action="http://localhost:9000/api/exchange/v1/sales/document/delete/dok1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>CURRENCY</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/currency/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/currency" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/currency/</div>
+    <form action="http://localhost:9000/api/exchange/v1/currency" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/currency/get/:code</div>
+    <form action="http://localhost:9000/api/exchange/v1/currency/get/CZK" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/currency/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/currency/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="code" type="hidden" value="PLN">
+        <input name="name" type="hidden" value="Polský zlotý">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>UNITS</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/units/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/units" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/units/</div>
+    <form action="http://localhost:9000/api/exchange/v1/units" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/units/get/:code</div>
+    <form action="http://localhost:9000/api/exchange/v1/units/get/kg" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/units/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/units/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="code" type="hidden" value="mpg">
+        <input name="name" type="hidden" value="galon">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <hr>
+    <div style="color: green"><i><strong>COMPANY-GROUPS</strong></i></div>
+
+    <div>GET/api/exchange/v1/schema/company-groups/</div>
+    <form action="http://localhost:9000/api/exchange/v1/schema/company-groups" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/company-groups/</div>
+    <form action="http://localhost:9000/api/exchange/v1/company-groups" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>GET/api/exchange/v1/company-groups/get/:code</div>
+    <form action="http://localhost:9000/api/exchange/v1/company-groups/get/1" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input type="submit" value="odeslat">
+    </form>
+
+    <div>POST(Error)/api/exchange/v1/company-groups/create</div>
+    <form action="http://localhost:9000/api/exchange/v1/company-groups/create" method="POST">
+        <input name="hash" type="hidden" value="6e495f39b2a39f794c5e949bb2750955">
+        <input name="connectString" type="hidden" value="DEALINTEAL_API">
+        <input name="name" type="hidden" value="Test group">
+        <input type="submit" value="odeslat">
+    </form>
+
+</td></tr></table>
+
+</body>
+</html>

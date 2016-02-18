@@ -1,0 +1,108 @@
+<div class="container-fluid sales-pipeline">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 n-ha-right">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default glyphicon glyphicon glyphicon-list" data-ng-click="viewOpportunities()"></button>
+      <button type="button" class="btn btn-default glyphicon glyphicon-road active"></button>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="col-xs-12 col-md-4">
+        <span class="h1">{{'SALES_PIPELINE' | translate}}</span>
+    </div>
+    <div class="col-xs-12 col-md-2">
+        <div class="dropdown">
+            <div class="input-group">
+                <label for="dealer" class="hidden"></label>
+                <input id="dealer" name="dealer" type="text" class="form-control" value="{{dataLoaderParams.filter.owner.peoplename}}">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li data-ng-repeat="owner in owners"><a href="javascript:void(0);" data-ng-click="setOwner(owners[$index])">{{owner.peoplename}}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-3">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default active" data-ng-model="dataLoaderParams.sortField" data-uib-btn-radio="'company_name'">{{'A-Z' | translate}}</button>
+            <button type="button" class="btn btn-default" data-ng-model="dataLoaderParams.sortField" data-uib-btn-radio="'price'">{{'VALUE' | translate}}</button>
+            <button type="button" class="btn btn-default" data-ng-model="dataLoaderParams.sortField" data-uib-btn-radio="'date'">{{'AGE' | translate}}</button>
+        </div>
+    </div>
+    <div class="col-xs-4 col-md-2">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up active" data-ng-model="dataLoaderParams.sortDirection" data-uib-btn-radio="'asc'"></button>
+            <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down" data-ng-model="dataLoaderParams.sortDirection" data-uib-btn-radio="'desc'"></button>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+
+<div class="container-fluid sales-pipeline">
+    <div class="col-md-12 col-xs-12" id="column{{$index}}" data-ng-repeat="item in stages">
+        <div class="list-group">
+            <a href="" class="list-group-item active" data-toggle="collapse" data-parent="#column{{$index}}" data-ng-click="toggleStages(item.id)">
+                {{item.name}}
+                <span class="pull-right glyphicon" data-ng-class="{'glyphicon-minus': stagesRows[item.id].collapse, 'glyphicon-plus': !stagesRows[item.id].collapse}"></span>
+            </a>
+            <div class="list-group-item" data-ng-class-even="'n-list-1'" data-ng-class-odd="'n-list-2'" data-ng-repeat="row in stagesRows[item.id].rows" data-ng-show="stagesRows[item.id].collapse">
+                <div class="col-md-4 col-xs-12">
+                    <div class="btn-group n-transparent">
+                        <button type="button" class="btn btn-default">{{row.companyname}}</button>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <li><a href="#/company/{{row.companyId}}">{{'OPEN_COMPANY' | translate}}</a></li>
+                                <li><a href="#/opportunity/{{row.id}}">{{'OPEN_OPPORTUNITY' | translate}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 visible-xs visible-sm">
+                    <div>
+                        <div class="pull-left">{{row.peoplename}}</div>
+                        <div class="pull-right">&gt; 1 year</div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div>
+                        <span class="pull-left">
+                             <span class="label label-danger">HOT</span>
+                        </span>
+                        <span class="pull-right">{{row.price | currency}}</span>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 hidden-xs hidden-sm">
+                    <div class="">{{row.subject}}</div>
+                    <div class="">{{row.peoplename}}</div>
+                </div>
+                <div class="col-md-2 hidden-xs hidden-sm">
+                    <div>
+                        <div class="pull-left">
+                            <span class="label label-danger">HOT</span>
+                        </div>
+                        <div class="pull-right">&gt; 1 year</div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div>
+                        <span class="pull-right">{{row.price | currency}}</span>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="list-group-item n-list-2" data-ng-show="stagesRows[item.id].collapse">
+                <pagination-notia load-data="dataLoader" load-data-params="dataLoaderParams" load-data-params-runtime="{id: item.id}" amount="rowsInStage" button-all="true" list-data="stagesRows[item.id].rows" info="infoPaging[item.id]"></pagination-notia>
+            </div>
+            <div class="list-group-item n-list-2">
+                <span class="badge pull-left">{{infoPaging[item.id].summary.count}}</span>
+                <span class="pull-right">{{infoPaging[item.id].summary.price | currency}}</span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>

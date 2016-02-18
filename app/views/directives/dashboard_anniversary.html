@@ -1,0 +1,69 @@
+<div class="panel n-panel-3 dashboard-anniversary" id="dashboard-anniversary">
+  <div class="panel-heading" data-ng-click="dashboardsToggle['anniversary']=!dashboardsToggle['anniversary']">
+    <div class="col-xs-3">
+      <h2 class="glyphicon glyphicon-user"></h2>
+    </div>
+    <div class="col-xs-9 text-right">
+      <div class="number">
+        <span>{{dashboard.today.count}}/{{dashboard.count}}</span>
+      </div>
+      <div class="text">
+        <span>{{'ANNIVERSARY' | translate}}</span>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="panel-body" data-ng-show="dashboardsToggle['anniversary']">
+    <div class="priority">
+      <div class="label label-danger">{{'TODAY' | translate}}</div>
+      <div data-ng-repeat="item in dashboard.today.records" class="item">
+        <a href="#/person/{{item.id}}">
+          <span>{{item.name}}</span>
+          <span data-ng-show="item.companyName">({{item.companyName}})</span>
+          <span> - {{item.text}}</span>
+        </a>
+      </div>
+    </div>
+    <div class="label-sep">&nbsp;</div>
+    <div class="priority">
+      <div class="label label-primary">{{'TOMORROW' | translate}}</div>
+      <div data-ng-repeat="item in dashboard.tomorrow.records" class="item">
+        <a href="#/person/{{item.id}}">
+          <span>{{item.name}}</span>
+          <span data-ng-show="item.companyName">({{item.companyName}})</span>
+          <span> - {{item.text}}</span>
+        </a>
+      </div>
+    </div>
+    <div class="label-sep">&nbsp;</div>
+    <div class="priority">
+      <div class="label label-info">{{'AFTER_TOMORROW' | translate}}</div>
+      <div data-ng-repeat="item in dashboard.afterTomorrow.records" class="item">
+        <a href="#/person/{{item.id}}">
+          <span>{{item.name}}</span>
+          <span data-ng-show="item.companyName">({{item.companyName}})</span>
+          <span> - {{item.text}}</span>
+        </a>
+      </div>
+    </div>
+    <div class="label-sep">&nbsp;</div>
+    <div class="priority">
+      <div class="label label-default">{{'NEXT_DAYS' | translate}}</div>
+      <div data-ng-repeat="item in dashboard.nextDays.records" class="item">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 n-padding-left-0">
+          {{item.day | date : 'd.M.'}}
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 n-padding-right-0">
+          <a href="#/person/{{item.id}}">
+            <span>{{item.name}}</span>
+            <span data-ng-show="item.companyName">({{item.companyName}})</span>
+            <span> - {{item.text}}</span>
+          </a>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="label-sep">&nbsp;</div>
+  </div>
+  <!-- <div class="panel-footer" data-ng-show="dashboardsToggle['anniversary']">Panel footer</div>-->
+</div>

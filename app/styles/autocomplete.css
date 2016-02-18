@@ -1,0 +1,124 @@
+/* TEST */
+.n-autocomplete-box-outerbox INPUT {
+  width: 100px;
+  /*background-color: red;*/
+}
+/* autocomplete */
+.n-label-autocomplete {
+  margin-right: 8px;
+  cursor: default;
+}
+.n-autocomplete-dropdown {
+  background-clip: padding-box;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
+  /*display: none;*/
+  float: left;
+  font-size: 14px;
+  list-style: none outside none;
+  margin: 2px 0 0;
+  min-width: 160px;
+  padding: 5px 0;
+  position: absolute;
+  text-align: left;
+  /*top: 100%;*/
+  z-index: 1000;
+}
+.n-autocomplete-dropdown LI A {
+  clear: both;
+  color: #333;
+  display: block;
+  font-weight: 400;
+  line-height: 1.42857;
+  padding: 3px 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+.n-autocomplete-dropdown > LI > A:hover,
+.n-autocomplete-dropdown > LI > A:focus {
+  background-color: #4c81d0;
+  background-image: none;
+  color: #ffffff;
+}
+.n-autocomplete-dropdown > .active > A,
+.n-autocomplete-dropdown .n-autocomplete-dropdown > .active > A:focus {
+  color: white;
+  text-decoration: none;
+  outline: 0;
+  background-color: #428bca;
+}
+/* autocomplete box */
+.n-autocomplete-box-outerbox {
+  cursor: text;
+}
+.n-autocomplete-dropdown-box {
+  background-clip: padding-box;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
+  /*display: none;*/
+  float: left;
+  font-size: 14px;
+  list-style: none outside none;
+  margin: 2px 0 0;
+  min-width: 160px;
+  padding: 5px 0;
+  position: absolute;
+  text-align: left;
+  /*top: 100%;*/
+  z-index: 1000;
+}
+.n-autocomplete-dropdown-box LI A {
+  clear: both;
+  color: #333;
+  display: block;
+  font-weight: 400;
+  line-height: 1.42857;
+  padding: 3px 20px;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+.n-autocomplete-dropdown-box > LI > A:hover,
+.n-autocomplete-dropdown-box > LI > A:focus {
+  background-color: #4c81d0;
+  background-image: none;
+  color: #ffffff;
+}
+.n-autocomplete-dropdown-box > .active > A,
+.n-autocomplete-dropdown-box .n-autocomplete-dropdown-box > .active > A:focus {
+  color: white;
+  text-decoration: none;
+  outline: 0;
+  background-color: #428bca;
+}
+.n-input-autocomplete-box {
+  border: 0 none;
+  outline-width: 0;
+}
+.n-input-autocomplete-box:disabled {
+  background-color: transparent;
+}
+.input-group-notia {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+}
+.input-group-notia .form-control {
+  -webkit-border-top-right-radius: 0;
+  -webkit-border-bottom-right-radius: 0;
+  -moz-border-radius-topright: 0;
+  -moz-border-radius-bottomright: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.n-autocomplete-dropdown-box .divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #e5e5e5;
+}

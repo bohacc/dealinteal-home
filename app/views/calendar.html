@@ -1,0 +1,158 @@
+<span>Filtry:</span>
+<input type="radio" name="ownerCalendar" data-ng-model="radioOwner" value="1" data-ng-change="changeCalendarConditions({})" />Můj
+<input type="radio" name="ownerCalendar" data-ng-model="radioOwner" value="0" data-ng-change="changeCalendarConditions({})" />Osoby:
+<select data-ng-disabled="radioOwner=='1'" data-ng-options="item.name for item in usersWithoutOwner track by item.id" data-ng-model="selectOwner" data-ng-change="changeCalendarConditions({})">
+</select>
+<input type="checkbox" name="checkboxReminder" data-ng-model="showReminders" data-ng-change="remindersChange()" />
+<a href="javascript:void(0);" data-ng-click="remindersChange(true)">{{'REMINDERS' | translate}}</a>
+<button data-ng-click="getTimezone()">{{'WORLD_TIME' | translate}}</button>
+<span data-ng-show="showTimezone">{{timezone}}</span>
+
+<div data-ui-calendar="uiConfig.calendar" data-ng-model="eventSources" id="calendar"></div>
+
+<div id="mwnCalendarAppointment" class="fc-popover fc-more-popover" style="background-color: #fff" ng-style="{'left': mwn.left, top: mwn.top}" data-ng-show="showNewRecordDialogAppointment">
+  <div class="fc-header fc-widget-header" style="background-color: #eee">
+    <span class="fc-close fc-icon fc-icon-x pull-right" data-ng-click="showNewRecordDialogAppointment=false"></span>
+    <span class="fc-title">{{appointmentTmp.startDate | date : mwn.dateFormat || 'shortDate'}}&nbsp;&nbsp;{{appointmentTmp.start_time | date : mwn.timeFormat || 'shortTime'}}</span>
+    <div class="fc-clear"></div>
+  </div>
+  <div class="fc-body fc-widget-content">
+    <div class="fc-event-container">
+      <span>{{'EVENT_TYPE' | translate}}:&nbsp;</span>
+      <label for="XXX1" class="sr-only">{{'EVENT_TYPE' | translate}}</label>
+      <div class="input-group">
+        <input id="XXX1" name="XXX1" type="text" class="form-control" placeholder="{{'EVENT_TYPE' | translate}}"
+               value="{{appointmentTmp.tmpTypeName | translate}}"
+               data-ng-readonly="true"
+               data-ng-required="true">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li data-ng-repeat="type in appointmentTypes">
+              <a href="javascript:void(0);" data-ng-click="setAppointmentType($index)" tabindex="1">{{type.name | translate}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <span>{{'SUBJECT' | translate}}:&nbsp;</span>
+        <input id="mwnCalendarSubjectAppointment" type="text" class="form-control" data-ng-model="appointment.subject" tabindex="3">
+      </div>
+      <span>{{'PLACE' | translate}}:&nbsp;</span>
+      <label for="XXX4" class="sr-only">{{'PLACE' | translate}}</label>
+      <div class="input-group">
+        <input id="XXX4" name="XXX4" type="text" class="form-control" placeholder="{{'PLACE' | translate}}"
+               value="{{appointment.place | translate}}"
+               data-ng-readonly="true"
+               data-ng-required="true">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li data-ng-repeat="place in appointmentPlaces">
+              <a href="javascript:void(0);" data-ng-click="setPlace($index)" tabindex="4">{{place.name | translate}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <span>{{'FROM' | translate}}:&nbsp;</span>
+      <label for="XXX7" class="sr-only">{{'AT' | translate}}</label>
+      <div class="input-group">
+        <input type="text" id="XXX7" name="XXX7" class="form-control btDateStart" tabindex="4"
+               data-ng-class="{invalid: dp.invalidDate('XXX7')}"
+               data-uib-datepicker-popup="{{format}}"
+               data-ng-model="appointmentTmp.tmpStartDate"
+               data-is-open="opened.appointmentDateFrom"
+               data-ng-change="calculateDateTime(null, null, 'tmpStartDate', 'start_time', false)"
+               data-ng-blur="calculateDateTime(null, null, 'tmpStartDate', 'start_time', true)"
+               data-ng-keyup="calculateDateTime(null, null, 'tmpStartDate', 'start_time', false)"
+               data-min-date="minDate" />
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" data-ng-click="dp.open('appointmentDateFrom', 'XXX7')" tabindex="5">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+        </span>
+      </div>
+      <label for="XXX31" class="sr-only">{{'DATE' | translate}}</label>
+      <div class="input-group groupTimepickerStart">
+        <input id="XXX31" name="XXX31" type="text" class="form-control" tabindex="6"
+               data-ng-model="appointmentTmp.tmpStartTime"
+               data-time-format="{{formatTime}}"
+               data-model-time-format="{{formatTime}}"
+               data-time-type="date"
+               data-trigger="manual"
+               data-html-true="true"
+               data-bs-show="showTPstart"
+               data-ng-disabled="timeFromReadOnly"
+               bs-timepicker>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default btTimeStart" data-ng-disabled="timeFromReadOnly" data-ng-click="showTPstart=!showTPstart" tabindex="7">
+            <span class="glyphicon glyphicon-time"></span>
+          </button>
+        </span>
+      </div>
+      <span>{{'TO' | translate}}:&nbsp;</span>
+      <label for="XXX77" class="sr-only">{{'AT' | translate}}</label>
+      <div class="input-group">
+        <input type="text" id="XXX77" name="XXX77" class="form-control btDateEnd" tabindex="8"
+               data-ng-class="{invalid: dp.invalidDate('XXX77')}"
+               data-uib-datepicker-popup="{{format}}"
+               data-ng-model="appointmentTmp.tmpEndDate"
+               data-is-open="opened.appointmentDateTo"
+               data-ng-change="calculateDateTime(null, null, 'tmpEndDate', 'end_time', false)"
+               data-ng-blur="calculateDateTime(null, null, 'tmpEndDate', 'end_time', true)"
+               data-ng-keyup="calculateDateTime(null, null, 'tmpEndDate', 'end_time', false)"
+               data-min-date="minDate" />
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" data-ng-click="dp.open('appointmentDateTo', 'XXX777')" tabindex="9">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+        </span>
+      </div>
+      <label for="XXX33" class="sr-only">{{'DATE' | translate}}</label>
+      <div class="input-group groupTimepickerEnd">
+        <input id="XXX33" name="XXX33" type="text" class="form-control" tabindex="10"
+               data-ng-model="appointmentTmp.tmpEndTime"
+               data-time-format="{{formatTime}}"
+               data-model-time-format="{{formatTime}}"
+               data-time-type="date"
+               data-trigger="manual"
+               data-html-true="true"
+               data-bs-show="showTPend"
+               data-ng-disabled="timeToReadOnly"
+               data-ng-change="calculateDateTime(null, null, 'tmpEndTime', 'end_time', false)"
+               data-ng-blur="calculateDateTime(null, null, 'tmpEndTime', 'end_time', true)"
+               data-ng-keyup="calculateDateTime(null, null, 'tmpEndTime', 'end_time', false)"
+               bs-timepicker>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default btTimeEnd" data-ng-disabled="timeToReadOnly" data-ng-click="showTPend=!showTPend" tabindex="11">
+            <span class="glyphicon glyphicon-time"></span>
+          </button>
+        </span>
+      </div>
+      <span>{{'WORLD_TIME' | translate}}:&nbsp;</span>
+      <label for="XXX16" class="sr-only">{{'WORLD_TIME' | translate}}</label>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <span class="glyphicon glyphicon-plane"></span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li data-ng-repeat="zone in timeZones">
+              <a href="javascript:void(0);" data-ng-click="setTimeZone($index)" tabindex="12">{{zone.name}}</a>
+            </li>
+          </ul>
+        </span>
+        <input id="XXX16" name="XXX16" type="text" tabindex="13" class="form-control" data-ng-readonly="true" data-ng-model="appointment.timezoneName">
+      </div>
+    </div>
+  </div>
+  <div class="fc-footer">
+    <div class="fc-event-container">
+      <button type="button" class="btn btn-default" data-dismiss="modal" data-ng-click="showNewRecordDialogAppointment=false">{{'CLOSE' | translate}}</button>
+      <button class="btn btn-default">
+        <a href="javascript:void(0);" data-ng-click="postAppointment()">{{'SAVE' | translate}}</a>
+      </button>
+    </div>
+  </div>
+</div>

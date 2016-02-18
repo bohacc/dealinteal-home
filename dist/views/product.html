@@ -1,0 +1,250 @@
+<div class="container-fluid product">
+  <div class="n-module-header">
+    <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
+      <span class="h1">{{'PRODUCT/SERVICE' | translate}}</span>
+    </div>
+    <div class="col-xs-6 col-sm-2 col-md-2 col-lg-2 n-ha-right">
+      <div class="form-group btn-group n-ha-left">
+        <button type="button" class="btn n-btn-4" data-ng-click="newProduct()">{{'NEW_PRODUCT' | translate}}</button>
+        <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu pull-right">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="copyProduct()">{{'COPY_PRODUCT' | translate}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-content">
+    <div class="">
+      <!--First column-->
+      <div class="col-xs-4 col-sd-2 col-md-1 col-lg-1">
+        <div class="form-group">
+          <label for="XXX1" class="n-label-2">{{'ARTICLE_NUMBER' | translate}}</label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <label for="XXX2" class="n-label-2">{{'PRODUCT_NAME' | translate}}</label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group n-label-textarea-3">
+          <label for="XXX3" class="n-label-2">{{'DESCRIPTION' | translate}}</label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <label for="XXX4" class="n-label-2">{{'DATASHEET' | translate}}</label>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <!--Second column-->
+      <div class="col-xs-8 col-sd-10 col-md-4 col-lg-4">
+        <div class="form-group">
+          <input id="XXX1" name="XXX1" type="text" class="form-control n-input" data-ng-model="product.code" placeholder="{{'ARTICLE_NUMBER' | translate}}" data-ng-disabled="product.id>0" maxlength="40" tabindex="1">
+        </div>
+        <div class="form-group">
+          <input id="XXX2" name="XXX2" type="text" class="form-control" data-ng-model="product.name" placeholder="{{'PRODUCT_NAME' | translate}}" maxlength="100" tabindex="2">
+        </div>
+        <div class="form-group">
+          <textarea id="XXX3" name="XXX3" class="form-control n-textarea-3" data-ng-model="product.shortDescription" placeholder="{{'SHORT_DESCRIPTION' | translate}}" maxlength="255" tabindex="3"></textarea>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX4" name="XXX4" type="text" class="form-control" placeholder="{{'FILE' | translate}}" tabindex="4">
+            <!--<input id="aFile" type="file" data-ng-show="false" onchange="$('#XXX4').val($(this).val())">-->
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" tabindex="5">...</button>
+              <!--<button class="btn btn-default" type="button" tabindex="5" onclick="$('input[id=aFile]').click()">...</button>-->
+            </span>
+          </div>
+        </div>
+      </div>
+      <!--Third column-->
+      <div class="col-xs-4 col-sd-2 col-md-1 col-lg-1">
+        <div class="form-group">
+          <span class="n-label-2">&nbsp;</span>
+        </div>
+        <div class="form-group">
+          <label for="XXX5" class="n-label-2">{{'RRP' | translate}}</label>
+        </div>
+        <div class="form-group">
+          <label for="XXX6" class="n-label-2">{{'PRICE' | translate}} 1</label>
+        </div>
+        <div class="form-group">
+          <label for="XXX7" class="n-label-2">{{'PRICE' | translate}} 2</label>
+        </div>
+        <div class="form-group">
+          <label for="XXX8" class="n-label-2">{{'PRICE' | translate}} 3</label>
+        </div>
+        <div class="form-group">
+          <label for="XXX9" class="n-label-2">{{'PRICE' | translate}} 4</label>
+        </div>
+        <div class="form-group">
+          <label for="XXX10" class="n-label-2">{{'PRICE' | translate}} 5</label>
+        </div>
+        <div class="form-group">
+          <label for="XXX11" class="n-label-2">{{'UNIT' | translate}}</label>
+        </div>
+      </div>
+      <!--Fourth column-->
+      <div class="col-xs-4 col-sd-5 col-md-2 col-lg-2">
+        <div class="form-group">
+          <span class="n-label-2">{{'PRICE' | translate}}</span>
+        </div>
+        <div class="form-group">
+          <input data-format-number="" id="XXX5" decimals="2" name="XXX5" type="text" class="form-control n-ha-right" data-ng-model="product.priceRrp" placeholder="{{'RRP' | translate}}" maxlength="25" tabindex="6" data-ng-change="setCurrency('Rrp',-1)">
+        </div>
+        <div class="form-group">
+          <input data-format-number="" id="XXX6" decimals="2" name="XXX6" type="text" class="form-control n-ha-right" data-ng-model="product.price1" placeholder="{{'PRICE' | translate}} 1" maxlength="25" tabindex="8" data-ng-change="setCurrency('1',-1)">
+        </div>
+        <div class="form-group">
+          <input data-format-number="" id="XXX7" decimals="2" name="XXX7" type="text" class="form-control n-ha-right" data-ng-model="product.price2" placeholder="{{'PRICE' | translate}} 2" maxlength="25" tabindex="10" data-ng-change="setCurrency('2',-1)">
+        </div>
+        <div class="form-group">
+          <input data-format-number="" id="XXX8" decimals="2" name="XXX8" type="text" class="form-control n-ha-right" data-ng-model="product.price3" placeholder="{{'PRICE' | translate}} 3" maxlength="25" tabindex="12" data-ng-change="setCurrency('3',-1)">
+        </div>
+        <div class="form-group">
+          <input data-format-number="" id="XXX9" decimals="2" name="XXX9" type="text" class="form-control n-ha-right" data-ng-model="product.price4" placeholder="{{'PRICE' | translate}} 4" maxlength="25" tabindex="14" data-ng-change="setCurrency('4',-1)">
+        </div>
+        <div class="form-group">
+          <input data-format-number="" id="XXX10" decimals="2" name="XXX10" type="text" class="form-control n-ha-right" data-ng-model="product.price5" placeholder="{{'PRICE' | translate}} 5" maxlength="25" tabindex="16" data-ng-change="setCurrency('5',-1)">
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX11" name="XXX11" type="text" class="form-control" placeholder="{{'UNIT' | translate}} RRP" data-ng-model="product.unit">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="18">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="units in localDataUnits">
+                  <a href="javascript:void(0);" data-ng-click="setUnit($index)">{{units.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Fift column-->
+      <div class="col-xs-4 col-sd-5 col-md-2 col-lg-2">
+        <div class="form-group">
+          <span class="n-label-2">{{'CURRENCY' | translate}}</span>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX12" name="XXX12" type="text" class="form-control n-input" placeholder="{{'CURRENCY' | translate}} RRP" data-ng-model="product.currencyRrp" data-ng-readonly="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="7">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="currency in localDataCurrency">
+                  <a href="javascript:void(0);" data-ng-click="setCurrency('Rrp',$index)">{{currency.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX13" name="XXX13" type="text" class="form-control n-input" placeholder="{{'CURRENCY' | translate}} 1" data-ng-model="product.currency1" data-ng-readonly="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="9">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="currency in localDataCurrency">
+                  <a href="javascript:void(0);" data-ng-click="setCurrency('1',$index)">{{currency.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX14" name="XXX14" type="text" class="form-control n-input" placeholder="{{'CURRENCY' | translate}} 2" data-ng-model="product.currency2" data-ng-readonly="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="11">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="currency in localDataCurrency">
+                  <a href="javascript:void(0);" data-ng-click="setCurrency('2',$index)">{{currency.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX15" name="XXX15" type="text" class="form-control n-input" placeholder="{{'CURRENCY' | translate}} 3" data-ng-model="product.currency3" data-ng-readonly="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="13">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="currency in localDataCurrency">
+                  <a href="javascript:void(0);" data-ng-click="setCurrency('3',$index)">{{currency.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX16" name="XXX16" type="text" class="form-control n-input" placeholder="{{'CURRENCY' | translate}} 4" data-ng-model="product.currency4" data-ng-readonly="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="15">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="currency in localDataCurrency">
+                  <a href="javascript:void(0);" data-ng-click="setCurrency('4',$index)">{{currency.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX17" name="XXX17" type="text" class="form-control n-input" placeholder="{{'CURRENCY' | translate}} 5" data-ng-model="product.currency5" data-ng-readonly="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="17">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="currency in localDataCurrency">
+                  <a href="javascript:void(0);" data-ng-click="setCurrency('5',$index)">{{currency.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Picture column-->
+      <div class="col-xs-12 col-sd-12 col-md-2 col-lg-2">
+          <div class="n-thumbnail">
+            <a href="javascript:void(0);">
+              <img data-ng-src="{{getProductPicture()}}" data-ng-if="!pictureFile.name" alt="{{product.code}}" title="{{product.code}}">
+              <img data-ngf-src="{{getProductPicture()}}" data-ng-if="pictureFile.name" alt="{{product.code}}" title="{{product.code}}">
+            </a>
+            <div class="n-thumbnail-buttons">
+              <a class="glyphicon glyphicon-plus-sign" title="{{'CHANGE' | translate}}" href="javascript:void(0)" data-ngf-select="selectFile($file)" data-accept="image/*" data-ngf-max-height="2000" data-ngf-max-size="2MB" data-ng-if="product.id"></a>
+              <a class="glyphicon glyphicon-minus-sign" title="{{'DELETE' | translate}}" href="javascript:void(0)" data-ng-click="removePicture()" data-ng-if="showRemovePictureAnchor()"></a>
+              <a class="glyphicon glyphicon-ok-sign" title="{{'SAVE_CHANGES' | translate}}" href="javascript:void(0)" data-ng-show="showSavePictureAnchor()" data-ng-click="uploadPicture()"></a>
+              <a class="glyphicon glyphicon-ok-sign" title="{{'SAVE_CHANGES' | translate}}" href="javascript:void(0)" data-ng-show="showDeletePictureAnchor()" data-ng-click="deletePicture()"></a>
+            </div>
+          </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    </div>
+
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-footer">
+    <data-action-buttons buttons="actionButtons"></data-action-buttons>
+  </div>

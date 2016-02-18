@@ -1,0 +1,303 @@
+<div class="container-fluid sales-plan">
+  <div class="container-fluid sales-plan n-module-header">
+    <div class="pull-left">
+      <form class="form form-inline" role="form">
+        <div class="form-group">
+          <span class="h1">{{'SALES_PLAN' | translate}}</span>
+          <span class="h3">{{range}}</span>
+        </div>
+      </form>
+    </div>
+    <div class="pull-right">
+      <form class="form form-inline" role="form">
+        <div class="form-group">
+          <div class="input-group">
+            <input type="text" class="form-control n-input" disabled="disabled" data-ng-model="selectedIntervalType.name">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-ng-disabled="disableInterval"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="item in intervalTypes">
+                  <a href="javascript:void(0);" data-ng-click="setInterval($index)">{{item.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group n-select-year">
+            <input type="text" class="form-control n-input n-ha-right" value="{{year.year}}" disabled="disabled">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-ng-disabled="disableYear"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li class="n-ha-right" data-ng-repeat="year in years">
+                  <a href="javascript:void(0);" data-ng-click="setYear($index)">{{year.year}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group n-select-digits-2" data-ng-show="selectedIntervalType.id!==3">
+            <input type="text" class="form-control n-input n-ha-right" value="{{month.name}}" disabled="disabled">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-ng-disabled="disableMonth"><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li class="n-ha-right" data-ng-repeat="month in months | filter : {year: year.year}">
+                  <a href="javascript:void(0);" data-ng-click="setMonths($index)">{{month.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="btn-group" role="group" aria-label="nav">
+            <button type="button" class="btn btn-default" data-ng-click="prevRange()" data-ng-disabled="disabledPrior"><span class="glyphicon glyphicon-chevron-left"></span></button>
+            <button type="button" class="btn btn-default" data-ng-click="nextRange()" data-ng-disabled="disabledNext"><span class="glyphicon glyphicon-chevron-right"></span></button>
+          </div>
+        </div>
+        <div class="form-group">
+          <button type="button" class="btn btn-default" data-ng-disabled="disableShow" data-ng-click="loadData()">
+            {{'SHOW' | translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="n-module-content">
+
+    <div class="">
+      <div class="col-md-3 col-lg-2 n-vpadding-05">
+        {{'GRAND_TOTAL' | translate}}
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{'PLAN' | translate}}
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{'ACTUAL' | translate}}
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{'DIFFERENCE' | translate}}
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="">
+      <div class="col-md-3 col-lg-2 n-vpadding-05">
+        {{'REVENUE' | translate}} ({{'CZK' | translate}})
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{current.company.revenuePlan}}
+        <span data-us-spinner="{radius:3, width:1, length: 4,top: '50%', left: '100%'}" data-spinner-key="spinner-load-data"></span>
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{current.company.revenueActual}}
+        <span data-us-spinner="{radius:3, width:1, length: 4,top: '50%', left: '100%'}" data-spinner-key="spinner-load-data"></span>
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{current.company.revenuePlanMinusActual}}
+        <span data-us-spinner="{radius:3, width:1, length: 4,top: '50%', left: '100%'}" data-spinner-key="spinner-load-data"></span>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{current.company.revenueActual}}" aria-valuemin="0" aria-valuemax="{{current.company.revenuePlan}}" style="width: {{current.company.revenuePlanPercent}}%">
+        <span>{{current.company.revenuePlanPercent}}%</span>
+      </div>
+    </div>
+
+    <div class="">
+      <div class="col-md-3 col-lg-2 n-vpadding-05">
+        {{'AMOUNT' | translate}} ({{'UNITS' | translate}})
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{current.company.amountPlan}}
+        <span data-us-spinner="{radius:3, width:1, length: 4,top: '50%', left: '100%'}" data-spinner-key="spinner-load-data"></span>
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{current.company.amountActual}}
+        <span data-us-spinner="{radius:3, width:1, length: 4,top: '50%', left: '100%'}" data-spinner-key="spinner-load-data"></span>
+      </div>
+      <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+        {{current.company.amountPlanMinusActual}}
+        <span data-us-spinner="{radius:3, width:1, length: 4,top: '50%', left: '100%'}" data-spinner-key="spinner-load-data"></span>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{current.company.amountActual}}" aria-valuemin="0" aria-valuemax="{{current.company.amountPlan}}" style="width: {{current.company.amountPlanPercent}}%">
+        <span>{{current.company.amountPlanPercent}}%</span>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <!--TABS TEAM - DOMAIN - PRODUCTS-->
+    <div class="n-nav">
+      <ul class="nav nav-pills">
+        <li role="presentation" data-ng-class="{'active': selectedTab === 0}">
+          <a href="javascript:void(0);" data-ng-click="setTabsForItems(0)">
+            {{'TEAM_MEMBERS' | translate}}
+          </a>
+        </li>
+        <li role="presentation" data-ng-class="{'active': selectedTab === 1}">
+          <a href="javascript:void(0);" data-ng-click="setTabsForItems(1)">
+            {{'DOMAINS' | translate}}
+          </a>
+        </li>
+        <li role="presentation" data-ng-class="{'active': selectedTab === 2}">
+          <a href="javascript:void(0);" data-ng-click="setTabsForItems(2)">
+            {{'SALES_ITEMS' | translate}}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!--SALES ITEMS LIST-->
+    <div data-ng-show="selectedTab === 2">
+      <!--PRODUCTS header-->
+      <div class="clearfix"></div>
+      <div class="n-buttons">
+        <div class="col-md-6 col-lg-6">
+          &nbsp;
+          <span data-us-spinner="{radius:3, width:1, length: 4,top: '50%', left: '100%'}" data-spinner-key="spinner-load-data-sales-items"></span>
+        </div>
+        <div class="col-md-2 col-lg-2 n-ha-right">
+          <div class="input-group">
+            <input type="text" class="form-control n-input" disabled="disabled" value="{{'SORT_BY' | translate}}&nbsp;{{salesItemsSortField.name | translate}}">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-ng-disabled="!year">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="field in sortFields">
+                  <a href="javascript:void(0);" data-ng-click="setSort($index)">{{field.name | translate}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2 n-ha-right">
+          <div class="input-group">
+            <input type="text" class="form-control n-input" disabled="disabled" value="{{'GROUP_BY' | translate}}&nbsp;{{salesItemsGroupField.name | translate}}">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-ng-disabled="!year">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="field in groupFields">
+                  <a href="javascript:void(0);" data-ng-click="setGroup($index)">{{field.name | translate}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-lg-2 n-ha-right">
+          <button type="button" class="btn btn-default" data-ng-click="salesItemsshowDetail=true">
+            <span class="glyphicon glyphicon-zoom-in"></span>
+          </button>
+          <button type="button" class="btn btn-default" data-ng-click="salesItemsshowDetail=false">
+            <span class="glyphicon glyphicon-zoom-out"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <!--PRODUCTS rows-->
+      <div class="list-group">
+          <div ng-repeat-start="item in current.products" class="list-group-item n-item-header" data-ng-if="item.type===1">
+            {{item.name}} {{item.revenueSum | currency}}
+          </div>
+          <div class="list-group-item n-item-content" data-ng-show="salesItemsshowDetail" ng-repeat-end="" data-ng-if="item.type===2">
+            <div class="col-md-1 col-lg-1 n-ha-right" data-ng-show="item.docDate">
+              {{item.docDate | date}}
+            </div>
+            <div class="col-md-5 col-lg-5">
+              {{item.subName}}
+            </div>
+            <div class="col-md-2 col-lg-2 n-ha-right">
+              {{item.amountActual}}&nbsp;{{item.amountUnit}}
+            </div>
+            <div class="col-md-2 col-lg-2 n-ha-right">
+              {{item.revenueActual | currency}}
+            </div>
+            <div class="clearfix"></div>
+          </div>
+      </div>
+    </div>
+
+    <!--TEAM and DOMAIN tabs-->
+    <div data-ng-show="selectedTab<2" data-ng-repeat="item in selectedTab === 0 ? current.team : current.domain">
+      <div class="">
+        <div class="col-md-3 col-lg-2 n-vpadding-05">
+          {{item.name}}
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{'PLAN' | translate}}
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{'ACTUAL' | translate}}
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{'DIFFERENCE' | translate}}
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="">
+        <div class="col-md-3 col-lg-2 n-vpadding-05">
+          {{'REVENUE' | translate}} ({{'CZK' | translate}})
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{item.revenuePlan}}
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{item.revenueActual}}
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{item.revenuePlanMinusActual}}
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="progress">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{item.revenueActual}}" aria-valuemin="0" aria-valuemax="{{item.revenuePlan}}" style="width: {{item.revenueActual}}%">
+          <span>{{item.revenuePlanPercent}}%</span>
+        </div>
+      </div>
+
+      <div class="">
+        <div class="col-md-3 col-lg-2 n-vpadding-05">
+          {{'AMOUNT' | translate}} ({{'UNITS' | translate}})
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{item.amountPlan}}
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{item.amountActual}}
+        </div>
+        <div class="col-md-3 col-lg-3 n-vpadding-05 n-ha-right">
+          {{item.amountPlanMinusActual}}
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{item.amountActual}}" aria-valuemin="0" aria-valuemax="{{item.amountPlan}}" style="width: {{item.amountActual}}%">
+          <span>{{item.amountPlanPercent}}%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-footer">
+    <data-action-buttons buttons="actionButtons"></data-action-buttons>
+  </div>
+</div>

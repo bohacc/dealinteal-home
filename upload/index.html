@@ -1,0 +1,98 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="../bower_components/angular-loading-bar/build/loading-bar.min.css">
+    <link rel="stylesheet" href="../bower_components/fullcalendar/fullcalendar.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../bower_components/nvd3/nv.d3.css"/>
+    <!-- endbuild -->
+</head>
+<body ng-app="crmPostgresWebApp" ng-controller="MainCtrl">
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<!--[if lt IE 9]>
+<script src="../bower_components/es5-shim/es5-shim.js"></script>
+<script src="../bower_components/json3/lib/json3.min.js"></script>
+<![endif]-->
+
+<!-- Add your site or application content here -->
+<div id="content" ng-view class="content"></div>
+
+<div class="footer-page" id="footer">
+    <div class="container">
+        &copy; Notia Business Server (version 0.0.1, browser gte IE9, created by NOTIA informační systémy spol. s r.o. )
+    </div>
+</div>
+
+<script src="../bower_components/jquery/jquery.js"></script>
+<script src="../bower_components/angular/angular.min.js"></script>
+<!--<script-translate-file></script-translate-file>-->
+
+<!-- build:js scripts/plugins.js -->
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../bower_components/jquery-ui/ui/jquery-ui.js"></script>
+<script type="text/javascript" src="../bower_components/angular-ui-calendar/src/calendar.js"></script>
+<script type="text/javascript" src="../bower_components/fullcalendar/fullcalendar.js"></script>
+<script type="text/javascript" src="../bower_components/fullcalendar/gcal.js"></script>
+<script type="text/javascript" src="../tools/scroll.js"></script>
+<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="../bower_components/angular-loading-bar/build/loading-bar.js"></script>
+<script src="../scripts/directives/angucomplete.js"></script>
+<script src="../bower_components/angular-strap/dist/angular-strap.min.js"></script>
+<script src="../bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
+<script src="../bower_components/angular-translate/angular-translate.js"></script>
+<script src="../bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+<script src="../bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+<script src="../bower_components/d3/d3.js"></script>
+<script src="../bower_components/nvd3/nv.d3.js"></script>
+<script src="../bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/modules.js -->
+<script src="../bower_components/angular-resource/angular-resource.js"></script>
+<script src="../bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="../bower_components/angular-route/angular-route.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<!-- endbuild -->
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="../scripts/app.js"></script>
+<script src="../scripts/controllers/main.js"></script>
+<script src="../scripts/services/authentication.js"></script>
+<script src="../scripts/controllers/home.js"></script>
+<script src="../scripts/controllers/login.js"></script>
+<script src="../scripts/directives/header.js"></script>
+<script src="../scripts/controllers/reservation_office.js"></script>
+<script src="../scripts/directives/portlet_reservation_office.js"></script>
+<script src="../scripts/directives/portlets.js"></script>
+<script src="../scripts/services/reservation_office.js"></script>
+<script src="../scripts/services/rooms.js"></script>
+<script src="../scripts/controllers/crm.js"></script>
+<script src="../scripts/services/tools.js"></script>
+<script src="../scripts/services/events.js"></script>
+<script src="../scripts/controllers/test.js"></script>
+<script src="../scripts/directives/script_translate_file.js"></script>
+<script src="../scripts/services/user.js"></script>
+<script src="../scripts/services/user_locale.js"></script>
+<script src="../scripts/controllers/vyvoj.js"></script>
+<script src="../scripts/controllers/contacts.js"></script>
+<script src="scripts/controllers/contacts2.js"></script>
+<!-- endbuild -->
+</body>
+</html>

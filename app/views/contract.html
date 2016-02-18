@@ -1,0 +1,368 @@
+<div class="container-fluid contract">
+  <div class="n-module-header">
+    <div class="col-xs-6 col-sm-6 col-md-8 col-lg-8">
+      <span class="h1">{{'CONTRACT' | translate}}</span>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 n-ha-right">
+      <div class="form-group btn-group n-ha-left"> <!--data-ng-show="contract.id"-->
+        <button type="button" class="btn n-btn-4" data-ng-click="newContract()">{{'NEW_CONTRACT' | translate}}</button>
+        <!--<button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span></button>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="#">{{'AAA' | translate}}</a></li>
+        </ul>-->
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-content">
+    <div class="row">
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX1" class="n-label-2">{{'ID' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+        <input id="XXX1" name="XXX1" type="text" class="form-control" data-ng-model="contract.id" maxlength="100"
+               tabindex="1">
+      </div>
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX2" class="n-label-2">{{'ACQUISITION' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+        <input id="XXX2" name="XXX2" type="text" class="form-control" data-ng-model="contract.aquisition"
+               maxlength="100" tabindex="2">
+      </div>
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX3" class="n-label-2">{{'DEADLINE' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+        <input id="XXX3" name="XXX3" type="text" class="form-control" data-ng-model="contract.deadline" maxlength="100"
+               tabindex="3">
+      </div>
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX4" class="n-label-2">{{'STATUS' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+        <input id="XXX4" name="XXX4" type="text" class="form-control" data-ng-model="contract.status" maxlength="100"
+               tabindex="4">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <div class="form-group">
+          <label for="XXX5" class="n-label-2">{{'CUSTOMER' | translate}}</label>
+        </div>
+      </div>
+      <div class="col-xs-8 col-sm-4 col-md-5 col-lg-5">
+        <div>
+          <data-angucomplete id="XXX5" name="XXX5" placeholder="{{'CUSTOMER' | translate}}" data-tabindex="2"
+                             data-pause="400" data-model="contractTmp.tmpCompanyName" data-input-all-data="true"
+                             data-selected-object-id="id" data-url="/api/companies/search/" data-search-fields="name"
+                             data-title-field="name" data-input-class="form-control" data-multiple="false"
+                             data-show-as-box="true"
+                             data-box-items="contract.customer" data-label-name="CUSTOMER"
+                             data-label-class="sr-only" data-record-url="{{pageAncestor.routes.CUSTOMER}}">
+          </data-angucomplete>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX6" class="n-label-2">{{'CONTACT' | translate}}</label>
+      </div>
+      <div class="col-xs-8 col-sm-4 col-md-5 col-lg-5">
+        <div>
+          <data-angucomplete id="XXX6" name="XXX6" placeholder="{{'CONTACT' | translate}}" data-tabindex="2"
+                             data-pause="400" data-model="contractTmp.tmpCompanyName" data-input-all-data="true"
+                             data-selected-object-id="id" data-url="/api/companies/search/" data-search-fields="name"
+                             data-title-field="name" data-input-class="form-control" data-multiple="true"
+                             data-show-as-box="true"
+                             data-box-items="contract.contact" data-label-name="CONTACT"
+                             data-label-class="sr-only" data-record-url="{{pageAncestor.routes.CONTACT}}">
+          </data-angucomplete>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX7" class="n-label-2">{{'SUBJECT' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-4 col-md-5 col-lg-5">
+        <input id="XXX7" name="XXX7" type="text" class="form-control n-input">
+      </div>
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX8" class="n-label-2">{{'OWNER' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-4 col-md-5 col-lg-5">
+        <input id="XXX8" name="XXX8" type="text" class="form-control n-input">
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX9" class="n-label-2">{{'VALUE' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+        <input id="XXX9" name="XXX9" type="text" class="form-control n-input">
+      </div>
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX10" class="n-label-2">{{'REST_VALUE' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+        <input id="XXX10" name="XXX10" type="text" class="form-control n-input">
+      </div>
+      <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+        <label for="XXX11" class="n-label-2">{{'DESCRIPTION' | translate}}</label>
+      </div>
+      <div class="form-group col-xs-8 col-sm-10 col-md-5 col-lg-5">
+        <textarea id="XXX11" class="form-control" data-ng-model="contract.description" maxlength="255"
+                  tabindex="6"></textarea>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+  </div>
+  <div class="col-md-12 col-lg-12 n-subtabs">
+    <ul class="nav nav-tabs">
+      <li role="presentation" data-ng-class="{active: tabs[0]}">
+        <a href="javascript:void(0);" data-ng-click="setTabs(0)">{{'PRODUCTS_AND_SERVICES' | translate}}</a>
+      </li>
+      <li role="presentation" data-ng-class="{active: tabs[1]}">
+        <a href="javascript:void(0);" data-ng-click="setTabs(1)">{{'AGENDA' | translate}}</a>
+      </li>
+      <li role="presentation" data-ng-class="{active: tabs[2]}">
+        <a href="javascript:void(0);" data-ng-click="setTabs(2)">{{'FORM_OPPORTUNITY' | translate}}</a>
+      </li>
+      <li role="presentation" data-ng-class="{active: tabs[3]}">
+        <a href="javascript:void(0);" data-ng-click="setTabs(3)">{{'LOG' | translate}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <!--TAB 1 PRODUCTS AND SERVICES -->
+  <div class="tab-1"> <!--data-ng-show="tabs[0]"-->
+    <div class="n-subtab-header">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="subtab-name">
+          {{'PRODUCTS_AND_SERVICES' | translate}}
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-3 col-md-2 col-lg-2">
+        <div class="btn-group">
+          <button type="button" class="btn btn-default glyphicon glyphicon-arrow-up active"
+                  data-ng-model="dataLoaderParams.sortDirection"
+                  data-uib-btn-radio="'asc'"
+                  data-ng-disabled="infoPaging.inProcess"></button>
+          <button type="button" class="btn btn-default glyphicon glyphicon-arrow-down"
+                  data-ng-model="dataLoaderParams.sortDirection"
+                  data-uib-btn-radio="'desc'"
+                  data-ng-disabled="infoPaging.inProcess"></button>
+        </div>
+      </div>
+      <div class="col-xs-6 col-sm-3 col-md-4 col-lg-4 n-ha-right">
+        <div class="form-group btn-group n-ha-left">
+          <button type="button" class="btn n-btn-4" data-ng-click="newContract()">{{'ADD_ITEM' | translate}}</button>
+          <!--<button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span></button>
+          <ul class="dropdown-menu pull-right">
+            <li><a href="#">{{'AAA' | translate}}</a></li>
+          </ul>-->
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="n-subtab-content container-fluid">
+      <div class="row">
+        <div class="col-xs-4 col-sm-2 col-md-1 col-lg-1">
+          <div class="form-group">
+            <label for="XXXA1" class="n-label-2">{{'CUSTOMER' | translate}}</label>
+          </div>
+        </div>
+        <div class="col-xs-8 col-sm-4 col-md-5 col-lg-5">
+          <div>
+            <data-angucomplete id="XXXA1" name="XXXA1" placeholder="{{'CUSTOMER' | translate}}" data-tabindex="2"
+                               data-pause="400" data-model="contractTmp.tmpCompanyName" data-input-all-data="true"
+                               data-selected-object-id="id" data-url="/api/companies/search/" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false"
+                               data-show-as-box="true"
+                               data-box-items="contract.customer" data-label-name="CUSTOMER"
+                               data-label-class="sr-only" data-record-url="{{pageAncestor.routes.CUSTOMER}}">
+            </data-angucomplete>
+          </div>
+        </div>
+        <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+          <label for="XXXA2" class="n-label-2">{{'UNIT_PRICE' | translate}}</label>
+        </div>
+        <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+          <input id="XXXA2" name="XXXA2" type="text" class="form-control n-input">
+        </div>
+        <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+          <label for="XXXA3" class="n-label-2">{{'CURRENCY' | translate}}</label>
+        </div>
+        <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+          <div class="input-group">
+            <input id="XXXA3" name="XXXA3" type="text" class="form-control n-input n-transparent"
+                   placeholder="{{'CURRENCY' | translate}}"
+                   data-ng-model="appointmentTmp.tmpSalesPipelineStage"
+                   data-ng-disabled="true"
+                   data-ng-required="true">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                      data-ng-disabled="salesPipelineStages.length===0 || appointment.salesPipeline.length===0">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li data-ng-repeat="sales in salesPipelineStages">
+                  <a href="javascript:void(0);" data-ng-click="setSalesPipelineStage($index)" tabindex="21">{{sales.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="row">
+        <div class="">
+          <div class="col-xs-4 col-sm-2 col-md-1 col-lg-1 form-group">
+            <label for="XXXA4" class="n-label-2">{{'NOTE' | translate}}</label>
+          </div>
+          <div class="col-xs-8 col-sm-4 col-md-5 col-lg-5 form-group">
+            <textarea-calc data-textarea-id="XXXA4" data-textarea-name="XXXA4"
+                           data-textarea-class="form-control n-textarea-2"
+                           data-textarea-placeholder="{{'NOTE' | translate}}"
+                           data-model="appointment.memo"
+                           data-textarea-maxlength="2000"
+                           data-textarea-tabindex="3"></textarea-calc>
+          </div>
+          <div class="col-xs-4 col-sm-2 col-md-1 col-lg-1">
+            <div class="form-group">
+              <label for="XXXA5" class="n-label-2">{{'CITY' | translate}}</label>
+            </div>
+            <div class="form-group">
+              <label for="XXXA6" class="n-label-2">{{'TOTAL_PRICE' | translate}}</label>
+            </div>
+          </div>
+          <div class="col-xs-8 col-sm-4 col-md-2 col-lg-2">
+            <div class="form-group">
+              <input id="XXXA5" name="XXXA5" type="text" class="form-control n-input">
+            </div>
+            <div class="form-group">
+              <input id="XXXA6" name="XXXA6" type="text" class="form-control n-input">
+            </div>
+          </div>
+          <div class="col-xs-4 col-sm-2 col-md-1 col-lg-1">
+            <div class="form-group">
+              <label for="XXXA7" class="n-label-2">{{'UNIT' | translate}}</label>
+            </div>
+            <div class="form-group">
+              <label for="XXXA8" class="n-label-2">{{'RATE' | translate}}</label>
+            </div>
+          </div>
+          <div class="col-xs-8 col-sm-4 col-md-2 col-lg-2">
+            <div class="form-group">
+              <div class="input-group">
+                <input id="XXXA7" name="XXXA7" type="text" class="form-control n-input n-transparent"
+                       placeholder="{{'UNIT' | translate}}"
+                       data-ng-model="appointmentTmp.tmpSalesPipelineStage"
+                       data-ng-disabled="true"
+                       data-ng-required="true">
+                <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                          data-ng-disabled="salesPipelineStages.length===0 || appointment.salesPipeline.length===0">
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li data-ng-repeat="sales in salesPipelineStages">
+                      <a href="javascript:void(0);" data-ng-click="setSalesPipelineStage($index)" tabindex="21">{{sales.name}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input id="XXXA8" name="XXXA8" type="text" class="form-control n-input">
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+          <label for="XXXA9" class="n-label-2">{{'DELIVERY' | translate}}</label>
+        </div>
+        <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+          <input id="XXXA9" name="XXXA9" type="text" class="form-control n-input">
+        </div>
+        <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+          <label for="XXXA10" class="n-label-2">{{'FINISHED' | translate}}</label>
+        </div>
+        <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+          <input id="XXXA10" name="XXXA10" type="text" class="form-control n-input">
+        </div>
+        <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+          <label for="XXXA11" class="n-label-2">{{'TOTAL_PRICE_CZK' | translate}}</label>
+        </div>
+        <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+          <input id="XXXA11" name="XXXA11" type="text" class="form-control n-input">
+        </div>
+        <div class="form-group col-xs-4 col-sm-2 col-md-1 col-lg-1">
+          <label for="XXXA12" class="n-label-2">{{'STATUS' | translate}}</label>
+        </div>
+        <div class="form-group col-xs-8 col-sm-4 col-md-2 col-lg-2">
+          <input id="XXXA12" name="XXXA12" type="text" class="form-control n-input">
+        </div>
+        <div class="clearfix"></div>
+      </div>
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  <!--TAB 2 AGENDA-->
+  <div class="tab-2" data-ng-show="tabs[1]">
+    <div class="n-subtab-header">
+      AGENDA
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="n-subtab-content">
+      CONTENT
+    </div>
+  </div>
+
+  <!--TAB 3 FORM OPPORTUNITY-->
+  <div class="tab-3" data-ng-show="tabs[2]">
+    <div class="n-subtab-header">
+      OPPORTUNITY
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="n-subtab-content">
+      CONTENT
+    </div>
+  </div>
+  <div class="clearfix"></div>
+
+  <!--TAB 3 LOG-->
+  <div class="tab-3" data-ng-show="tabs[2]">
+    <div class="n-subtab-header">
+      LOG
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="n-subtab-content">
+      CONTENT
+    </div>
+  </div>
+  <div class="clearfix"></div>
+
+  <div class="n-module-footer">
+    <data-action-buttons buttons="actionButtons"></data-action-buttons>
+  </div>
+</div>
+

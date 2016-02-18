@@ -1,0 +1,36 @@
+<div data-ng-class="{'input-group': dropDown}" id="{{id}}_angc">
+   <label for="{{id}}_value" class="{{labelClass}}" data-ng-if="labelName">{{labelName | translate}}</label>
+    <input id="{{id}}_value" tabindex="{{tabindex}}" data-ng-model="searchStr" data-ng-hide="!multiple && boxItems.length > 0 && showAsBox" type="{{modelType || 'text'}}" placeholder="{{placeholder}}" class="{{inputClass}}" data-ng-disabled="disabled" data-ng-focus="setFocus(true)" data-ng-blur="onBlur()" data-ng-class="{invalid: searchStr && !inputAllData && !existsItemInArray(searchStr, localData, searchFields)}" data-ng-keyup="keyPressed($event)">
+
+    <span class="input-group-btn" ng-if="dropDown">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-ng-click="clearAutocomplete()"><span class="caret"></span></button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+            <li data-ng-repeat="item in dropDown track by item.id">
+                <a href="javascript:void(0);" data-ng-class="{disabled: item.disabled}" data-ng-click="dropDownClick(dropDown[$index])">{{item.name}}</a>
+            </li>
+        </ul>
+    </span>
+
+    <span id="{{id}}_dropdown" data-ng-if="showDropdown"> <!--class="n-autocomplete-dropdown"-->
+        <ul data-ng-if="results.length > 0 && focusInput" class="n-autocomplete-dropdown" data-ng-class="{'n-dropdown-menu-left': dropDownMenuLeft, 'dropdown-menu-right': dropDownMenuRight}">
+            <li class="autocomplete-row" data-ng-repeat="result in results track by result.originalObject.id" data-ng-click="selectResult(result)" data-ng-mouseover="hoverRow($index)" data-ng-class="{'active': $index == currentIndex}">
+                <a data-ng-if="imageField" class="autocomplete-image-holder">
+                    <img data-ng-if="result.image && result.image !== ''" data-ng-src="{{result.image}}" class="autocomplete-image">
+
+                    <span data-ng-if="!result.image && result.image !== ''" class="autocomplete-image-default"></span>
+                </a>
+                <a class="autocomplete-title" data-ng-if="matchClass" data-ng-bind-html="result.title"></a>
+                <a class="autocomplete-title" data-ng-if="!matchClass">{{ result.title }}</a>
+                <a data-ng-if="result.description && result.description !== ''" class="autocomplete-description">
+                    {{result.description}}
+                </a>
+            </li>
+        </ul>
+        <ul class="n-autocomplete-dropdown-box" data-ng-class="{'n-dropdown-menu-left': dropDownMenuLeft, 'dropdown-menu-right': dropDownMenuRight}" data-ng-if="searching">
+            <li><a href="javascript:void(0);">{{'SEARCHING' | translate}}</a></li>
+        </ul>
+        <ul class="n-autocomplete-dropdown-box" data-ng-class="{'n-dropdown-menu-left': dropDownMenuLeft, 'dropdown-menu-right': dropDownMenuRight}" data-ng-if="!searching && (!results || results.length === 0) && focusInput && searchStr">
+            <li><a href="javascript:void(0);">{{'NO_RESULTS_FOUND' | translate}}</a></li>
+        </ul>
+    </span>
+</div>

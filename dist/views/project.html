@@ -1,0 +1,142 @@
+<div class="container-fluid project">
+  <div class="n-module-header">
+    <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+      <span class="h1">{{'PROJECT' | translate}}</span>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 n-ha-right">
+      <div class="form-group btn-group n-ha-left">
+        <button type="button" class="btn n-btn-4" data-ng-click="newProject()">{{'NEW_PROJECT' | translate}}</button>
+        <button type="button" class="btn dropdown-toggle n-btn-4" data-toggle="dropdown"><span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu pull-right" role="menu">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:void(0);" data-ng-click="copyProject()">{{'COPY_PROJECT' | translate}}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="n-module-content">
+    <div class="">
+      <div class="col-xs-4 col-sd-2 col-md-1 col-lg-1">
+        <div class="form-group">
+          <label for="XXX1" class="n-label-2">{{'SUBJECT' | translate}}</label>
+        </div>
+      </div>
+      <div class="col-xs-8 col-sd-10 col-md-5 col-lg-5">
+        <div class="form-group">
+          <input id="XXX1" name="XXX1" type="text" class="form-control n-input" data-ng-model="project.subject" placeholder="{{'SUBJECT' | translate}}" maxlength="100" tabindex="1">
+        </div>
+      </div>
+      <div class="col-xs-4 col-sd-2 col-md-1 col-lg-1">
+        <div class="form-group">
+          <label for="XXX2" class="n-label-2">{{'START' | translate}}</label>
+        </div>
+      </div>
+      <div class="col-xs-8 col-sd-10 col-md-2 col-lg-2">
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX2" name="XXX2" type="text" class="form-control n-input" placeholder="" aria-describedby="STARTDATE" tabindex="4" data-ng-disabled="true" data-uib-datepicker-popup="{{format}}" data-ng-model="project.startDate">
+
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="5">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: project.startDate}" data-ng-click="startProject()">{{'START_PROJECT' | translate}}</a></li>
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !project.startDate || project.endDate}" data-ng-click="startProjectCancel()">{{'START_PROJECT_CANCEL' | translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sd-2 col-md-1 col-lg-1">
+        <div class="form-group">
+          <label for="XXX3" class="n-label-2">{{'FINISH' | translate}}</label>
+        </div>
+      </div>
+      <div class="col-xs-8 col-sd-10 col-md-2 col-lg-2">
+        <div class="form-group">
+          <div class="input-group">
+            <input id="XXX3" name="XXX3" type="text" class="form-control n-input" placeholder="" aria-describedby="ENDDATE" tabindex="6" data-ng-disabled="true" data-uib-datepicker-popup="{{format}}" data-ng-model="project.endDate">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" tabindex="7">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: project.endDate || !project.startDate}" data-ng-click="endProject()">{{'END_PROJECT' | translate}}</a></li>
+                <li><a href="javascript:void(0);" data-ng-class="{disabled: !project.endDate}" data-ng-click="endProjectCancel()">{{'END_PROJECT_CANCEL' | translate}}</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="">
+      <!--First column-->
+      <div class="col-xs-4 col-sd-2 col-md-1 col-lg-1">
+        <div class="form-group">
+          <label for="XXX4" class="n-label-2">{{'COMPANY' | translate}}</label>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <label for="XXX5" class="n-label-2">{{'OWNER' | translate}}</label>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <!--Second column-->
+      <div class="col-xs-8 col-sd-10 col-md-5 col-lg-5">
+        <div class="form-group">
+          <data-angucomplete id="XXX4" name="XXX4" placeholder="{{'ALL' | translate}}" data-tabindex="2" data-pause="400" data-model="projectTmp.tmpCompanyName" data-input-all-data="true" data-selected-object-id="id" data-url="/api/companies/search/" data-search-fields="name" data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true" data-box-items="project.company" data-label-name="COMPANY" data-label-class="sr-only">
+          </data-angucomplete>
+        </div>
+        <div class="form-group">
+          <input id="XXX5" name="XXX5" type="text" class="form-control n-input" data-ng-model="project.ownerName" disabled="true" placeholder="" tabindex="3">
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <!--Third column-->
+      <div class="col-xs-4 col-sd-2 col-md-1 col-lg-1">
+        <div class="form-group n-label-textarea-3">
+          <label for="XXX6" class="n-label-2">{{'DESCRIPTION' | translate}}</label>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <!--Fourth column-->
+      <div class="col-xs-8 col-sd-10 col-md-5 col-lg-5">
+        <div class="form-group">
+          <textarea id="XXX6" name="XXX6" class="form-control n-textarea-3" data-ng-model="project.description" placeholder="{{'DESCRIPTION' | translate}}" maxlength="255" tabindex="9"></textarea>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="col-md-12 col-lg-12 n-subtabs">
+    <ul class="nav nav-tabs">
+      <li role="presentation" data-ng-class="{active: tabs[0]}">
+        <a href="javascript:void(0);" data-ng-click="setTabs(0)">{{'AGENDA' | translate}}</a>
+      </li>
+      <li role="presentation" data-ng-class="{active: tabs[1]}">
+        <a href="javascript:void(0);" data-ng-click="setTabs(1)">{{'LOG' | translate}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <!--TAB 1 AGENDA-->
+  <div class="tab-1" data-ng-show="tabs[0]">
+    <data-ng-include src="'views/agenda.html'" data-ng-controller="AgendaCtrl" data-ng-init="showAsList=true; show.teamAgenda=true; dataLoaderParams.id=project.id; loadDataForList=loadDataForAgendaList; agenda.dataForMenuActions=dataForAgenda"></data-ng-include>
+  </div>
+
+  <!--TAB 2 HISTORY-->
+  <div class="tab-2" data-ng-show="tabs[1]">
+    <div data-ng-repeat="item in history">{{item.date_event | date}}&nbsp;{{item.method}}&nbsp;{{item.user_login}}</div>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="n-module-footer">
+    <data-action-buttons buttons="actionButtons"></data-action-buttons>
+  </div>
+</div>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/controllers/socketio.js</title>
+    
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+    
+    <h1 class="page-title">Source: lib/controllers/socketio.js</h1>
+    
+    
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source"><code>/*jslint node: true, unparam: true*/
+'use strict';
+
+/**
+ * @file socket
+ * @fileOverview __Server_Socket
+ */
+
+/**
+ * @namespace __Server_Socket
+ * @author Martin Boháč
+ */
+
+var socketIOConnections = [],
+  cookieParser = require('cookie-parser'),
+  socketio = require('./socketio'),
+  constants = require('./constants'),
+  tools = require('./tools');
+
+/**
+ * @memberof __Server_Socket
+ * @method
+ * @name init
+ * @description initiaization socket monitor
+ * @returns void
+ */
+exports.init = function (io) {
+  var userConnect;
+  // middleware
+  io.use(function (socket, next) {
+    var data = socket.request, expressSidKey = 'express.sid', expressAuthToken = 'auth_token', sessionID, authToken;
+    if (!data.headers.cookie) {
+      return next('No cookie given.', false);
+    }
+
+    cookieParser(constants.SECRET)(data, {}, function (parseErr) {
+      if (parseErr) {
+        return next('Error parsing cookies.', false);
+      }
+      sessionID = (data.secureCookies && data.secureCookies[expressSidKey]) ||
+        (data.signedCookies && data.signedCookies[expressSidKey]) ||
+        (data.cookies && data.cookies[expressSidKey]);
+      authToken = (data.secureCookies && data.secureCookies[expressAuthToken]) ||
+        (data.signedCookies && data.signedCookies[expressAuthToken]) ||
+        (data.cookies && data.cookies[expressAuthToken]);
+      socket.handshake.authToken = authToken; // Add it to the socket object
+      socket.handshake.sid = sessionID; // Add it to the socket object
+      /*data.sessionID = connect.utils.parseSignedCookie(data.cookie['express.sid'], constants.SECRET);
+       if (data.cookie['express.sid'] == data.sessionID) {
+       return accept('Cookie is invalid.', false);
+       }*/
+
+      socket.on('disconnect', function () {
+        //console.log('disconnect');
+        socketio.deleteSocketConnectionsForSession(sessionID);
+      });
+
+      // save socketIO connection
+      userConnect = {authToken: socket.handshake.authToken || '', session: socket.handshake.sid};
+      socketIOConnections[socket.id] = {socket: socket, userConnect: userConnect};
+
+      next(null, true);
+      /*if (authToken) {
+        next(null, true);
+      } else {
+        next('Error', false);
+      };*/
+    });
+  });
+  // new connection
+  io.sockets.on('connection', function (socket) {
+  //io.on('connection', function (socket) {
+    // broadcast a user's message to other users
+    //console.log('connect');
+    socket.on('send:message', function (data) {
+      //console.log('ON send:message data:' + data.message);
+      socket.broadcast.emit('send:message', {
+        type: 'ERROR',
+        message: data.message
+      });
+    });
+
+    socket.on('disconnect', function () {
+      //console.log('disconnect 2');
+      delete socketIOConnections[socket.id];
+    });
+
+    // save socketIO connection
+    //userConnect = {authToken: socket.handshake.authToken || '', session: socket.handshake.sid};
+    //socketIOConnections[socket.id] = {socket: socket, userConnect: userConnect};
+  });
+};
+
+/**
+ * @memberof __Server_Socket
+ * @method
+ * @name init
+ * @description initiaization socket monitor
+ * @returns Number
+ */
+exports.getLoginUsersCount = function (socket, io) {
+  return socketIOConnections.length;
+};
+
+/**
+ * @memberof __Server_Socket
+ * @method
+ * @name sendForUsers
+ * @description send messages for users
+ * @params users {Array} array of users tokens
+ * @param messages
+ * @returns Number
+ */
+exports.sendForUsers = function (messages) {
+  var socket = {}, i, l, e, j, token;
+  //console.log(messages);
+  for (i = 0, l = messages.length; i &lt; l; i += 1) {
+    for (e = 0, j = messages[i].users.length; e &lt; j; e += 1) {
+      token = messages[i].users[e];
+      //console.log(token);
+      socket = socketio.getSocket(token);
+      if (socket) {
+        //console.log('emit message');
+        socket.emit('send:message', messages[i].message);
+      }
+    }
+  }
+};
+
+/**
+ * @memberof __Server_Socket
+ * @method
+ * @name getSocket
+ * @description get socket from array
+ * @params token {String} token for user login
+ * @returns Object
+ */
+exports.getSocket = function (token) {
+  var key, socket = {};
+  //console.log('getSocket A');
+  //console.log(socketIOConnections);
+  //console.log('getSocket B');
+  for (key in socketIOConnections) {
+    if (socketIOConnections.hasOwnProperty(key)) {
+      //console.log(socketIOConnections[key]);
+      if (socketIOConnections[key].userConnect.authToken === token) {
+        socket = socketIOConnections[key].socket;
+        break;
+      }
+    }
+  }
+  return socket;
+};
+
+/**
+ * @memberof __Server_Socket
+ * @method
+ * @name getSocketConnections
+ * @description get all verify socket
+ * @returns Object
+ */
+exports.getSocketConnections = function () {
+  return socketIOConnections;
+};
+
+/**
+ * @memberof __Server_Socket
+ * @method
+ * @name deleteSocketConnectionsItem
+ * @description delete socket from stack
+ * @returns void
+ */
+exports.deleteSocketConnectionsToken = function (token) {
+  var key;
+  for (key in socketIOConnections) {
+    if (socketIOConnections.hasOwnProperty(key)) {
+      if (socketIOConnections[key].userConnect.authToken === token) {
+        socketIOConnections[key].userConnect.authToken = '';
+      }
+    }
+  }
+};
+
+/**
+ * @memberof __Server_Socket
+ * @method
+ * @name deleteSocketConnectionsItem
+ * @description delete socket from stack
+ * @returns void
+ */
+exports.deleteSocketConnectionsForSession = function (session) {
+  var key;
+  for (key in socketIOConnections) {
+    if (socketIOConnections.hasOwnProperty(key)) {
+      if (socketIOConnections[key].userConnect.session === session) {
+        delete socketIOConnections[key];
+      }
+    }
+  }
+};
+
+/**
+ * @memberof __Server_Socket
+ * @method
+ * @name putTokenToSessionSocket
+ * @description put token to session socket
+ * @param token {String} token for current user
+ * @param session {String} session for current user
+ * @returns void
+ */
+exports.putTokenToSessionSocket = function (token, session) {
+  var key;
+  //console.log('putTokenToSessionSocket');
+  //console.log(token);
+  //console.log(session);
+  try {
+    for (key in socketIOConnections) {
+      if (socketIOConnections.hasOwnProperty(key)) {
+        if (socketIOConnections[key].userConnect.session === session) {
+          socketIOConnections[key].userConnect.authToken = token;
+          //socketIOConnections[key].socket.reconnect();
+          //console.log('update socket');
+          //return;
+        }
+      }
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Index</a></h2><h3>Namespaces</h3><ul><li><a href="__Server_Connections.html">__Server_Connections</a></li><li><a href="__Server_Constants.html">__Server_Constants</a></li><li><a href="__Server_Flow.html">__Server_Flow</a></li><li><a href="__Server_Messages.html">__Server_Messages</a></li><li><a href="__Server_MonitorDB.html">__Server_MonitorDB</a></li><li><a href="__Server_PDF.html">__Server_PDF</a></li><li><a href="__Server_PG_API.html">__Server_PG_API</a></li><li><a href="__Server_REST_API.html">__Server_REST_API</a></li><li><a href="__Server_REST_API_Appointment.html">__Server_REST_API_Appointment</a></li><li><a href="__Server_REST_API_Authentication.html">__Server_REST_API_Authentication</a></li><li><a href="__Server_REST_API_Companies.html">__Server_REST_API_Companies</a></li><li><a href="__Server_REST_API_Countries.html">__Server_REST_API_Countries</a></li><li><a href="__Server_REST_API_Logging.html">__Server_REST_API_Logging</a></li><li><a href="__Server_REST_API_People.html">__Server_REST_API_People</a></li><li><a href="__Server_REST_API_People_Companies.html">__Server_REST_API_People_Companies</a></li><li><a href="__Server_REST_API_Positions.html">__Server_REST_API_Positions</a></li><li><a href="__Server_REST_API_Reminders.html">__Server_REST_API_Reminders</a></li><li><a href="__Server_REST_API_Roles.html">__Server_REST_API_Roles</a></li><li><a href="__Server_REST_API_Sales_Pipeline.html">__Server_REST_API_Sales_Pipeline</a></li><li><a href="__Server_REST_API_Sales_Pipeline_Stages.html">__Server_REST_API_Sales_Pipeline_Stages</a></li><li><a href="__Server_REST_API_Tasks.html">__Server_REST_API_Tasks</a></li><li><a href="__Server_REST_API_TimeZones.html">__Server_REST_API_TimeZones</a></li><li><a href="__Server_REST_API_User.html">__Server_REST_API_User</a></li><li><a href="__Server_Socket.html">__Server_Socket</a></li><li><a href="__Server_Tools.html">__Server_Tools</a></li><li><a href="__Server_TOOLS_API_ExportsFactory.html">__Server_TOOLS_API_ExportsFactory</a></li><li><a href="actionButtons.html">actionButtons</a></li><li><a href="AgendaCtrl.html">AgendaCtrl</a></li><li><a href="alerts.html">alerts</a></li><li><a href="alertsModal.html">alertsModal</a></li><li><a href="AlertsService.html">AlertsService</a></li><li><a href="angucomplete.html">angucomplete</a></li><li><a href="AppointmentCtrl.html">AppointmentCtrl</a></li><li><a href="AppointmentService.html">AppointmentService</a></li><li><a href="CalendarCtrl.html">CalendarCtrl</a></li><li><a href="CompaniesCtrl.html">CompaniesCtrl</a></li><li><a href="CompaniesService.html">CompaniesService</a></li><li><a href="CompanyCtrl.html">CompanyCtrl</a></li><li><a href="CountriesService.html">CountriesService</a></li><li><a href="DatepickerFactory.html">DatepickerFactory</a></li><li><a href="datepickerNotia.html">datepickerNotia</a></li><li><a href="DateService.html">DateService</a></li><li><a href="header.html">header</a></li><li><a href="language.html">language</a></li><li><a href="LogData.html">LogData</a></li><li><a href="MainCtrl.html">MainCtrl</a></li><li><a href="MessengerService.html">MessengerService</a></li><li><a href="MetaService.html">MetaService</a></li><li><a href="PageAncestorService.html">PageAncestorService</a></li><li><a href="PeopleCtrl.html">PeopleCtrl</a></li><li><a href="PeopleService.html">PeopleService</a></li><li><a href="PersonCtrl.html">PersonCtrl</a></li><li><a href="pillsNotia.html">pillsNotia</a></li><li><a href="ratingNotia.html">ratingNotia</a></li><li><a href="ReminderCtrl.html">ReminderCtrl</a></li><li><a href="Reminders.html">Reminders</a></li><li><a href="ReminderService.html">ReminderService</a></li><li><a href="SalesPipelineCtrl.html">SalesPipelineCtrl</a></li><li><a href="SalesPipelineService.html">SalesPipelineService</a></li><li><a href="SalesPipelineStagesService.html">SalesPipelineStagesService</a></li><li><a href="SocketFactory.html">SocketFactory</a></li><li><a href="TestCtrl.html">TestCtrl</a></li><li><a href="TimeZonesService.html">TimeZonesService</a></li><li><a href="ToolsService.html">ToolsService</a></li><li><a href="UsersService.html">UsersService</a></li><li><a href="VyvojCtrl.html">VyvojCtrl</a></li></ul>
+</nav>
+
+<br clear="both">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Tue Jan 20 2015 15:55:59 GMT+0100 (CET)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

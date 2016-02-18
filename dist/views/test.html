@@ -1,0 +1,85 @@
+text pro datum: <strong>{{datum}}</strong>
+<br>
+<button data-ng-click="sendSocket()">Send socket</button>
+<br>
+<h4>Popup {{'2000' | currency}}</h4>
+<div class="row">
+    <div class="col-md-6">
+        <p class="input-group">
+          <input type="text" id="XXX7" class="form-control" data-ng-class="{invalid: dp.invalidDate('XXX7')}" data-uib-datepicker-popup="{{format}}" data-ng-model="dt" data-is-open="opened.dt" data-min-date="minDate">
+          <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="dp.open('dt', 'XXX7')"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+    </div>
+</div>
+
+<button ng-click="setDatepicker()">SET</button>
+
+<input type="text" class="form-control" data-ng-model="datumStr" data-autoclose="1" bs-timepicker="">
+<br>
+<br>
+
+<input type="text" ng-model="testm" ng-keydown="test($event)">input: {{testm2}}
+<br>
+<br>
+
+autocomplete
+<div class="container-fluid">
+    <div class="col-xs-12 col-md-4">{{boxItems}}
+        <data-angucomplete id="XXX82" placeholder="Jména" data-pause="0" data-model="box" box-items="boxItems" data-selected-object-id="id" data-local-data="localData" data-search-fields="name" data-title-field="name" data-input-class="form-control" data-multiple="true" data-show-as-box="true" data-ng-show="true" data-min-length="1">
+        </data-angucomplete>
+        <!--<angucomplete id="members"
+                      model="box"
+                      placeholder="Hledání..."
+                      pause="0"
+                      box-items="tmpSearch"
+                      local-data="localData"
+                      search-fields="name"
+                      title-field="name"
+                      input-class="inputBox"
+                      box-items="boxItems"
+                      on-delete="deleteEventContact"
+                      multiple="true"
+                      show-as-box="true"
+                      box-class="box-angucomplete"></angucomplete>-->
+        <div>----------------------------------</div>
+        <div style="background: red">Vybraný záznam</div>
+        {{tmpSearch}}
+        <br>
+
+        <!--<select name="test2" id="test2">
+            <option value="{{item.id}}" ng-repeat="item in countries">{{item.name}}</option>
+        </select><br>-->
+  </div>
+</div>
+
+
+
+<form role="form" name="formname">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="text" class="form-control" ng-class="{changed: (formname.exampleInputEmail1.$dirty && showFormChanges)}" id="exampleInputEmail1" name="exampleInputEmail1" placeholder="Enter email" ng-model="form.email">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Password</label>
+        <input type="text" class="form-control" ng-class="{changed: (formname.exampleInputPassword1.$dirty && showFormChanges)}" id="exampleInputPassword1" name="exampleInputPassword1" placeholder="Password" ng-model="form.password">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputFile">File input</label>
+        <input type="file" id="exampleInputFile" ng-model="form.file">
+        <p class="help-block">Example block-level help text here.</p>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="form.check"> Check me out
+        </label>
+    </div>
+    <button type="button" class="btn btn-default" ng-click="save()" ng-disabled="inProcess">{{'SAVE' | translate}}</button>
+    <button type="button" class="btn btn-default" ng-click="del()" ng-disabled="inProcess">{{'DELETE' | translate}}</button>
+</form>
+
+<br>
+<br>
+List of companies
+<div data-ng-repeat="item in companies">{{item.company_name}}</div>

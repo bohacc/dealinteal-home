@@ -1,0 +1,102 @@
+<!-- Modal -->
+<div class="modal fade" id="newRoomModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Nová místnost</h4>
+            </div>
+            <alert ng-repeat="alert in alertsRoom" type="alert.type" close="closeAlertRoom($index)">{{alert.msg}}</alert>
+            <form class="form-horizontal" role="form" ng-submit="postRoom()">
+                <div class="modal-body">
+                    <div class="main-box">
+                        <div class="form-group">
+                            <label for="new_room" class="col-sm-2">Místnost</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="new_room" class="form-control" ng-model="new_room" ng-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" >Uložit</button>
+                    <button class="btn btn-default" data-dismiss="modal">Zavřít</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="reservationOfficeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel2">Nová rezervace místnosti</h4>
+            </div>
+            <alert ng-repeat="alert in alertsReservation" type="alert.type" close="closeAlertReservation($index)">{{alert.msg}}</alert>
+            <form class="form-horizontal" role="form" ng-submit="postReservationOffice()">
+                <div class="modal-body">
+                    <div class="main-box">
+                        <div class="form-group">
+                            <label for="roomModal" class="col-sm-4">Místnost</label>
+                            <div class="col-sm-7">
+                                <select id="roomModal" name="room" ng-init="room = rooms[0]" ng-options="item.name for item in rooms" ng-model="reservationOffice.room" class="form-control" ng-required="reservationOffice.room.length > 0"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date" class="col-sm-4">Datum rezervace</label>
+                            <div class="col-sm-7">
+                                <p class="input-group">
+                                    <input type="text" id="date" class="form-control" data-uib-datepicker-popup="{{format}}" ng-model="reservationOffice.date" is-open="opened" min="minDate" max="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" />
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="time_from" class="col-sm-4">Čas od - do</label>
+                            <div class="col-sm-3">
+                                <div id="time_from" ng-model="reservationOffice.time_from" style="display:inline-block;">
+                                    <timepicker hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" ng-required="true"></timepicker>
+                                </div>
+                            </div>
+                            <div class="col-sm-1 time-divider">
+                                <span class="time-divider">-</span>
+                            </div>
+                            <div class="col-sm-3">
+                                <div id="time_to" ng-model="reservationOffice.time_to" style="display:inline-block;">
+                                    <timepicker hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" ng-required="true"></timepicker>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">Uložit</button>
+                    <button class="btn btn-default" data-dismiss="modal">Zavřít</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<alert ng-repeat="alert in alertsMain" type="alert.type" close="closeAlertMain($index)">{{alert.msg}}</alert>
+<div class="main-box">
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="room" class="col-sm-1">Místnost</label>
+            <div class="col-sm-4">
+                <select id="room" name="room" ng-init="room = rooms[0]" ng-options="item.name for item in rooms" ng-model="room" class="form-control" ng-change="initCalendar()"></select>
+            </div>
+            <button class="btn btn-warning" ng-click="deleteRoom()">Odstranit místnost</button>
+            <button data-toggle="modal" data-target="#newRoomModal" class="btn btn-info">Přidat místnost</button>
+            <button class="btn btn-info" data-toggle="modal" data-target="#reservationOfficeModal">Přidat rezervaci</button>
+        </div>
+    </form>
+</div>
+<div>&nbsp;</div>
+<div ui-calendar="uiConfig.calendar" id="calendar" calendar="calendar" class="span8 calendar" ng-model="eventSources"></div>

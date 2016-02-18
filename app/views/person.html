@@ -1,0 +1,659 @@
+<div class="container-fluid person">
+  <form class="form-horizontal" role="form" name="personForm" onsubmit="return false;">
+    <div class="col-md-9 col-lg-9">
+      <div id="header">
+        <div class="">
+          <div class="form-group">
+            <span class="h1">
+                <span>{{person.title}} </span>
+                <span>{{person.last_name}} </span>
+                <span>{{person.middle_name}} </span>
+                <span>{{person.first_name}} </span>
+                <span>{{person.suffix}} </span>
+                <span>{{person.nickname}} </span>
+            </span>
+          </div>
+          <div class="form-group">
+            <span class="h2">
+                <span>{{person.position}} </span>
+                <span>in </span>
+                <span>{{person.company_name}}</span>
+            </span>
+          </div>
+        </div>
+        <div class="js-master-pills">
+          <data-pills-notia items="pills" active="activePillsIndex"></data-pills-notia>
+        </div>
+      </div>
+      <div>&nbsp;</div>
+      <div class="personal" data-ng-show="pills[1].active">
+        <div class="form-group">
+          <div>
+            <label for="XXA1a">{{'NAME' | translate}}</label>
+            <label for="XXA1b" class="sr-only">{{'FIRSTNAME' | translate}}</label>
+            <label for="XXA1c" class="sr-only">{{'MIDDLENAME' | translate}}</label>
+            <label for="XXA1d" class="sr-only">{{'SURENAME' | translate}}</label>
+            <label for="XXA1e" class="sr-only">{{'SUFFIX' | translate}}</label>
+          </div>
+          <div class="clearfix"></div>
+          <div class="col-md-1 col-lg-1">
+            <input id="XXA1a" name="XXA1" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'TITLE' | translate}}" data-ng-model="person.title">
+          </div>
+          <div class="col-md-2 col-lg-2">
+            <input id="XXA1b" name="XXA1b" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'FIRSTNAME' | translate}}" data-ng-model="person.first_name">
+          </div>
+          <div class="col-md-2 col-lg-2">
+            <input id="XXA1c" name="XXA1c" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'MIDDLENAME' | translate}}" data-ng-model="person.middle_name">
+          </div>
+          <div class="col-md-3 col-lg-3">
+            <input id="XXA1d" name="XXA1d" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'LASTNAME' | translate}}" data-ng-model="person.last_name">
+          </div>
+          <div class="col-md-1 col-lg-1">
+            <input id="XXA1e" name="XXA1e" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'SUFFIX' | translate}}" data-ng-model="person.suffix">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXA2" class="n-label-2">{{'NICKNAME' | translate}}</label>
+          </div>
+          <div class="col-md-7 col-lg-7">
+            <input id="XXA2" name="XXA2" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'NICKNAME' | translate}}" data-ng-model="person.nickname">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXA3" class="n-label-2">{{'GENDER' | translate}}</label>
+          </div>
+          <div class="col-md-2 col-lg-2">
+            <div class="input-group">
+              <input id="XXA3" name="XXA21" type="text" class="form-control" maxlength="100"
+                     placeholder="{{'GENDER' | translate}}" disabled="true" value="{{person.gender | translate}}">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);" data-ng-click="person.gender = 'MALE'">{{'MALE' | translate}}</a></li>
+                  <li><a href="javascript:void(0);" data-ng-click="person.gender = 'FEMALE'">{{'FEMALE' | translate}}</a></li>
+                  <li><a href="javascript:void(0);" data-ng-click="person.gender = ''">{{'UNDEFINED' | translate}}</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="BIRTHDAY" class="n-label-2">{{'BIRTHDAY' | translate}}</label>
+          </div>
+          <div class="col-md-2 col-lg-2">
+            <div class="input-group">
+              <input id="BIRTHDAY" name="BIRTHDAY" type="text" class="form-control" placeholder="" aria-describedby="BIRTHDAY" tabindex="9"
+                     data-ng-class="{invalid: dp.invalidDate('BIRTHDAY')}"
+                     data-uib-datepicker-popup="{{format}}"
+                     data-ng-model="person.birthday"
+                     data-is-open="opened.birthday"
+                     data-min-date="minDate"
+                     data-ng-change="calculateBirthday()"
+                />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" data-ng-click="dp.open('birthday', 'BIRTHDAY')">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+          </span>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="ANNIVERSARY" class="n-label-2">{{'ANNIVERSARY' | translate}}</label>
+          </div>
+          <div class="col-md-2 col-lg-2">
+            <div class="input-group">
+              <input id="ANNIVERSARY" name="ANNIVERSARY" type="text" class="form-control" placeholder="" aria-describedby="ANNIVERSARY" tabindex="9"
+                     data-ng-class="{invalid: dp.invalidDate('ANNIVERSARY')}"
+                     data-uib-datepicker-popup="{{format}}"
+                     data-ng-model="person.anniversary"
+                     data-is-open="opened.anniversary"
+                     data-min-date="minDate"
+                     data-ng-change="calculateAnniversary()"
+                />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" data-ng-click="dp.open('anniversary', 'ANNIVERSARY')">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </button>
+          </span>
+            </div>
+          </div>
+          <div class="col-md-5 col-lg-5">
+            <input id="XXA5b" name="XXA5b" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'ANNIVERSARY_NAME' | translate}}" data-ng-model="person.anniversary_name">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXA6" class="n-label-2">{{'SPOUSE' | translate}}</label>
+          </div>
+          <div class="col-md-7 col-lg-7">
+            <input id="XXA6" name="XXA6" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'SPOUSE' | translate}}" data-ng-model="person.spouse">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXA7" class="n-label-2">{{'CHILDREN' | translate}}</label>
+          </div>
+          <div class="col-md-7 col-lg-7">
+            <input id="XXA7" name="XXA7" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'CHILDREN' | translate}}" data-ng-model="person.children">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXA8" class="n-label-2">{{'HOBBIES' | translate}}</label>
+          </div>
+          <div class="col-md-7 col-lg-7">
+            <input id="XXA8" name="XXA8" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'HOBBIES' | translate}}" data-ng-model="person.hobbies">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="company" data-ng-show="pills[3].active">
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXB1" class="n-label-2">{{'COMPANY' | translate}}</label>
+          </div>
+          <div class="col-md-7 col-lg-7">
+            <!--<data-angucomplete id="XXB1" placeholder="{{'COMPANY' | translate}}"
+                               data-pause="400" data-model="person.company_name"
+                               data-selected-object-id="name" data-url="/api/companies/search/" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="false"
+                               data-search-str="person.company_name">
+            </data-angucomplete>-->
+            <data-angucomplete id="XXB1" placeholder="{{'COMPANY' | translate}}" data-tabindex="19"
+                               data-pause="400" data-model="person.company_name" data-input-all-data="true"
+                               data-selected-object-id="id" data-url="/api/companies/search/" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true"
+                               data-box-items="person.company" data-record-url="{{pageAncestor.routes.COMPANY}}">
+            </data-angucomplete>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXB2" class="n-label-2">{{'POSITION' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <!--<data-angucomplete id="XXB2" placeholder="{{'POSITION' | translate}}"
+                               data-pause="400" data-model="person.position"
+                               data-selected-object-id="name" data-url="/api/positions/" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="false"
+                               data-search-str="person.position">
+            </data-angucomplete>-->
+            <data-angucomplete id="XXB2" placeholder="{{'POSITION' | translate}}" data-tabindex="19"
+                               data-pause="400" data-model="person.position" data-input-all-data="true"
+                               data-selected-object-id="id" data-url="/api/positions/" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true"
+                               data-box-items="person.positionBox">
+            </data-angucomplete>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXB3" class="n-label-2">{{'ROLE' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <!--<data-angucomplete id="XXB3" placeholder="{{'ROLE' | translate}}"
+                               data-pause="400" data-model="person.role"
+                               data-selected-object-id="name" data-url="/api/roles/" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="false"
+                               data-search-str="person.role">
+            </data-angucomplete>-->
+            <data-angucomplete id="XXB3" placeholder="{{'ROLE' | translate}}" data-tabindex="19"
+                               data-pause="400" data-model="person.role" data-input-all-data="true"
+                               data-selected-object-id="id" data-url="/api/roles/" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="true"
+                               data-box-items="person.roleBox">
+            </data-angucomplete>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="SINCE">{{'SINCE' | translate}}</label>
+          </div>
+          <div class="col-md-7 col-lg-2">
+            <!--<datepicker-notia id="SINCE" name="XXB4" data-ng-model="person.work_since"></datepicker-notia>-->
+            <input type="text" id="SINCE" class="form-control" name="SINCE" tabindex="13"
+                   data-ng-class="{invalid: dp.invalidDate('SINCE')}"
+                   data-uib-datepicker-popup="{{format}}"
+                   data-ng-model="person.work_since"
+                   data-is-open="opened.work_since"
+                   data-ng-click="dp.open('work_since', 'SINCE')"
+                   data-min-date="minDate" />
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXB5" class="n-label-2">{{'MANAGER_NAME' | translate}}</label>
+          </div>
+          <div class="col-md-7 col-lg-7">
+            <input id="XXB5" name="XXB5" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'MANAGER_NAME' | translate}}" data-ng-model="person.manager_name">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXB6" class="n-label-2">{{'ASSISTANT_NAME' | translate}}</label>
+          </div>
+          <div class="col-md-7 col-lg-7">
+            <input id="XXB6" name="XXB6" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'ASSISTANT_NAME' | translate}}" data-ng-model="person.assistant_name">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="contacts" data-ng-show="pills[2].active">
+
+        <div class="form-group">
+          <data-pills-notia items="pills_contacts" data-name="{{'ADDRESS' | translate}}" active="0"></data-pills-notia>
+        </div>
+        <label for="XXC1" class="sr-only">{{'STREET' | translate}}</label>
+
+        <div class="form-group">
+          <div class="col-md-9 col-lg-9">
+            <input id="XXC1" name="XXC1" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'STREET' | translate}}" data-ng-model="person.home_addr_street">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <label for="XXC2" class="sr-only">{{'CITY' | translate}}</label>
+
+        <div class="form-group">
+          <div class="col-md-9 col-lg-9">
+            <input id="XXC2" name="XXC2" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'CITY' | translate}}" data-ng-model="person.home_addr_city">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <label for="XXC3" class="sr-only">{{'REGION' | translate}}</label>
+
+        <div class="form-group">
+          <div class="col-md-9 col-lg-9">
+            <input id="XXC3" name="XXC3" type="text" class="form-control" maxlength="100"
+                   placeholder="{{'REGION' | translate}}" data-ng-model="person.home_addr_region">
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <label for="XXC4a" class="sr-only">{{'ZIP' | translate}}</label>
+          <label for="XXC4b" class="sr-only">{{'COUNTRY' | translate}}</label>
+          <div class="col-md-2 col-lg-2">
+            <input id="XXC4a" name="XXC4a" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validateZip(person.home_addr_zip)}"
+                   placeholder="{{'ZIP' | translate}}" data-ng-model="person.home_addr_zip">
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <data-angucomplete id="XXC4b" placeholder="{{'COUNTRY' | translate}}"
+                               data-pause="0" data-model="person.home_addr_country" data-drop-down="localDataCountries"
+                               data-selected-object-id="id" data-local-data="localDataCountries" data-search-fields="name"
+                               data-title-field="name" data-input-class="form-control" data-multiple="false" data-show-as-box="false"
+                               data-search-str="homeAddrCountry">
+            </data-angucomplete>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC5" class="n-label-2">{{'EMAIL_DEFAULT' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC5" name="XXC5" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validateEmail(person.email)}"
+                     placeholder="{{'EMAIL_DEFAULT' | translate}}" data-ng-model="person.email">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC6" class="n-label-2">{{'EMAIL2' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC6" name="XXC6" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validateEmail(person.email2)}"
+                     placeholder="{{'EMAIL' | translate}}" data-ng-model="person.email2">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC7" class="n-label-2">{{'MOBILE_PHONE' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC7" name="XXC7" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validatePhone(person.mobile_phone)}"
+                     placeholder="{{'MOBILE_PHONE' | translate}}" data-ng-model="person.mobile_phone">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC8" class="n-label-2">{{'BUSINESS_PHONE' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC8" name="XXC8" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validatePhone(person.business_phone)}"
+                     placeholder="{{'BUSINESS_PHONE' | translate}}" data-ng-model="person.business_phone">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC9" class="n-label-2">{{'HOME_PHONE' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC9" name="XXC9" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validatePhone(person.home_phone)}"
+                     placeholder="{{'HOME_PHONE' | translate}}" data-ng-model="person.home_phone">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC10" class="n-label-2">{{'COMPANY_PHONE' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC10" name="XXC10" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validatePhone(person.assistant_phone)}"
+                     placeholder="{{'COMPANY_PHONE' | translate}}" data-ng-model="person.assistant_phone">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC11" class="n-label-2">{{'OTHER_PHONE' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC11" name="XXC11" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validatePhone(person.other_phone)}"
+                     placeholder="{{'OTHER_PHONE' | translate}}" data-ng-model="person.other_phone">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC12" class="n-label-2">{{'FAX' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC12" name="XXC12" type="text" class="form-control" maxlength="100" data-ng-class="{invalid: !validatePhone(person.fax)}"
+                     placeholder="{{'FAX' | translate}}" data-ng-model="person.fax">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC13" class="n-label-2">{{'SKYPE' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC13" name="XXC13" type="text" class="form-control" maxlength="100"
+                     placeholder="{{'SKYPE' | translate}}" data-ng-model="person.skype">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-2 col-lg-2">
+            <label for="XXC14" class="n-label-2">{{'OTHER_IM' | translate}}</label>
+          </div>
+          <div class="col-md-4 col-lg-4">
+            <div class="input-group">
+              <input id="XXC14" name="XXC14" type="text" class="form-control" maxlength="100"
+                     placeholder="{{'OTHER_IM' | translate}}" data-ng-model="person.other_im">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">TTT</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-6 col-lg-6">
+            <label for="XXC15" class="sr-only"></label>
+
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default"
+                        data-ng-click="pageAncestor.openUrl(person.twitter, '_blank')">
+                  <span>{{'TWITTER' | translate}}</span></button>
+              </div>
+              <input id="XXC15" name="XXC15" type="text" class="form-control" placeholder="{{'TWITTER' | translate}}"
+                     data-ng-model="person.twitter">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">{{'OPEN' | translate}}</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-6 col-lg-6">
+            <label for="XXC16" class="sr-only"></label>
+
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default"
+                        data-ng-click="pageAncestor.openUrl(person.facebook, '_blank')">
+                  <span>{{'FACEBOOK' | translate}}</span></button>
+              </div>
+              <input id="XXC16" name="XXC16" type="text" class="form-control" placeholder="{{'FACEBOOK' | translate}}"
+                     data-ng-model="person.facebook">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">{{'OPEN' | translate}}</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-6 col-lg-6">
+            <label for="XXC17" class="sr-only"></label>
+
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default"
+                        data-ng-click="pageAncestor.openUrl(person.google_plus, '_blank')"><span>{{'GOOGLE_PLUS' | translate}}</span>
+                </button>
+              </div>
+              <input id="XXC17" name="XXC17" type="text" class="form-control" placeholder="{{'GOOGLE_PLUS' | translate}}"
+                     data-ng-model="person.google_plus">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">{{'OPEN' | translate}}</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+          <div class="col-md-6 col-lg-6">
+            <label for="XXC18" class="sr-only"></label>
+
+            <div class="input-group">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default"
+                        data-ng-click="pageAncestor.openUrl(person.linkedin, '_blank')">
+                  <span>{{'LINKEDIN' | translate}}</span></button>
+              </div>
+              <input id="XXC18" name="XXC18" type="text" class="form-control" placeholder="{{'LINKEDIN' | translate}}"
+                     data-ng-model="person.linkedin">
+
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span
+                  class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                  <li><a href="javascript:void(0);">{{'OPEN' | translate}}</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="contacts" data-ng-show="pills[6].active">
+          <data-ng-include src="'views/agenda.html'" data-ng-controller="AgendaCtrl"
+                           data-ng-init="showAsList=true; show.teamAgenda=true; dataLoaderParams.id=person.id; loadDataForList=loadDataForAgendaList; agenda.dataForMenuActions=dataForAgenda">
+          </data-ng-include>
+      </div>
+    </div>
+    <div class="col-md-1 col-lg-1"></div>
+    <div class="col-md-2 col-lg-2">
+      <div><span class="glyphicon glyphicon-user"></span> <span>{{person.first_name}}</span></div>
+      <div class="n-thumbnail">
+        <a href="javascript:void(0);">
+            <img data-ng-src="{{getPersonPicture()}}" data-ng-if="!pictureFile.name"
+                 alt="{{person.first_name}} {{person.last_name}}" title="{{person.first_name}} {{person.last_name}}">
+            <img data-ngf-src="{{getPersonPicture()}}" data-ng-if="pictureFile.name"
+                 alt="{{person.first_name}} {{person.last_name}}" title="{{person.first_name}} {{person.last_name}}">
+        </a>
+        <div class="n-thumbnail-buttons">
+          <a class="glyphicon glyphicon-plus-sign" title="{{'CHANGE' | translate}}" href="javascript:void(0)" data-ngf-select="selectFile($file)" data-accept="image/*"
+             data-ngf-max-height="2000" data-ngf-max-size="2MB" data-ng-if="person.id"></a>
+          <a class="glyphicon glyphicon-minus-sign" title="{{'DELETE' | translate}}" href="javascript:void(0)" data-ng-click="removePicture()" data-ng-if="showRemovePictureAnchor()"></a>
+          <a class="glyphicon glyphicon-ok-sign" title="{{'SAVE_CHANGES' | translate}}" href="javascript:void(0)" data-ng-show="showSavePictureAnchor()" data-ng-click="uploadPicture()"></a>
+          <a class="glyphicon glyphicon-ok-sign" title="{{'SAVE_CHANGES' | translate}}" href="javascript:void(0)" data-ng-show="showDeletePictureAnchor()" data-ng-click="deletePicture()"></a>
+        </div>
+      </div>
+      <div data-ng-if="person.birthday">
+          <span>{{person.birthdayYears}} {{'YEARS' | translate}}</span>
+      </div>
+      <div data-ng-if="person.birthday">
+          <span class="glyphicon glyphicon-gift"></span>
+          <span>{{person.birthday | date : 'd. M.'}} ({{person.daysBirth}} {{'DAYS2' | translate}})</span>
+      </div>
+      <div data-ng-if="person.anniversary">
+          <span class="glyphicon glyphicon-certificate"></span>
+          <span>{{person.anniversary | date : 'd. M.'}} ({{person.daysAnniv}} {{'DAYS2' | translate}})</span>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div>
+      <data-action-buttons buttons="actionButtons"></data-action-buttons>
+    </div>
+  </form>
+</div>
